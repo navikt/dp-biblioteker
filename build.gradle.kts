@@ -7,7 +7,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.3.21"
     id("org.jetbrains.dokka") version "0.9.17" apply false
-    id("maven-publish")
+    `java-library`
+    `maven-publish`
 }
 
 // version is replaced by circleci (and commit sha)
@@ -21,7 +22,7 @@ allprojects {
 }
 
 subprojects {
-    val junitJupiterVersion = "5.3.1"
+
     group = "no.nav.dagpenger"
     version = libVersion
 
@@ -34,7 +35,7 @@ subprojects {
     apply(plugin = "org.jetbrains.dokka")
     apply(plugin = "maven-publish")
 
-
+    val junitJupiterVersion = "5.3.1"
 
     dependencies {
         implementation(kotlin("stdlib"))
@@ -76,13 +77,13 @@ subprojects {
     }
 
     val sourcesJar by tasks.registering(Jar::class) {
-        getArchiveClassifier().set("sources")
+        archiveClassifier.set("sources")
         from(sourceSets["main"].allSource)
     }
 
     val javadocJar by tasks.registering(Jar::class) {
         dependsOn(dokka)
-        classifier = "javadoc"
+        archiveClassifier.set("javadoc")
         from(buildDir.resolve("javadoc"))
     }
 
@@ -93,7 +94,7 @@ subprojects {
 
     publishing {
         publications {
-            create("mavenJava", MavenPublication::class.java) {
+            create<MavenPublication>("maven") {
                 from(components["java"])
                 artifact(sourcesJar.get())
 
@@ -126,9 +127,4 @@ subprojects {
             }
         }
     }
-
-
-    1
-
-
 }
