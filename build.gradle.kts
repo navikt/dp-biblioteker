@@ -20,7 +20,7 @@ allprojects {
 
 subprojects {
 
-    group = "com.github.jitpack"
+    group = "com.github.navikt"
     version = "1.0-SNAPSHOT"
 
     val artifactDescription = "Libraries for Dagpenger"
@@ -89,40 +89,4 @@ subprojects {
         add("archives", javadocJar)
     }
 
-    publishing {
-        publications {
-            create<MavenPublication>("maven") {
-                from(components["java"])
-                artifact(sourcesJar.get())
-
-                pom {
-                    artifactId = project.name
-                    name.set(project.name)
-                    description.set(artifactDescription)
-                    url.set(repoUrl)
-                    withXml {
-                        asNode().appendNode("packaging", "jar")
-                    }
-                    licenses {
-                        license {
-                            name.set("MIT License")
-                            name.set("https://opensource.org/licenses/MIT")
-                        }
-                    }
-                    developers {
-                        developer {
-                            organization.set("NAV (Arbeids- og velferdsdirektoratet) - The Norwegian Labour and Welfare Administration")
-                            organizationUrl.set("https://www.nav.no")
-                        }
-                    }
-
-                    scm {
-                        connection.set(scmUrl)
-                        developerConnection.set(scmUrl)
-                        url.set(repoUrl)
-                    }
-                }
-            }
-        }
-    }
 }
