@@ -12,7 +12,11 @@ jobs:
             - v1-dependencies-{{ checksum "build.gradle.kts" }}
             - v1-dependencies-
 
-      - run: ./gradlew check
+      - run:
+          - sed s/^'val libVersion.*'/'val libVersion'='"'$CIRCLE_SHA1'"'/ build.gradle.kts > build.gradle.new
+            && mv build.gradle.new build.gradle.kts
+          - ./gradlew check
+          - ./gradlew build
 
       - save_cache:
           paths:

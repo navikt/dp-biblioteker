@@ -3,27 +3,38 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
+
 plugins {
     kotlin("jvm") version "1.3.21"
     id("org.jetbrains.dokka") version "0.9.17" apply false
+    id("maven-publish")
 }
 
-
+// version is replaced by circleci (and commit sha)
+val libVersion = "1"
 allprojects {
     repositories {
         jcenter()
         mavenCentral()
+        maven("https://jitpack.io")
     }
 }
 
 subprojects {
     val junitJupiterVersion = "5.3.1"
     group = "no.nav.dagpenger"
-    version = "1.0-SNAPSHOT"
+    version = libVersion
+
+    val artifactDescription = "Libraries for Dagpengerbui"
+    val repoUrl = "https://github.com/navikt/dp-biblioteker.git"
+    val scmUrl = "scm:git:https://github.com/navikt/dp-biblioteker.git"
 
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "java-library")
     apply(plugin = "org.jetbrains.dokka")
+    apply(plugin = "maven-publish")
+
+
 
     dependencies {
         implementation(kotlin("stdlib"))
@@ -80,7 +91,44 @@ subprojects {
         add("archives", javadocJar)
     }
 
+    publishing {
+        publications {
+            create("mavenJava", MavenPublication::class.java) {
+                from(components["java"])
+                artifact(sourcesJar.get())
 
+                pom {
+                    name.set(project.name)
+                    description.set(artifactDescription)
+                    url.set(repoUrl)
+                    withXml {
+                        asNode().appendNode("packaging", "jar")
+                    }
+                    licenses {
+                        license {
+                            name.set("MIT License")
+                            name.set("https://opensource.org/licenses/MIT")
+                        }
+                    }
+                    developers {
+                        developer {
+                            organization.set("NAV (Arbeids- og velferdsdirektoratet) - The Norwegian Labour and Welfare Administration")
+                            organizationUrl.set("https://www.nav.no")
+                        }
+                    }
+
+                    scm {
+                        connection.set(scmUrl)
+                        developerConnection.set(scmUrl)
+                        url.set(repoUrl)
+                    }
+                }
+            }
+        }
+    }
+
+
+    1
 
 
 }
