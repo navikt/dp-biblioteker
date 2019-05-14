@@ -14,8 +14,9 @@ jobs:
 
       - run: sed s/^'val libVersion.*'/'val libVersion'='"'$CIRCLE_SHA1'"'/ build.gradle.kts > build.gradle.new
             && mv build.gradle.new build.gradle.kts
+      - run: cat build.gradle.kts
       - run: ./gradlew check
-      - run: ./gradlew build
+      - run: ./gradlew publishToMavenLocal
 
       - save_cache:
           paths:
