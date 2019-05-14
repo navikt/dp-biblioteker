@@ -23,8 +23,8 @@ allprojects {
 
 subprojects {
 
-    group = 'com.github.jitpack'
-    version '1.0-SNAPSHOT'
+    group = "com.github.jitpack"
+    version "1.0-SNAPSHOT"
 
     val artifactDescription = "Libraries for Dagpengerbui"
     val repoUrl = "https://github.com/navikt/dp-biblioteker.git"
