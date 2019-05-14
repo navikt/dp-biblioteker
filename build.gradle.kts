@@ -3,7 +3,6 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
-
 plugins {
     kotlin("jvm") version "1.3.21"
     id("org.jetbrains.dokka") version "0.9.17" apply false
@@ -11,8 +10,6 @@ plugins {
     `maven-publish`
 }
 
-// version is replaced by circleci (and commit sha)
-val libVersion = "1"
 allprojects {
     repositories {
         jcenter()
@@ -99,6 +96,7 @@ subprojects {
                 artifact(sourcesJar.get())
 
                 pom {
+                    artifactId = project.name
                     name.set(project.name)
                     description.set(artifactDescription)
                     url.set(repoUrl)
