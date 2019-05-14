@@ -23,7 +23,7 @@ subprojects {
     group = "com.github.jitpack"
     version = "1.0-SNAPSHOT"
 
-    val artifactDescription = "Libraries for Dagpengerbui"
+    val artifactDescription = "Libraries for Dagpenger"
     val repoUrl = "https://github.com/navikt/dp-biblioteker.git"
     val scmUrl = "scm:git:https://github.com/navikt/dp-biblioteker.git"
 
