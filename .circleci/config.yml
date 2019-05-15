@@ -26,6 +26,7 @@ jobs:
     environment:
       - RELEASE_VERSION: '"1.$(TZ="Europe/Oslo" date +%Y.%m.%d-%H.%M).$(git rev-parse --short=12 HEAD)"'
       - COMMIT_MESSAGE: '"$(git log --format=%B -n 1 $CIRCLE_SHA1)"'
+      - GITHUB_APP_ID: 21626
     steps:
       - checkout
       - run:
