@@ -27,6 +27,6 @@ jobs:
         echo ${RELEASE_VERSION}
         echo ${COMMIT_MSG}
         jq --version
-        jq -n --arg tag_name ${RELEASE_VERSION} --arg body ${COMMIT_MSG} '{ "tag_name": $tag_name, "target_commitish": "master", "name": $tag_name, "body" : $body }' >> release.json
+        jq -n --arg tag_name "$RELEASE_VERSION" --arg body "$COMMIT_MSG" '{ "tag_name": $tag_name, "target_commitish": "master", "name": $tag_name, body: $body }' >> release.json
         cat release.json
         curl -X POST -H "Authorization: token $GH_TOKEN"  https://api.github.com/repos/navikt/dp-biblioteker/releases --data @release.json
