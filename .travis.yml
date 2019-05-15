@@ -13,7 +13,7 @@ before_install:
   - export GH_TOKEN=$(generate-installation-token.sh `generate-jwt.sh ./travis/team-dagpenger.2018-12-03.private-key.pem $GITHUB_APP_ID`)
   - export RELEASE_VERSION="1.$(TZ="Europe/Oslo" date +%Y.%m.%d-%H.%M).$(git rev-parse
     --short=12 HEAD)"
-  - export COMMIT_MSG=$(git log --format=%B --no-merges -n 1)
+  - export COMMIT_MSG=\""$(git log --format=%B --no-merges -n 1)"\"
 stages:
   - Tests
   - Deploy
