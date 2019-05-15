@@ -24,6 +24,7 @@ jobs:
             export PATH=`pwd`/github-apps-support/bin:$PATH
             echo $DP_CI_KEY | tr '_' '\n' > dpci.key
             export GH_TOKEN=$(generate-installation-token.sh `generate-jwt.sh dpci.key $GITHUB_APP_ID`)
+            echo -e "machine api.github.com login x-access-token password $GH_TOKEN" > ~/.netrc
             rm dpci.key
       - run:
           name: Release tag to Github
@@ -31,7 +32,7 @@ jobs:
             set -eo pipefail
             if [ -z "${CIRCLE_PULL_REQUEST}" ] && [ "${CIRCLE_BRANCH}" = "master" ]; then
                 jq -n --arg tag_name "$RELEASE_VERSION" --arg body "$COMMIT_MESSAGE" '{ "tag_name": $tag_name, "target_commitish": "master", "name": $tag_name, body: $body }' >> release.json
-                curl -X POST -H "Authorization: token $GH_TOKEN"  https://api.github.com/repos/navikt/dp-biblioteker/releases --data @release.json
+                curl -X POST https://api.github.com/repos/navikt/dp-biblioteker/releases --data @release.json
             fi
 
       - store_test_results:
