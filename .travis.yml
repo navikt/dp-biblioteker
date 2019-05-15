@@ -1,5 +1,9 @@
 language: java
 jdk:
-  - openjdk11
+- openjdk11
 script:
-  - "./gradlew build"
+- "./gradlew build"
+before_install:
+- openssl aes-256-cbc -K $encrypted_d69c95c7a93f_key -iv $encrypted_d69c95c7a93f_iv
+  -in travis/team-dagpenger.2018-12-03.private-key.pem.enc -out travis/team-dagpenger.2018-12-03.private-key.pem
+  -d
