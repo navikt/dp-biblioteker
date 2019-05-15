@@ -4,7 +4,6 @@ jobs:
     docker:
       - image: circleci/openjdk:11-jdk
     working_directory: ~/repo
-
     steps:
       - checkout
       - restore_cache:
@@ -24,8 +23,8 @@ jobs:
       - image: circleci/openjdk:11-jdk
     working_directory: ~/repo
     environment:
-      RELEASE_VERSION="1.$(TZ="Europe/Oslo" date +%Y.%m.%d-%H.%M).$(git rev-parse --short=12 HEAD)"
-      COMMIT_MESSAGE=git log --format=%B -n 1 $CIRCLE_SHA1
+      - RELEASE_VERSION: '"1.$(TZ="Europe/Oslo" date +%Y.%m.%d-%H.%M).$(git rev-parse --short=12 HEAD)"'
+      - COMMIT_MESSAGE: '"$(git log --format=%B -n 1 $CIRCLE_SHA1)"'
     steps:
       - checkout
       - run:
