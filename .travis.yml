@@ -13,7 +13,7 @@ before_install:
   - export GH_TOKEN=$(generate-installation-token.sh `generate-jwt.sh ./travis/team-dagpenger.2018-12-03.private-key.pem $GITHUB_APP_ID`)
   - export RELEASE_VERSION="1.$(TZ="Europe/Oslo" date +%Y.%m.%d-%H.%M).$(git rev-parse
     --short=12 HEAD)"
-  - export COMMIT_MSG="$(git log --format=%B --no-merges -n 1)"
+  - export COMMIT_MSG=\""$(git log --format=%B --no-merges -n 1)"\"
 stages:
   - Tests
   - Deploy
@@ -26,6 +26,7 @@ jobs:
       script: |
         echo ${RELEASE_VERSION}
         echo ${COMMIT_MSG}
+        jq --version
         jq -n --arg tag_name ${RELEASE_VERSION} --arg body ${COMMIT_MSG} '{ "tag_name": $tag_name, "target_commitish": "master", "name": $tag_name, "body" : $body }' >> release.json
         cat release.json
         curl -X POST -H "Authorization: token $GH_TOKEN"  https://api.github.com/repos/navikt/dp-biblioteker/releases --data @release.json
