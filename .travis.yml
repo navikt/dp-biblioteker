@@ -22,4 +22,4 @@ jobs:
         jq -n --arg tag_name $RELEASE_VERSION body $TRAVIS_COMMIT_MESSAGE '{ "tag_name": $tag_name, "target_commitish": "master", "name": $tag_name, "body" : body }' >> release.json
         echo "RELEASING TO GITHUB"
         cat deploy.json
-        curl -X POST -H "Authorization: token $GH_TOKEN"  https://api.github.com/repos/navikt/dp-biblioteker/releases --data @release.json
+        curl -v -X POST -H "Authorization: token $GH_TOKEN"  https://api.github.com/repos/navikt/dp-biblioteker/releases --data @release.json
