@@ -3,7 +3,6 @@ jdk:
 - openjdk11
 env:
   global:
-    - RELEASE_VERSION="1.$(TZ="Europe/Oslo" date +%Y.%m.%d-%H.%M).$(git rev-parse --short=12 HEAD)"
     - GITHUB_APP_ID=21626
 before_install:
 - openssl aes-256-cbc -K $encrypted_d69c95c7a93f_key -iv $encrypted_d69c95c7a93f_iv
@@ -12,6 +11,7 @@ before_install:
 - git clone https://github.com/navikt/github-apps-support.git
 - export PATH=`pwd`/github-apps-support/bin:$PATH
 - export GH_TOKEN=$(generate-installation-token.sh `generate-jwt.sh ./travis/team-dagpenger.2018-12-03.private-key.pem $GITHUB_APP_ID`)
+- export RELEASE_VERSION="1.$(TZ="Europe/Oslo" date +%Y.%m.%d-%H.%M).$(git rev-parse --short=12 HEAD)"
 stages:
   - Tests
   - Deploy
@@ -22,7 +22,7 @@ jobs:
     - stage: Deploy
       if: branch = master
       script: |
-        jq -n --arg tag_name $RELEASE_VERSION body $TRAVIS_COMMIT_MESSAGE '{ "tag_name": $tag_name, "target_commitish": "master", "name": $tag_name, "body" : $body }' >> release.json
+        jq -n --arg tag_name $RELEASE_VERSION --arg body $TRAVIS_COMMIT_MESSAGE '{ "tag_name": $tag_name, "target_commitish": "master", "name": $tag_name, "body" : $body }' >> release.json
         echo "RELEASING TO GITHUB"
         cat release.json
         curl -v -X POST -H "Authorization: token $GH_TOKEN"  https://api.github.com/repos/navikt/dp-biblioteker/releases --data @release.json
