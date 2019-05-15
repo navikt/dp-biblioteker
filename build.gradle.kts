@@ -41,7 +41,7 @@ subprojects {
         testCompile("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
         testCompile("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
         testRuntime("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
-        testRuntimeOnly("org.junit.vintage:junit-vintage-engine:$jupiterVersion")
+        testRuntimeOnly("org.junit.vintage:junit-vintage-engine:$junitJupiterVersion")
     }
 
 
