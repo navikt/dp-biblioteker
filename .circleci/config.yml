@@ -33,7 +33,10 @@ jobs:
             if [ -z "${CIRCLE_PULL_REQUEST}" ] && [ "${CIRCLE_BRANCH}" = "master" ]; then
                 jq -n --arg tag_name "$RELEASE_VERSION" --arg body "$COMMIT_MESSAGE" '{ "tag_name": $tag_name, "target_commitish": "master", "name": $tag_name, body: $body }' >> release.json
                 cat release.json
-                curl -X POST https://api.github.com/repos/navikt/dp-biblioteker/releases --data @release.json
+                curl -i -n --fail \
+                    -X POST \
+                    -d @release.json \
+                    https://api.github.com/repos/navikt/dp-biblioteker/releases
             fi
 
       - store_test_results:
