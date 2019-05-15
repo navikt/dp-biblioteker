@@ -13,7 +13,9 @@ jobs:
             - v1-dependencies-
 
       - run:
-          - ./gradlew check
+          command:
+            - ./gradlew check
+
 
       - save_cache:
           paths:
