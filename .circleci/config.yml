@@ -39,7 +39,6 @@ jobs:
             git clone https://github.com/navikt/github-apps-support.git
             export PATH=`pwd`/github-apps-support/bin:$PATH
             echo $DP_CI_KEY | tr '_' '\n' > dpci.key
-            head -n 2 dpci.key
             export GITHUB_APP_ID=19726
             export GH_TOKEN=$(generate-installation-token.sh `generate-jwt.sh dpci.key $GITHUB_APP_ID`)
             rm dpci.key
