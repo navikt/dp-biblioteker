@@ -8,6 +8,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.3.21"
     id("org.jetbrains.dokka") version "0.9.17" apply false
+    id("com.diffplug.gradle.spotless") version "3.13.0"
     `java-library`
     `maven-publish`
 }
@@ -30,6 +31,7 @@ subprojects {
     val scmUrl = "scm:git:https://github.com/navikt/dp-biblioteker.git"
 
     apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = "com.diffplug.gradle.spotless")
     apply(plugin = "java-library")
     apply(plugin = "org.jetbrains.dokka")
     apply(plugin = "maven-publish")
@@ -42,6 +44,9 @@ subprojects {
         testCompile("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
         testRuntime("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
         testRuntimeOnly("org.junit.vintage:junit-vintage-engine:$junitJupiterVersion")
+        testImplementation("io.kotlintest:kotlintest-runner-junit5:3.3.0")
+        testImplementation(kotlin("test"))
+        testImplementation(kotlin("test-junit"))
     }
 
 
@@ -93,6 +98,17 @@ subprojects {
     artifacts {
         add("archives", sourcesJar)
         add("archives", javadocJar)
+    }
+
+
+    spotless {
+        kotlin {
+            ktlint()
+        }
+        kotlinGradle {
+            target("*.gradle.kts", "additionalScripts/*.gradle.kts")
+            ktlint("0.31.0")
+        }
     }
 
     publishing {

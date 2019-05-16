@@ -1,6 +1,5 @@
 package no.nav.dagpenger.oidc
 
-
 import com.github.kittinunf.fuel.gson.responseObject
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
@@ -12,11 +11,14 @@ import java.time.LocalDateTime.now
  */
 class StsOidcClient(stsBaseUrl: String, private val username: String, private val password: String) : OidcClient {
     private val timeToRefresh: Long = 60
-    private val stsTokenUrl: String = if (stsBaseUrl.endsWith("/")) "${stsBaseUrl}rest/v1/sts/token/" else "$stsBaseUrl/rest/v1/sts/token/"
+    private val stsTokenUrl: String =
+        if (stsBaseUrl.endsWith("/")) "${stsBaseUrl}rest/v1/sts/token/" else "$stsBaseUrl/rest/v1/sts/token/"
 
-    @Volatile private var tokenExpiryTime = now().minus(Duration.ofSeconds(timeToRefresh))
+    @Volatile
+    private var tokenExpiryTime = now().minus(Duration.ofSeconds(timeToRefresh))
 
-    @Volatile private lateinit var oidcToken: OidcToken
+    @Volatile
+    private lateinit var oidcToken: OidcToken
 
     override fun oidcToken(): OidcToken {
         return if (now().isBefore(tokenExpiryTime)) {
@@ -44,7 +46,8 @@ class StsOidcClient(stsBaseUrl: String, private val username: String, private va
     }
 }
 
-class StsOidcClientException(override val message: String, override val cause: Throwable) : RuntimeException(message, cause)
+class StsOidcClientException(override val message: String, override val cause: Throwable) :
+    RuntimeException(message, cause)
 
 data class OidcToken(
     val access_token: String,
