@@ -24,4 +24,3 @@ class ApiKeyVerifier(private val secret: String) {
         return mac.doFinal(apiKey)
     }
 }
-

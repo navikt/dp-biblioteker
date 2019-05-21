@@ -10,14 +10,14 @@ internal class ApiKeyVerifierTest {
     fun `Should be able to verify api key with same secret`() {
         val verifier = ApiKeyVerifier("secret")
         val enc = verifier.generate("apikey")
-        assertTrue { verifier.verify( enc, "apikey") }
+        assertTrue { verifier.verify(enc, "apikey") }
     }
 
     @Test
     fun `Should not be able to verify api if key has changed key with same secret`() {
         val verifier = ApiKeyVerifier("secret")
         val enc = verifier.generate("apikey")
-        assertFalse { verifier.verify( enc, "Apikey") }
+        assertFalse { verifier.verify(enc, "Apikey") }
     }
 
     @Test
