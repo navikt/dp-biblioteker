@@ -3,7 +3,7 @@ package no.nav.dagpenger.ktor.auth
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
-class ApiKey(private val secret: ByteArray) {
+class ApiKeyVerifier(private val secret: ByteArray) {
 
     private val algorithm = "HmacSHA256"
 
