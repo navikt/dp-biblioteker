@@ -8,23 +8,23 @@ internal class ApiKeyVerifierTest {
 
     @Test
     fun `Should be able to verify api key with same secret`() {
-        val verifier = ApiKeyVerifier("secret".toByteArray())
-        val enc = verifier.generate("apikey".toByteArray())
-        assertTrue { verifier.verify("apikey".toByteArray(), enc) }
+        val verifier = ApiKeyVerifier("secret")
+        val enc = verifier.generate("apikey")
+        assertTrue { verifier.verify( enc, "apikey") }
     }
 
     @Test
     fun `Should not be able to verify api if key has changed key with same secret`() {
-        val verifier = ApiKeyVerifier("secret".toByteArray())
-        val enc = verifier.generate("apikey".toByteArray())
-        assertFalse { verifier.verify("Apikey".toByteArray(), enc) }
+        val verifier = ApiKeyVerifier("secret")
+        val enc = verifier.generate("apikey")
+        assertFalse { verifier.verify( enc, "Apikey") }
     }
 
     @Test
     fun `Should not be able to verify api if with secret changed`() {
-        val generator = ApiKeyVerifier("another secret".toByteArray())
-        val enc = generator.generate("apikey".toByteArray())
-        val verifier = ApiKeyVerifier("secret".toByteArray())
-        assertFalse { verifier.verify("apikey".toByteArray(), enc) }
+        val generator = ApiKeyVerifier("another secret")
+        val enc = generator.generate("apikey")
+        val verifier = ApiKeyVerifier("secret")
+        assertFalse { verifier.verify(enc, "apikey") }
     }
 }

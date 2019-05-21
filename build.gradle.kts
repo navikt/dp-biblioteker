@@ -103,7 +103,7 @@ subprojects {
 
     spotless {
         kotlin {
-            ktlint()
+            ktlint("com.github.shyiko:ktlint:0.31.0")
         }
         kotlinGradle {
             target("*.gradle.kts", "additionalScripts/*.gradle.kts")

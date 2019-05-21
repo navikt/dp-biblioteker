@@ -1,31 +1,27 @@
 package no.nav.dagpenger.ktor.auth
 
+import org.apache.commons.codec.binary.Hex
+import java.nio.charset.StandardCharsets
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
-class ApiKeyVerifier(private val secret: ByteArray) {
+class ApiKeyVerifier(private val secret: String) {
 
     private val algorithm = "HmacSHA256"
 
-    fun verify(apiKey: ByteArray, expectedApiKey: ByteArray): Boolean {
-
-        val hmac = generate(apiKey)
-
-        if (hmac.size != expectedApiKey.size) return false
-        var result = 0
-        for (i in 0 until hmac.size) {
-            result = result.or(hmac[i].toInt().xor(expectedApiKey[i].toInt()))
-        }
-
-        return result == 0
+    fun verify(apiKey: String, expectedApiKey: String): Boolean {
+        return apiKey == generate(expectedApiKey)
     }
 
-    fun generate(apiKey: ByteArray): ByteArray {
-        val keySpec = SecretKeySpec(secret, algorithm)
-        val mac = Mac.getInstance(algorithm)
-        mac.init(keySpec)
+    fun generate(apiKey: String): String {
+        return String(Hex.encodeHex(generateDigest(apiKey.toByteArray(StandardCharsets.UTF_8))))
+    }
 
-        val hmac = mac.doFinal(apiKey)
-        return hmac
+    private fun generateDigest(apiKey: ByteArray): ByteArray {
+        val secret = SecretKeySpec(secret.toByteArray(StandardCharsets.UTF_8), algorithm)
+        val mac = Mac.getInstance(algorithm)
+        mac.init(secret)
+        return mac.doFinal(apiKey)
     }
 }
+
