@@ -1,4 +1,4 @@
-val fuelVersion = "1.15.1"
+val fuelVersion = "2.1.0"
 
 dependencies {
     implementation("com.github.kittinunf.fuel:fuel:$fuelVersion")
