@@ -1,5 +1,6 @@
 package no.nav.dagpenger.oidc
 
+import com.github.kittinunf.fuel.core.extensions.authentication
 import com.github.kittinunf.fuel.gson.responseObject
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
@@ -36,7 +37,7 @@ class StsOidcClient(stsBaseUrl: String, private val username: String, private va
             "scope" to "openid"
         )
         val (_, response, result) = with(stsTokenUrl.httpGet(parameters)) {
-            authenticate(username, password)
+            authentication().basic(username, password)
             responseObject<OidcToken>()
         }
         when (result) {
