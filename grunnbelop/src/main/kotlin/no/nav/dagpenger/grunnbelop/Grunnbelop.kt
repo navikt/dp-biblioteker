@@ -1,6 +1,7 @@
 package no.nav.dagpenger.grunnbelop
 
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.time.LocalDate
 import java.time.Month
 import java.time.YearMonth
@@ -9,7 +10,14 @@ data class Grunnbeløp(
     val fom: LocalDate,
     val tom: LocalDate,
     val verdi: BigDecimal
-)
+) {
+    fun faktorMellom(grunnbeløp: Grunnbeløp): BigDecimal {
+
+        return this.verdi.divide(grunnbeløp.verdi, antallDesimaler, RoundingMode.HALF_UP)
+    }
+}
+
+val antallDesimaler: Int = 20
 
 private val grunnbeløp: Set<Grunnbeløp> = setOf(
     Grunnbeløp(
