@@ -43,5 +43,5 @@ fun getGrunnbeløpForDato(dato: LocalDate): Grunnbeløp {
 }
 
 fun Grunnbeløp.gjelderFor(dato: LocalDate): Boolean {
-    return !(dato.isBefore(this.fom) || (dato.isAfter(this.tom)))
+    return !(dato.isBefore(this.fom))
 }
