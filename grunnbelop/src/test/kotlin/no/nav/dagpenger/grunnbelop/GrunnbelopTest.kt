@@ -11,7 +11,7 @@ class GrunnbelopTest {
     @Test
     fun ` Skal returnere grunnbeløp på 99858 for måned april 2020 `() {
 
-        Assertions.assertEquals(99858.toBigDecimal(), getGrunnbeløpForMåned(YearMonth.of(2019, Month.MAY)).verdi)
+        Assertions.assertEquals(99858.toBigDecimal(), getGrunnbeløpForMåned(YearMonth.of(2020, Month.APRIL)).verdi)
     }
 
     @Test
