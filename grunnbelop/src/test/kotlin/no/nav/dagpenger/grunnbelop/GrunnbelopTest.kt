@@ -9,6 +9,12 @@ import java.time.YearMonth
 class GrunnbelopTest {
 
     @Test
+    fun ` Skal returnere grunnbeløp på 99858 for måned mai 2020 `() {
+
+        Assertions.assertEquals(99858.toBigDecimal(), getGrunnbeløpForMåned(YearMonth.of(2020, Month.MAY)).verdi)
+    }
+
+    @Test
     fun ` Skal returnere grunnbeløp på 99858 for måned april 2020 `() {
 
         Assertions.assertEquals(99858.toBigDecimal(), getGrunnbeløpForMåned(YearMonth.of(2020, Month.APRIL)).verdi)
@@ -39,13 +45,13 @@ class GrunnbelopTest {
     }
 
     @Test
-    fun ` Skal returnere grunnbeløp på 90068 for måned mars 2015 `() {
+    fun ` Skal returnere grunnbeløp på 90068 for måned august 2015 `() {
 
         Assertions.assertEquals(90068.toBigDecimal(), getGrunnbeløpForMåned(YearMonth.of(2015, Month.AUGUST)).verdi)
     }
 
     @Test
-    fun ` Skal returnere grunnbeløp på 90068 for dato 06032015 `() {
+    fun ` Skal returnere grunnbeløp på 90068 for dato 06082015 `() {
 
         Assertions.assertEquals(90068.toBigDecimal(), getGrunnbeløpForDato(LocalDate.of(2015, 8, 6)).verdi)
     }

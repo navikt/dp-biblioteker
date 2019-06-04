@@ -35,7 +35,7 @@ private val grunnbeløp: Set<Grunnbeløp> = setOf(
 )
 
 fun getGrunnbeløpForMåned(dato: YearMonth): Grunnbeløp {
-    return grunnbeløp.first { it.gjelderFor(LocalDate.of(dato.year, dato.month, 10)) }
+    return grunnbeløp.first { it.gjelderFor(LocalDate.of(dato.year, dato.month, 10))}
 }
 
 fun getGrunnbeløpForDato(dato: LocalDate): Grunnbeløp {
@@ -43,5 +43,5 @@ fun getGrunnbeløpForDato(dato: LocalDate): Grunnbeløp {
 }
 
 fun Grunnbeløp.gjelderFor(dato: LocalDate): Boolean {
-    return !(dato.isBefore(this.fom) || (dato.isAfter(this.tom)))
+    return !(dato.isBefore(this.fom))
 }
