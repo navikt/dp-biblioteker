@@ -2,6 +2,7 @@ package no.nav.dagpenger.grunnbelop
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.Month
 import java.time.YearMonth
@@ -54,5 +55,14 @@ class GrunnbelopTest {
     fun ` Skal returnere grunnbeløp på 90068 for dato 01052019 `() {
 
         Assertions.assertEquals(99858.toBigDecimal(), getGrunnbeløpForDato(LocalDate.of(2019, 5, 1)).verdi)
+    }
+
+    @Test
+    fun `Skal finne faktoren mellom to Grunnbeløp med desimaler`() {
+
+        val grunnbeløp = Grunnbeløp(LocalDate.now(), LocalDate.now(), 93634.toBigDecimal())
+        val gjeldendeGrunnbeløp = Grunnbeløp(LocalDate.now(), LocalDate.now(), 96883.toBigDecimal())
+
+        Assertions.assertEquals(BigDecimal("1.03469893414785227588"), gjeldendeGrunnbeløp.faktorMellom(grunnbeløp))
     }
 }
