@@ -11,7 +11,7 @@ object Assertj {
     fun library(name: String) = "org.assertj:assertj-$name:$version"
 }
 object Avro {
-    const val avro = "org.apache.avro:avro:1.9.0"
+    const val avro = "org.apache.avro:avro:1.8.2"
 }
 
 object Bekk {
@@ -28,14 +28,14 @@ object Cucumber {
 object Dagpenger {
 
     object Biblioteker {
-        const val version = "2019.06.26-21.20.53508650ea49"
+        const val version = "2019.07.11-08.55.1495a84dbbd4"
         const val stsKlient = "com.github.navikt.dp-biblioteker:sts-klient:$version"
         const val grunnbeløp = "com.github.navikt.dp-biblioteker:grunnbelop:$version"
         const val ktorUtils = "com.github.navikt.dp-biblioteker:ktor-utils:$version"
     }
 
-    const val Streams = "com.github.navikt:dagpenger-streams:2019.07.02-10.26.6b16de2e090f"
-    const val Events = "com.github.navikt:dagpenger-events:2019.06.26-21.18.5669e6a90cf3"
+    const val Streams = "com.github.navikt:dagpenger-streams:2019.07.11-11.18.8dc134276bc5"
+    const val Events = "com.github.navikt:dagpenger-events:2019.07.11-11.07.e2ca2d968ff6"
 }
 
 object Database {
@@ -84,7 +84,7 @@ object Kafka {
     const val streamTestUtils = "org.apache.kafka:kafka-streams-test-utils:$version"
     fun library(name: String) = "org.apache.kafka:kafka-$name:$version"
     object Confluent {
-        const val version = "5.0.1"
+        const val version = "5.0.3"
         const val avroStreamSerdes = "io.confluent:kafka-streams-avro-serde:$version"
         fun library(name: String) = "io.confluent:$name:$version"
     }
