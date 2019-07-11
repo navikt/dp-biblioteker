@@ -6,9 +6,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
 plugins {
-    kotlin("jvm") version "1.3.21"
+    kotlin("jvm") version Kotlin.version
     id("org.jetbrains.dokka") version "0.9.17" apply false
-    id("com.diffplug.gradle.spotless") version "3.13.0"
+    id("com.diffplug.gradle.spotless") version Spotless.version
     `java-library`
     `maven-publish`
 }
@@ -16,7 +16,6 @@ plugins {
 allprojects {
     repositories {
         jcenter()
-        mavenCentral()
         maven("https://jitpack.io")
     }
 }
@@ -36,17 +35,13 @@ subprojects {
     apply(plugin = "org.jetbrains.dokka")
     apply(plugin = "maven-publish")
 
-    val junitJupiterVersion = "5.3.1"
 
     dependencies {
         implementation(kotlin("stdlib"))
-        testCompile("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
-        testCompile("org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion")
-        testRuntime("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
-        testRuntimeOnly("org.junit.vintage:junit-vintage-engine:$junitJupiterVersion")
-        testImplementation("io.kotlintest:kotlintest-runner-junit5:3.3.0")
-        testImplementation(kotlin("test"))
-        testImplementation(kotlin("test-junit"))
+        testImplementation(kotlin("test-junit5"))
+        testImplementation(Junit5.api)
+        testImplementation(Junit5.params)
+        testImplementation(Junit5.kotlinRunner)
     }
 
 
@@ -75,7 +70,7 @@ subprojects {
     }
 
     tasks.withType<Wrapper> {
-        gradleVersion = "5.4.1"
+        gradleVersion = "5.5"
     }
 
 
@@ -103,11 +98,11 @@ subprojects {
 
     spotless {
         kotlin {
-            ktlint("0.31.0")
+            ktlint(Klint.version)
         }
         kotlinGradle {
             target("*.gradle.kts", "additionalScripts/*.gradle.kts")
-            ktlint("0.31.0")
+            ktlint(Klint.version)
         }
     }
 
