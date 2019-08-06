@@ -117,7 +117,7 @@ object Kotlinx {
 }
 
 object Ktor {
-    const val version = "1.2.1"
+    const val version = "1.2.3"
     const val server = "io.ktor:ktor-server:$version"
     const val serverNetty = "io.ktor:ktor-server-netty:$version"
     const val auth = "io.ktor:ktor-auth:$version"
@@ -129,7 +129,7 @@ object Ktor {
 }
 
 object Log4j2 {
-    private const val version = "2.12.0"
+    const val version = "2.12.0"
     const val api = "org.apache.logging.log4j:log4j-api:$version"
     const val core = "org.apache.logging.log4j:log4j-core:$version"
     const val slf4j = "org.apache.logging.log4j:log4j-slf4j-impl:$version"
