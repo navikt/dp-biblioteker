@@ -35,13 +35,13 @@ subprojects {
     apply(plugin = "org.jetbrains.dokka")
     apply(plugin = "maven-publish")
 
-
     dependencies {
         implementation(kotlin("stdlib"))
         testImplementation(kotlin("test-junit5"))
         testImplementation(Junit5.api)
         testImplementation(Junit5.params)
         testImplementation(Junit5.kotlinRunner)
+        testRuntimeOnly(Junit5.engine)
     }
 
 
