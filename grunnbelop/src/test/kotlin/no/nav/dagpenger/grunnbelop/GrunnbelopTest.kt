@@ -59,8 +59,30 @@ class GrunnbelopTest {
 
     @Test
     fun ` Skal returnere grunnbeløp på 90068 for dato 01052019 `() {
-
         Assertions.assertEquals(99858.toBigDecimal(), getGrunnbeløpForDato(LocalDate.of(2019, 5, 1)).verdi)
+    }
+
+    @Test
+    fun ` Skal returnere finne grunnbeløp med strategier`() {
+        val grunnbeløpGrunnlag = getGrunnbeløp()
+            .forDato(LocalDate.of(2019,5,1))
+            .forRegel(Regel.Grunnlag)
+            .first()
+
+        Assertions.assertEquals(99858.toBigDecimal(), grunnbeløpGrunnlag.verdi)
+
+        val grunnbeløpMinsteinntekt = getGrunnbeløp()
+            .forDato(LocalDate.of(2019,5,1))
+            .forRegel(Regel.Minsteinntekt)
+            .first()
+
+        Assertions.assertEquals(8.toBigDecimal(), grunnbeløpMinsteinntekt.verdi)
+
+        val grunnbeløpForHva = getGrunnbeløp()
+            .forDato(LocalDate.of(2019,5,1))
+            .first()
+
+        Assertions.assertEquals(99858.toBigDecimal(), grunnbeløpForHva.verdi)
     }
 
     @Test
