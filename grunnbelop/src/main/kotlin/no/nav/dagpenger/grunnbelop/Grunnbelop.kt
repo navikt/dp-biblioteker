@@ -33,7 +33,7 @@ internal val gyldighetsperioder = mapOf(
         ),
         Regel.Minsteinntekt to Gyldighetsperiode(
             fom = LocalDate.of(2019, Month.MAY, 1),
-            tom = LocalDate.of(2020, Month.APRIL, 30)
+            tom = LocalDate.of(2020, Month.MAY, 19)
         )
     ),
     Grunnbeløp.FastsattI2018 to mapOf(
@@ -142,4 +142,7 @@ data class GrunnbeløpMapping(
     val regel: Regel
 )
 
-internal data class Gyldighetsperiode(val fom: LocalDate, val tom: LocalDate)
+internal data class Gyldighetsperiode(
+    val fom: LocalDate,
+    val tom: LocalDate
+)
