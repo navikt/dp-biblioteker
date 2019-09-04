@@ -25,70 +25,70 @@ enum class Regel {
     Grunnlag
 }
 
-internal val grunnbeløpMaps = mapOf(
+internal val gyldighetsperioder = mapOf(
     Grunnbeløp.FastsattI2019 to mapOf(
-        Regel.Grunnlag to Mapping(
+        Regel.Grunnlag to Gyldighetsperiode(
             fom = LocalDate.of(2019, Month.MAY, 1),
             tom = LocalDate.of(2020, Month.APRIL, 30)
         ),
-        Regel.Minsteinntekt to Mapping(
+        Regel.Minsteinntekt to Gyldighetsperiode(
             fom = LocalDate.of(2019, Month.MAY, 1),
             tom = LocalDate.of(2020, Month.APRIL, 30)
         )
     ),
     Grunnbeløp.FastsattI2018 to mapOf(
-        Regel.Grunnlag to Mapping(
+        Regel.Grunnlag to Gyldighetsperiode(
             fom = LocalDate.of(2018, Month.MAY, 1),
             tom = LocalDate.of(2019, Month.APRIL, 30)
         ),
-        Regel.Minsteinntekt to Mapping(
+        Regel.Minsteinntekt to Gyldighetsperiode(
             fom = LocalDate.of(2018, Month.MAY, 1),
             tom = LocalDate.of(2019, Month.APRIL, 30)
         )
     ),
     Grunnbeløp.FastsattI2017 to mapOf(
-        Regel.Grunnlag to Mapping(
+        Regel.Grunnlag to Gyldighetsperiode(
             fom = LocalDate.of(2017, Month.MAY, 1),
             tom = LocalDate.of(2018, Month.APRIL, 30)
         ),
-        Regel.Minsteinntekt to Mapping(
+        Regel.Minsteinntekt to Gyldighetsperiode(
             fom = LocalDate.of(2017, Month.MAY, 1),
             tom = LocalDate.of(2018, Month.APRIL, 30)
         )
     ),
     Grunnbeløp.FastsattI2016 to mapOf(
-        Regel.Grunnlag to Mapping(
+        Regel.Grunnlag to Gyldighetsperiode(
             fom = LocalDate.of(2016, Month.MAY, 1),
             tom = LocalDate.of(2017, Month.APRIL, 30)
         ),
-        Regel.Minsteinntekt to Mapping(
+        Regel.Minsteinntekt to Gyldighetsperiode(
             fom = LocalDate.of(2016, Month.MAY, 1),
             tom = LocalDate.of(2017, Month.APRIL, 30)
         )
     ),
     Grunnbeløp.FastsattI2015 to mapOf(
-        Regel.Grunnlag to Mapping(
+        Regel.Grunnlag to Gyldighetsperiode(
             fom = LocalDate.of(2015, Month.MAY, 1),
             tom = LocalDate.of(2016, Month.APRIL, 30)
         ),
-        Regel.Minsteinntekt to Mapping(
+        Regel.Minsteinntekt to Gyldighetsperiode(
             fom = LocalDate.of(2015, Month.MAY, 1),
             tom = LocalDate.of(2016, Month.APRIL, 30)
         )
     ),
     Grunnbeløp.FastsattI2015 to mapOf(
-        Regel.Grunnlag to Mapping(
+        Regel.Grunnlag to Gyldighetsperiode(
             fom = LocalDate.of(2015, Month.MAY, 1),
             tom = LocalDate.of(2016, Month.APRIL, 30)
         ),
-        Regel.Minsteinntekt to Mapping(
+        Regel.Minsteinntekt to Gyldighetsperiode(
             fom = LocalDate.of(2015, Month.MAY, 1),
             tom = LocalDate.of(2016, Month.APRIL, 30)
         )
     )
 )
 
-private val grunnbeløp = grunnbeløpMaps.flatMap { (grunnbeløp, mappings) ->
+private val grunnbeløp = gyldighetsperioder.flatMap { (grunnbeløp, mappings) ->
     mappings.map { (regel, mapping) ->
         GrunnbeløpMapping(
             regel = regel,
@@ -142,4 +142,4 @@ data class GrunnbeløpMapping(
     val regel: Regel
 )
 
-internal data class Mapping(val fom: LocalDate, val tom: LocalDate)
+internal data class Gyldighetsperiode(val fom: LocalDate, val tom: LocalDate)

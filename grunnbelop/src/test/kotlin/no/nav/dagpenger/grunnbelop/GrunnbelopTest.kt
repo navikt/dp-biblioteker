@@ -101,14 +101,14 @@ class GrunnbelopTest {
     @Test
     fun `Alle grunnbeløp har en mapping`() {
         Grunnbeløp.values().forAll { grunnbeløp ->
-            grunnbeløpMaps shouldContainKey grunnbeløp
+            gyldighetsperioder shouldContainKey grunnbeløp
         }
     }
 
     @Test
     fun `Alle regler har en mapping for hvert grunnbeløp`() {
         Regel.values().forAll {regel ->
-            grunnbeløpMaps.values.forAll {
+            gyldighetsperioder.values.forAll {
                 it shouldContainKey regel
             }
         }
