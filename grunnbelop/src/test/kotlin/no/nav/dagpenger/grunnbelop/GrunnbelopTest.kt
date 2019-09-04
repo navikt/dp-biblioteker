@@ -1,7 +1,9 @@
 package no.nav.dagpenger.grunnbelop
 
+import io.kotlintest.assertSoftly
 import io.kotlintest.inspectors.forAll
 import io.kotlintest.inspectors.forOne
+import io.kotlintest.matchers.maps.shouldContainKey
 import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.shouldBe
 import org.junit.jupiter.api.Assertions
@@ -86,14 +88,34 @@ class GrunnbelopTest {
 
     @Test
     fun `Skal finne faktoren mellom to Grunnbeløp med desimaler`() {
+        val grunnbeløp = Grunnbeløp.FastsattI2017
+        val gjeldendeGrunnbeløp = Grunnbeløp.FastsattI2018
 
-        val grunnbeløp = GrunnbeløpMapping(LocalDate.now(), LocalDate.now(), Grunnbeløp.FastsattI2017)
-        val gjeldendeGrunnbeløp = GrunnbeløpMapping(LocalDate.now(), LocalDate.now(), Grunnbeløp.FastsattI2018)
-
-        Assertions.assertEquals(BigDecimal("1.03469893414785227588"), gjeldendeGrunnbeløp.faktorMellom(grunnbeløp))
+        val faktor = gjeldendeGrunnbeløp.faktorMellom(grunnbeløp)
+        assertSoftly {
+            faktor shouldBe BigDecimal("1.03469893414785227588")
+            faktor.scale() shouldBe antallDesimaler
+        }
     }
 
     @Test
+    fun `Alle grunnbeløp har en mapping`() {
+        Grunnbeløp.values().forAll { grunnbeløp ->
+            grunnbeløpMaps shouldContainKey grunnbeløp
+        }
+    }
+
+    @Test
+    fun `Alle regler har en mapping for hvert grunnbeløp`() {
+        Regel.values().forAll {regel ->
+            grunnbeløpMaps.values.forAll {
+                it shouldContainKey regel
+            }
+        }
+    }
+
+    @Test
+    // This test is a bit awkward, but it's a nice way to blackbox verify that all mappings exists
     fun `Alle kombinasjoner av år og regler har en mapping`() {
         Grunnbeløp.values().forAll { beløp ->
             Regel.values().forAll { regel ->

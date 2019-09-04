@@ -6,24 +6,6 @@ import java.time.LocalDate
 import java.time.Month
 import java.time.YearMonth
 
-data class GrunnbeløpMapping(
-    val fom: LocalDate,
-    val tom: LocalDate,
-    val grunnbeløp: Grunnbeløp,
-    val regel: Regel = Regel.Grunnlag
-) {
-    fun faktorMellom(grunnbeløp: GrunnbeløpMapping): BigDecimal {
-        return this.grunnbeløp.verdi.divide(grunnbeløp.grunnbeløp.verdi, antallDesimaler, RoundingMode.HALF_UP)
-    }
-}
-
-const val antallDesimaler: Int = 20
-
-enum class Regel {
-    Minsteinntekt,
-    Grunnlag
-}
-
 enum class Grunnbeløp(val verdi: BigDecimal) {
     FastsattI2019(verdi = 99858.toBigDecimal()),
     FastsattI2018(verdi = 96883.toBigDecimal()),
@@ -32,72 +14,90 @@ enum class Grunnbeløp(val verdi: BigDecimal) {
     FastsattI2015(verdi = 90068.toBigDecimal())
 }
 
-private val grunnbeløp: Set<GrunnbeløpMapping> = mapOf(
-    Regel.Grunnlag to setOf(
-        GrunnbeløpMapping(
+fun Grunnbeløp.faktorMellom(grunnbeløp: Grunnbeløp): BigDecimal {
+    return this.verdi.divide(grunnbeløp.verdi, antallDesimaler, RoundingMode.HALF_UP)
+}
+
+internal const val antallDesimaler: Int = 20
+
+enum class Regel {
+    Minsteinntekt,
+    Grunnlag
+}
+
+internal val grunnbeløpMaps = mapOf(
+    Grunnbeløp.FastsattI2019 to mapOf(
+        Regel.Grunnlag to Mapping(
             fom = LocalDate.of(2019, Month.MAY, 1),
-            tom = LocalDate.of(2020, Month.APRIL, 30),
-            grunnbeløp = Grunnbeløp.FastsattI2019,
-            regel = Regel.Grunnlag
+            tom = LocalDate.of(2020, Month.APRIL, 30)
         ),
-        GrunnbeløpMapping(
-            fom = LocalDate.of(2018, Month.MAY, 1),
-            tom = LocalDate.of(2019, Month.APRIL, 30),
-            grunnbeløp = Grunnbeløp.FastsattI2018,
-            regel = Regel.Grunnlag
-        ),
-        GrunnbeløpMapping(
-            fom = LocalDate.of(2017, Month.MAY, 1),
-            tom = LocalDate.of(2018, Month.APRIL, 30),
-            grunnbeløp = Grunnbeløp.FastsattI2017,
-            regel = Regel.Grunnlag
-        ),
-        GrunnbeløpMapping(
-            fom = LocalDate.of(2016, Month.MAY, 1),
-            tom = LocalDate.of(2017, Month.APRIL, 30),
-            grunnbeløp = Grunnbeløp.FastsattI2016,
-            regel = Regel.Grunnlag
-        ),
-        GrunnbeløpMapping(
-            fom = LocalDate.of(2015, Month.MAY, 1),
-            tom = LocalDate.of(2016, Month.APRIL, 30),
-            grunnbeløp = Grunnbeløp.FastsattI2015,
-            regel = Regel.Grunnlag
+        Regel.Minsteinntekt to Mapping(
+            fom = LocalDate.of(2019, Month.MAY, 1),
+            tom = LocalDate.of(2020, Month.APRIL, 30)
         )
     ),
-    Regel.Minsteinntekt to setOf(
-        GrunnbeløpMapping(
-            fom = LocalDate.of(2019, Month.MAY, 1),
-            tom = LocalDate.of(2020, Month.APRIL, 30),
-            grunnbeløp = Grunnbeløp.FastsattI2019,
-            regel = Regel.Minsteinntekt
-        ),
-        GrunnbeløpMapping(
+    Grunnbeløp.FastsattI2018 to mapOf(
+        Regel.Grunnlag to Mapping(
             fom = LocalDate.of(2018, Month.MAY, 1),
-            tom = LocalDate.of(2019, Month.APRIL, 30),
-            grunnbeløp = Grunnbeløp.FastsattI2018,
-            regel = Regel.Minsteinntekt
+            tom = LocalDate.of(2019, Month.APRIL, 30)
         ),
-        GrunnbeløpMapping(
+        Regel.Minsteinntekt to Mapping(
+            fom = LocalDate.of(2018, Month.MAY, 1),
+            tom = LocalDate.of(2019, Month.APRIL, 30)
+        )
+    ),
+    Grunnbeløp.FastsattI2017 to mapOf(
+        Regel.Grunnlag to Mapping(
             fom = LocalDate.of(2017, Month.MAY, 1),
-            tom = LocalDate.of(2018, Month.APRIL, 30),
-            grunnbeløp = Grunnbeløp.FastsattI2017,
-            regel = Regel.Minsteinntekt
+            tom = LocalDate.of(2018, Month.APRIL, 30)
         ),
-        GrunnbeløpMapping(
+        Regel.Minsteinntekt to Mapping(
+            fom = LocalDate.of(2017, Month.MAY, 1),
+            tom = LocalDate.of(2018, Month.APRIL, 30)
+        )
+    ),
+    Grunnbeløp.FastsattI2016 to mapOf(
+        Regel.Grunnlag to Mapping(
             fom = LocalDate.of(2016, Month.MAY, 1),
-            tom = LocalDate.of(2017, Month.APRIL, 30),
-            grunnbeløp = Grunnbeløp.FastsattI2016,
-            regel = Regel.Minsteinntekt
+            tom = LocalDate.of(2017, Month.APRIL, 30)
         ),
-        GrunnbeløpMapping(
+        Regel.Minsteinntekt to Mapping(
+            fom = LocalDate.of(2016, Month.MAY, 1),
+            tom = LocalDate.of(2017, Month.APRIL, 30)
+        )
+    ),
+    Grunnbeløp.FastsattI2015 to mapOf(
+        Regel.Grunnlag to Mapping(
             fom = LocalDate.of(2015, Month.MAY, 1),
-            tom = LocalDate.of(2016, Month.APRIL, 30),
-            grunnbeløp = Grunnbeløp.FastsattI2015,
-            regel = Regel.Minsteinntekt
+            tom = LocalDate.of(2016, Month.APRIL, 30)
+        ),
+        Regel.Minsteinntekt to Mapping(
+            fom = LocalDate.of(2015, Month.MAY, 1),
+            tom = LocalDate.of(2016, Month.APRIL, 30)
+        )
+    ),
+    Grunnbeløp.FastsattI2015 to mapOf(
+        Regel.Grunnlag to Mapping(
+            fom = LocalDate.of(2015, Month.MAY, 1),
+            tom = LocalDate.of(2016, Month.APRIL, 30)
+        ),
+        Regel.Minsteinntekt to Mapping(
+            fom = LocalDate.of(2015, Month.MAY, 1),
+            tom = LocalDate.of(2016, Month.APRIL, 30)
         )
     )
-).values.flatten().toSet()
+)
+
+private val grunnbeløp = grunnbeløpMaps.flatMap { (grunnbeløp, mappings) ->
+    mappings.map { (regel, mapping) ->
+        GrunnbeløpMapping(
+            regel = regel,
+            fom = mapping.fom,
+            tom = mapping.tom,
+            grunnbeløp = grunnbeløp
+        )
+    }
+}.toSet()
 
 @Deprecated(
     message = "Du må angi regel først, så måned",
@@ -134,3 +134,12 @@ fun GrunnbeløpMapping.gjelderFor(dato: LocalDate): Boolean {
 fun GrunnbeløpMapping.gjelderFor(regel: Regel): Boolean {
     return this.regel == regel
 }
+
+data class GrunnbeløpMapping(
+    val fom: LocalDate,
+    val tom: LocalDate,
+    val grunnbeløp: Grunnbeløp,
+    val regel: Regel
+)
+
+internal data class Mapping(val fom: LocalDate, val tom: LocalDate)
