@@ -94,7 +94,7 @@ class GrunnbelopTest {
         val faktor = gjeldendeGrunnbeløp.faktorMellom(grunnbeløp)
         assertSoftly {
             faktor shouldBe BigDecimal("1.03469893414785227588")
-            faktor.scale() shouldBe antallDesimaler
+            faktor.scale() shouldBe 20
         }
     }
 
