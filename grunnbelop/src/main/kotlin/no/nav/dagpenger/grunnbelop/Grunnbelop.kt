@@ -79,9 +79,10 @@ internal val gyldighetsperioder = mapOf(
 private val grunnbeløp = gyldighetsperioder.flatMap { (grunnbeløp, mappings) ->
     mappings.map { (regel, mapping) ->
         GrunnbeløpMapping(
-            regel = regel,
             fom = mapping.fom,
-            grunnbeløp = grunnbeløp
+            grunnbeløp = grunnbeløp,
+            regel = regel,
+            iverksattFom = mapping.iverksattFom ?: mapping.fom
         )
     }
 }.toSet().sortedByDescending { it.fom }
@@ -107,11 +108,17 @@ fun getGrunnbeløpForRegel(regel: Regel): Set<GrunnbeløpMapping> {
 }
 
 fun Set<GrunnbeløpMapping>.forDato(dato: LocalDate): GrunnbeløpMapping {
-    return this.first { it.gjelderFor(LocalDate.of(dato.year, dato.month, 10)) }
+    return utenFramtidigeGrunnbeløp()
+        .first { it.gjelderFor(dato) }
 }
 
 fun Set<GrunnbeløpMapping>.forMåned(dato: YearMonth): GrunnbeløpMapping {
     return this.first { it.gjelderFor(LocalDate.of(dato.year, dato.month, 10)) }
+}
+
+private fun Set<GrunnbeløpMapping>.utenFramtidigeGrunnbeløp(): List<GrunnbeløpMapping> {
+    val dato = LocalDate.now()
+    return this.filter { it.iverksattFom.isBefore(dato).or(it.iverksattFom.isEqual(dato)) }
 }
 
 fun GrunnbeløpMapping.gjelderFor(dato: LocalDate): Boolean {
@@ -125,9 +132,11 @@ fun GrunnbeløpMapping.gjelderFor(regel: Regel): Boolean {
 data class GrunnbeløpMapping(
     val fom: LocalDate,
     val grunnbeløp: Grunnbeløp,
-    val regel: Regel
+    val regel: Regel,
+    val iverksattFom: LocalDate
 )
 
 internal data class Gyldighetsperiode(
-    val fom: LocalDate
+    val fom: LocalDate,
+    val iverksattFom: LocalDate? = null
 )

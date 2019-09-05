@@ -151,6 +151,69 @@ class GrunnbelopTest {
     }
 
     @Test
+    fun `Vi kan legge til grunnbeløp som ikke trår i kraft før i framtiden`() {
+        val gjustering = LocalDate.now().plusDays(10)
+        val beregningIFramtidenFørPlanlagtGjustering = gjustering.minusDays(5)
+        val beregningIFramtidenEtterPlanlagtGjustering = gjustering.plusDays(5)
+
+        val mappingsMedFramtidigGjustering = setOf(
+            GrunnbeløpMapping(
+                regel = Regel.Grunnlag,
+                fom = gjustering.minusDays(20),
+                iverksattFom = gjustering,
+                grunnbeløp = Grunnbeløp.FastsattI2016
+            ),
+            GrunnbeløpMapping(
+                regel = Regel.Grunnlag,
+                fom = LocalDate.of(2015, 5, 1),
+                iverksattFom = LocalDate.of(2015, 5, 1),
+                grunnbeløp = Grunnbeløp.FastsattI2015
+            )
+        )
+
+        mappingsMedFramtidigGjustering.forDato(beregningIFramtidenFørPlanlagtGjustering).grunnbeløp shouldBe Grunnbeløp.FastsattI2015
+        mappingsMedFramtidigGjustering.forDato(beregningIFramtidenEtterPlanlagtGjustering).grunnbeløp shouldBe Grunnbeløp.FastsattI2015
+    }
+
+    @Test
+    fun `Grunnlag og minsteinntekt har uilke grunnbeløp før og etter gjustering`() {
+        val gjusteringsDato = LocalDate.now().minusDays(5)
+        val tilbakedatertBeregningsdatoEtterGjustering = gjusteringsDato.minusDays(10)
+
+        val mappingsForGrunnlag = setOf(
+            GrunnbeløpMapping(
+                regel = Regel.Grunnlag,
+                fom = gjusteringsDato.minusDays(20),
+                iverksattFom = gjusteringsDato,
+                grunnbeløp = Grunnbeløp.FastsattI2016
+            )
+        )
+        val mappingsForMinsteinntekt = setOf(
+            GrunnbeløpMapping(
+                regel = Regel.Minsteinntekt,
+                fom = gjusteringsDato,
+                iverksattFom = gjusteringsDato,
+                grunnbeløp = Grunnbeløp.FastsattI2016
+            ),
+            GrunnbeløpMapping(
+                regel = Regel.Minsteinntekt,
+                fom = gjusteringsDato.minusYears(1),
+                iverksattFom = gjusteringsDato.minusYears(1),
+                grunnbeløp = Grunnbeløp.FastsattI2015
+            )
+        )
+
+        val grunnbeløpForGrunnlag = mappingsForGrunnlag.forDato(tilbakedatertBeregningsdatoEtterGjustering).grunnbeløp
+        val grunnbeløpForMinsteinntekt =
+            mappingsForMinsteinntekt.forDato(tilbakedatertBeregningsdatoEtterGjustering).grunnbeløp
+
+        assertSoftly {
+            grunnbeløpForGrunnlag shouldBe Grunnbeløp.FastsattI2016
+            grunnbeløpForMinsteinntekt shouldBe Grunnbeløp.FastsattI2015
+        }
+    }
+
+    @Test
     fun `Alle grunnbeløp har en mapping`() {
         Grunnbeløp.values().forAll { grunnbeløp ->
             gyldighetsperioder shouldContainKey grunnbeløp
