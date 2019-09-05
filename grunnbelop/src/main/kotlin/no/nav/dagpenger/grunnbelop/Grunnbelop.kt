@@ -82,7 +82,7 @@ private val grunnbeløp = gyldighetsperioder.flatMap { (grunnbeløp, mappings) -
             fom = mapping.fom,
             grunnbeløp = grunnbeløp,
             regel = regel,
-            iverksattFom = mapping.iverksattFom ?: grunnbeløp.iverksattFom
+            iverksattFom = grunnbeløp.iverksattFom
         )
     }
 }.toSet().sortedByDescending { it.fom }
@@ -137,6 +137,5 @@ data class GrunnbeløpMapping(
 )
 
 internal data class Gyldighetsperiode(
-    val fom: LocalDate,
-    val iverksattFom: LocalDate? = null
+    val fom: LocalDate
 )
