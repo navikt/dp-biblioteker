@@ -7,11 +7,11 @@ import java.time.Month
 import java.time.YearMonth
 
 enum class Grunnbeløp(val verdi: BigDecimal, val iverksattFom: LocalDate) {
-    FastsattI2019(verdi = 99858.toBigDecimal(), iverksattFom = LocalDate.of(2019, Month.MAY,1)),
-    FastsattI2018(verdi = 96883.toBigDecimal(), iverksattFom = LocalDate.of(2018, Month.MAY,1)),
-    FastsattI2017(verdi = 93634.toBigDecimal(), iverksattFom = LocalDate.of(2017, Month.MAY,1)),
-    FastsattI2016(verdi = 92576.toBigDecimal(), iverksattFom = LocalDate.of(2016, Month.MAY,1)),
-    FastsattI2015(verdi = 90068.toBigDecimal(), iverksattFom = LocalDate.of(2015, Month.MAY,1))
+    FastsattI2019(verdi = 99858.toBigDecimal(), iverksattFom = LocalDate.of(2019, Month.MAY, 26)),
+    FastsattI2018(verdi = 96883.toBigDecimal(), iverksattFom = LocalDate.of(2018, Month.JUNE, 3)),
+    FastsattI2017(verdi = 93634.toBigDecimal(), iverksattFom = LocalDate.of(2017, Month.MAY, 28)),
+    FastsattI2016(verdi = 92576.toBigDecimal(), iverksattFom = LocalDate.of(2016, Month.MAY, 29)),
+    FastsattI2015(verdi = 90068.toBigDecimal(), iverksattFom = LocalDate.of(2015, Month.MAY, 31))
 }
 
 fun Grunnbeløp.faktorMellom(grunnbeløp: Grunnbeløp): BigDecimal {
@@ -31,7 +31,7 @@ internal val gyldighetsperioder = mapOf(
             fom = LocalDate.of(2019, Month.MAY, 1)
         ),
         Regel.Minsteinntekt to Gyldighetsperiode(
-            fom = LocalDate.of(2019, Month.MAY, 1)
+            fom = LocalDate.of(2019, Month.MAY, 27)
         )
     ),
     Grunnbeløp.FastsattI2018 to mapOf(
@@ -39,7 +39,7 @@ internal val gyldighetsperioder = mapOf(
             fom = LocalDate.of(2018, Month.MAY, 1)
         ),
         Regel.Minsteinntekt to Gyldighetsperiode(
-            fom = LocalDate.of(2018, Month.MAY, 1)
+            fom = LocalDate.of(2018, Month.JUNE, 4)
         )
     ),
     Grunnbeløp.FastsattI2017 to mapOf(
@@ -47,7 +47,7 @@ internal val gyldighetsperioder = mapOf(
             fom = LocalDate.of(2017, Month.MAY, 1)
         ),
         Regel.Minsteinntekt to Gyldighetsperiode(
-            fom = LocalDate.of(2017, Month.MAY, 1)
+            fom = LocalDate.of(2017, Month.MAY, 29)
         )
     ),
     Grunnbeløp.FastsattI2016 to mapOf(
@@ -55,7 +55,7 @@ internal val gyldighetsperioder = mapOf(
             fom = LocalDate.of(2016, Month.MAY, 1)
         ),
         Regel.Minsteinntekt to Gyldighetsperiode(
-            fom = LocalDate.of(2016, Month.MAY, 1)
+            fom = LocalDate.of(2016, Month.MAY, 30)
         )
     ),
     Grunnbeløp.FastsattI2015 to mapOf(
@@ -63,15 +63,7 @@ internal val gyldighetsperioder = mapOf(
             fom = LocalDate.of(2015, Month.MAY, 1)
         ),
         Regel.Minsteinntekt to Gyldighetsperiode(
-            fom = LocalDate.of(2015, Month.MAY, 1)
-        )
-    ),
-    Grunnbeløp.FastsattI2015 to mapOf(
-        Regel.Grunnlag to Gyldighetsperiode(
-            fom = LocalDate.of(2015, Month.MAY, 1)
-        ),
-        Regel.Minsteinntekt to Gyldighetsperiode(
-            fom = LocalDate.of(2015, Month.MAY, 1)
+            fom = LocalDate.of(2015, Month.JUNE, 1)
         )
     )
 )
