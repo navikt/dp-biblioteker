@@ -6,12 +6,12 @@ import java.time.LocalDate
 import java.time.Month
 import java.time.YearMonth
 
-enum class Grunnbeløp(val verdi: BigDecimal) {
-    FastsattI2019(verdi = 99858.toBigDecimal()),
-    FastsattI2018(verdi = 96883.toBigDecimal()),
-    FastsattI2017(verdi = 93634.toBigDecimal()),
-    FastsattI2016(verdi = 92576.toBigDecimal()),
-    FastsattI2015(verdi = 90068.toBigDecimal())
+enum class Grunnbeløp(val verdi: BigDecimal, val iverksattFom: LocalDate) {
+    FastsattI2019(verdi = 99858.toBigDecimal(), iverksattFom = LocalDate.of(2019, Month.MAY,1)),
+    FastsattI2018(verdi = 96883.toBigDecimal(), iverksattFom = LocalDate.of(2018, Month.MAY,1)),
+    FastsattI2017(verdi = 93634.toBigDecimal(), iverksattFom = LocalDate.of(2017, Month.MAY,1)),
+    FastsattI2016(verdi = 92576.toBigDecimal(), iverksattFom = LocalDate.of(2016, Month.MAY,1)),
+    FastsattI2015(verdi = 90068.toBigDecimal(), iverksattFom = LocalDate.of(2015, Month.MAY,1))
 }
 
 fun Grunnbeløp.faktorMellom(grunnbeløp: Grunnbeløp): BigDecimal {
@@ -82,7 +82,7 @@ private val grunnbeløp = gyldighetsperioder.flatMap { (grunnbeløp, mappings) -
             fom = mapping.fom,
             grunnbeløp = grunnbeløp,
             regel = regel,
-            iverksattFom = mapping.iverksattFom ?: mapping.fom
+            iverksattFom = mapping.iverksattFom ?: grunnbeløp.iverksattFom
         )
     }
 }.toSet().sortedByDescending { it.fom }
