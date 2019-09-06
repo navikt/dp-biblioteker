@@ -119,18 +119,19 @@ class GrunnbelopTest {
     }
 
     @Test
-    fun `Er det ikke definert noe gyldigsperiode som varer lenge nok, skal den nyeste brukes`() {
+    fun `Er det ikke definert noe gyldighetsperiode som varer lenge nok, skal den nyeste brukes`() {
         Grunnbeløp.values().forAll { grunnbeløp ->
             gyldighetsperioder shouldContainKey grunnbeløp
         }
 
-        getGrunnbeløpForRegel(Regel.Grunnlag).forDato(
+        val grunnbeløpForRegel = getGrunnbeløpForRegel(Regel.Grunnlag)
+        grunnbeløpForRegel.forDato(
             LocalDate.of(
                 2099,
                 8,
                 6
             )
-        ).verdi shouldBe Grunnbeløp.values().first().verdi
+        ).verdi shouldBe grunnbeløpForRegel.first().grunnbeløp.verdi
     }
 
     @Test
