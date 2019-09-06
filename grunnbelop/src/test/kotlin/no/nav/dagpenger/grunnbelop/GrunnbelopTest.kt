@@ -215,7 +215,9 @@ class GrunnbelopTest {
 
     @Test
     fun `Alle grunnbeløp har en mapping`() {
-        Grunnbeløp.values().forAll { grunnbeløp ->
+        val iverksatteGrunnbeløp = Grunnbeløp.values().filter { it.iverksattFom.isBefore(LocalDate.now()) }
+
+        iverksatteGrunnbeløp.forAll { grunnbeløp ->
             gyldighetsperioder shouldContainKey grunnbeløp
         }
     }
@@ -232,7 +234,9 @@ class GrunnbelopTest {
     @Test
     // This test is a bit awkward, but it's a nice way to blackbox verify that all mappings exists
     fun `Alle kombinasjoner av år og regler har en mapping`() {
-        Grunnbeløp.values().forAll { beløp ->
+        val iverksatteGrunnbeløp = Grunnbeløp.values().filter { it.iverksattFom.isBefore(LocalDate.now()) }
+
+        iverksatteGrunnbeløp.forAll { beløp ->
             Regel.values().forAll { regel ->
                 val grunnbeløpForRegel = getGrunnbeløpForRegel(regel)
                 grunnbeløpForRegel.shouldBeInstanceOf<Set<GrunnbeløpPolicy>>()
