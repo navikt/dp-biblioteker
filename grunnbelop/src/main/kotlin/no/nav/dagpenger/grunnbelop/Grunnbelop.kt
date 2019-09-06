@@ -70,7 +70,7 @@ internal val gyldighetsperioder = mapOf(
 
 private val grunnbeløp = gyldighetsperioder.flatMap { (grunnbeløp, mappings) ->
     mappings.map { (regel, mapping) ->
-        GrunnbeløpMapping(
+        GrunnbeløpPolicy(
             fom = mapping.fom,
             grunnbeløp = grunnbeløp,
             regel = regel,
@@ -83,7 +83,7 @@ private val grunnbeløp = gyldighetsperioder.flatMap { (grunnbeløp, mappings) -
     message = "Du må angi regel først, så måned",
     replaceWith = ReplaceWith("getGrunnbeløpForRegel(regel).forMåned(dato)")
 )
-fun getGrunnbeløpForMåned(dato: YearMonth): GrunnbeløpMapping {
+fun getGrunnbeløpForMåned(dato: YearMonth): GrunnbeløpPolicy {
     return grunnbeløp.first { it.gjelderFor(LocalDate.of(dato.year, dato.month, 10)) }
 }
 
@@ -91,40 +91,40 @@ fun getGrunnbeløpForMåned(dato: YearMonth): GrunnbeløpMapping {
     message = "Du må angi regel først, så dato",
     replaceWith = ReplaceWith("getGrunnbeløpForRegel(regel).forDato(dato)")
 )
-fun getGrunnbeløpForDato(dato: LocalDate): GrunnbeløpMapping {
+fun getGrunnbeløpForDato(dato: LocalDate): GrunnbeløpPolicy {
     return grunnbeløp.first { it.gjelderFor(dato) }
 }
 
-fun getGrunnbeløpForRegel(regel: Regel): Set<GrunnbeløpMapping> {
+fun getGrunnbeløpForRegel(regel: Regel): Set<GrunnbeløpPolicy> {
     return grunnbeløp.filter { it.gjelderFor(regel) }.toSet()
 }
 
-fun Set<GrunnbeløpMapping>.forDato(dato: LocalDate): Grunnbeløp {
+fun Set<GrunnbeløpPolicy>.forDato(dato: LocalDate): Grunnbeløp {
     return utenFramtidigeGrunnbeløp()
         .first { it.gjelderFor(dato) }
         .grunnbeløp
 }
 
-fun Set<GrunnbeløpMapping>.forMåned(dato: YearMonth): Grunnbeløp {
+fun Set<GrunnbeløpPolicy>.forMåned(dato: YearMonth): Grunnbeløp {
     return utenFramtidigeGrunnbeløp()
         .first { it.gjelderFor(LocalDate.of(dato.year, dato.month, 10)) }
         .grunnbeløp
 }
 
-private fun Set<GrunnbeløpMapping>.utenFramtidigeGrunnbeløp(): List<GrunnbeløpMapping> {
+private fun Set<GrunnbeløpPolicy>.utenFramtidigeGrunnbeløp(): List<GrunnbeløpPolicy> {
     val dato = LocalDate.now()
     return this.filter { it.iverksattFom.isBefore(dato).or(it.iverksattFom.isEqual(dato)) }
 }
 
-private fun GrunnbeløpMapping.gjelderFor(dato: LocalDate): Boolean {
+private fun GrunnbeløpPolicy.gjelderFor(dato: LocalDate): Boolean {
     return !(dato.isBefore(this.fom))
 }
 
-private fun GrunnbeløpMapping.gjelderFor(regel: Regel): Boolean {
+private fun GrunnbeløpPolicy.gjelderFor(regel: Regel): Boolean {
     return this.regel == regel
 }
 
-data class GrunnbeløpMapping(
+data class GrunnbeløpPolicy(
     val fom: LocalDate,
     val grunnbeløp: Grunnbeløp,
     val regel: Regel,

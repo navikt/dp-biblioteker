@@ -157,13 +157,13 @@ class GrunnbelopTest {
         val beregningIFramtidenEtterPlanlagtGjustering = gjustering.plusDays(5)
 
         val mappingsMedFramtidigGjustering = setOf(
-            GrunnbeløpMapping(
+            GrunnbeløpPolicy(
                 regel = Regel.Grunnlag,
                 fom = gjustering.minusDays(20),
                 iverksattFom = gjustering,
                 grunnbeløp = Grunnbeløp.FastsattI2016
             ),
-            GrunnbeløpMapping(
+            GrunnbeløpPolicy(
                 regel = Regel.Grunnlag,
                 fom = LocalDate.of(2015, 5, 1),
                 iverksattFom = LocalDate.of(2015, 5, 1),
@@ -181,7 +181,7 @@ class GrunnbelopTest {
         val tilbakedatertBeregningsdatoEtterGjustering = gjusteringsDato.minusDays(10)
 
         val mappingsForGrunnlag = setOf(
-            GrunnbeløpMapping(
+            GrunnbeløpPolicy(
                 regel = Regel.Grunnlag,
                 fom = gjusteringsDato.minusDays(20),
                 iverksattFom = gjusteringsDato,
@@ -189,13 +189,13 @@ class GrunnbelopTest {
             )
         )
         val mappingsForMinsteinntekt = setOf(
-            GrunnbeløpMapping(
+            GrunnbeløpPolicy(
                 regel = Regel.Minsteinntekt,
                 fom = gjusteringsDato,
                 iverksattFom = gjusteringsDato,
                 grunnbeløp = Grunnbeløp.FastsattI2016
             ),
-            GrunnbeløpMapping(
+            GrunnbeløpPolicy(
                 regel = Regel.Minsteinntekt,
                 fom = gjusteringsDato.minusYears(1),
                 iverksattFom = gjusteringsDato.minusYears(1),
@@ -235,7 +235,7 @@ class GrunnbelopTest {
         Grunnbeløp.values().forAll { beløp ->
             Regel.values().forAll { regel ->
                 val grunnbeløpForRegel = getGrunnbeløpForRegel(regel)
-                grunnbeløpForRegel.shouldBeInstanceOf<Set<GrunnbeløpMapping>>()
+                grunnbeløpForRegel.shouldBeInstanceOf<Set<GrunnbeløpPolicy>>()
 
                 grunnbeløpForRegel.forOne {
                     it.grunnbeløp shouldBe beløp
