@@ -1,12 +1,12 @@
 package no.nav.dagpenger.grunnbelop
 
 import io.kotlintest.assertSoftly
+import io.kotlintest.data.forall
 import io.kotlintest.inspectors.forAll
-import io.kotlintest.inspectors.forOne
 import io.kotlintest.matchers.maps.shouldContainKey
-import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
+import io.kotlintest.tables.row
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -124,14 +124,19 @@ class GrunnbelopTest {
             gyldighetsperioder shouldContainKey grunnbeløp
         }
 
-        val grunnbeløpForRegel = getGrunnbeløpForRegel(Regel.Grunnlag)
-        grunnbeløpForRegel.forDato(
-            LocalDate.of(
-                2099,
-                8,
-                6
-            )
-        ).verdi shouldBe grunnbeløpForRegel.first().grunnbeløp.verdi
+        forall(
+            row(Regel.Minsteinntekt),
+            row(Regel.Grunnlag)
+        ) { regel ->
+            val grunnbeløpForRegel = getGrunnbeløpForRegel(regel)
+            grunnbeløpForRegel.forDato(
+                LocalDate.of(
+                    2099,
+                    8,
+                    6
+                )
+            ).verdi shouldBe grunnbeløpForRegel.first().grunnbeløp.verdi
+        }
     }
 
     @Test
