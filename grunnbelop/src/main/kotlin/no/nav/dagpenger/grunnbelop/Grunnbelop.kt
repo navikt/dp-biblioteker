@@ -84,7 +84,8 @@ private val grunnbeløp = gyldighetsperioder.flatMap { (grunnbeløp, mappings) -
     replaceWith = ReplaceWith("getGrunnbeløpForRegel(regel).forMåned(dato)")
 )
 fun getGrunnbeløpForMåned(dato: YearMonth): GrunnbeløpPolicy {
-    return grunnbeløp.first { it.gjelderFor(LocalDate.of(dato.year, dato.month, 10)) }
+    return getGrunnbeløpForRegel(Regel.Grunnlag)
+        .first { it.gjelderFor(LocalDate.of(dato.year, dato.month, 10)) }
 }
 
 @Deprecated(
@@ -92,7 +93,8 @@ fun getGrunnbeløpForMåned(dato: YearMonth): GrunnbeløpPolicy {
     replaceWith = ReplaceWith("getGrunnbeløpForRegel(regel).forDato(dato)")
 )
 fun getGrunnbeløpForDato(dato: LocalDate): GrunnbeløpPolicy {
-    return grunnbeløp.first { it.gjelderFor(dato) }
+    return getGrunnbeløpForRegel(Regel.Grunnlag)
+        .first { it.gjelderFor(dato) }
 }
 
 fun getGrunnbeløpForRegel(regel: Regel): Set<GrunnbeløpPolicy> {
