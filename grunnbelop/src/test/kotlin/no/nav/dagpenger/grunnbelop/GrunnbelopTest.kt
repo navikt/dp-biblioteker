@@ -21,7 +21,7 @@ class GrunnbelopTest {
                 2020,
                 Month.MAY
             )
-        ).grunnbeløp.verdi shouldBe 99858.toBigDecimal()
+        ).verdi shouldBe 99858.toBigDecimal()
     }
 
     @Test
@@ -31,7 +31,7 @@ class GrunnbelopTest {
                 2020,
                 Month.APRIL
             )
-        ).grunnbeløp.verdi shouldBe 99858.toBigDecimal()
+        ).verdi shouldBe 99858.toBigDecimal()
     }
 
     @Test
@@ -41,7 +41,7 @@ class GrunnbelopTest {
                 2019,
                 Month.MAY
             )
-        ).grunnbeløp.verdi shouldBe 99858.toBigDecimal()
+        ).verdi shouldBe 99858.toBigDecimal()
     }
 
     @Test
@@ -51,7 +51,7 @@ class GrunnbelopTest {
                 2019,
                 Month.APRIL
             )
-        ).grunnbeløp.verdi shouldBe 96883.toBigDecimal()
+        ).verdi shouldBe 96883.toBigDecimal()
     }
 
     @Test
@@ -61,7 +61,7 @@ class GrunnbelopTest {
                 2018,
                 Month.MARCH
             )
-        ).grunnbeløp.verdi shouldBe 93634.toBigDecimal()
+        ).verdi shouldBe 93634.toBigDecimal()
     }
 
     @Test
@@ -71,7 +71,7 @@ class GrunnbelopTest {
                 2016,
                 Month.MAY
             )
-        ).grunnbeløp.verdi shouldBe 92576.toBigDecimal()
+        ).verdi shouldBe 92576.toBigDecimal()
     }
 
     @Test
@@ -81,7 +81,7 @@ class GrunnbelopTest {
                 2015,
                 Month.AUGUST
             )
-        ).grunnbeløp.verdi shouldBe 90068.toBigDecimal()
+        ).verdi shouldBe 90068.toBigDecimal()
     }
 
     @Test
@@ -92,7 +92,7 @@ class GrunnbelopTest {
                 8,
                 6
             )
-        ).grunnbeløp.verdi shouldBe 90068.toBigDecimal()
+        ).verdi shouldBe 90068.toBigDecimal()
     }
 
     @Test
@@ -103,7 +103,7 @@ class GrunnbelopTest {
                 5,
                 1
             )
-        ).grunnbeløp.verdi shouldBe 99858.toBigDecimal()
+        ).verdi shouldBe 99858.toBigDecimal()
     }
 
     @Test
@@ -130,7 +130,7 @@ class GrunnbelopTest {
                 8,
                 6
             )
-        ).grunnbeløp.verdi shouldBe Grunnbeløp.values().first().verdi
+        ).verdi shouldBe Grunnbeløp.values().first().verdi
     }
 
     @Test
@@ -171,8 +171,8 @@ class GrunnbelopTest {
             )
         )
 
-        mappingsMedFramtidigGjustering.forDato(beregningIFramtidenFørPlanlagtGjustering).grunnbeløp shouldBe Grunnbeløp.FastsattI2015
-        mappingsMedFramtidigGjustering.forDato(beregningIFramtidenEtterPlanlagtGjustering).grunnbeløp shouldBe Grunnbeløp.FastsattI2015
+        mappingsMedFramtidigGjustering.forDato(beregningIFramtidenFørPlanlagtGjustering) shouldBe Grunnbeløp.FastsattI2015
+        mappingsMedFramtidigGjustering.forDato(beregningIFramtidenEtterPlanlagtGjustering) shouldBe Grunnbeløp.FastsattI2015
     }
 
     @Test
@@ -203,9 +203,9 @@ class GrunnbelopTest {
             )
         )
 
-        val grunnbeløpForGrunnlag = mappingsForGrunnlag.forDato(tilbakedatertBeregningsdatoEtterGjustering).grunnbeløp
+        val grunnbeløpForGrunnlag = mappingsForGrunnlag.forDato(tilbakedatertBeregningsdatoEtterGjustering)
         val grunnbeløpForMinsteinntekt =
-            mappingsForMinsteinntekt.forDato(tilbakedatertBeregningsdatoEtterGjustering).grunnbeløp
+            mappingsForMinsteinntekt.forDato(tilbakedatertBeregningsdatoEtterGjustering)
 
         assertSoftly {
             grunnbeløpForGrunnlag shouldBe Grunnbeløp.FastsattI2016

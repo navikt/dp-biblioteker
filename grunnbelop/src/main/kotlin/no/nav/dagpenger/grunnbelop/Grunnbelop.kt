@@ -99,13 +99,16 @@ fun getGrunnbeløpForRegel(regel: Regel): Set<GrunnbeløpMapping> {
     return grunnbeløp.filter { it.gjelderFor(regel) }.toSet()
 }
 
-fun Set<GrunnbeløpMapping>.forDato(dato: LocalDate): GrunnbeløpMapping {
+fun Set<GrunnbeløpMapping>.forDato(dato: LocalDate): Grunnbeløp {
     return utenFramtidigeGrunnbeløp()
         .first { it.gjelderFor(dato) }
+        .grunnbeløp
 }
 
-fun Set<GrunnbeløpMapping>.forMåned(dato: YearMonth): GrunnbeløpMapping {
-    return this.first { it.gjelderFor(LocalDate.of(dato.year, dato.month, 10)) }
+fun Set<GrunnbeløpMapping>.forMåned(dato: YearMonth): Grunnbeløp {
+    return utenFramtidigeGrunnbeløp()
+        .first { it.gjelderFor(LocalDate.of(dato.year, dato.month, 10)) }
+        .grunnbeløp
 }
 
 private fun Set<GrunnbeløpMapping>.utenFramtidigeGrunnbeløp(): List<GrunnbeløpMapping> {
@@ -113,11 +116,11 @@ private fun Set<GrunnbeløpMapping>.utenFramtidigeGrunnbeløp(): List<Grunnbelø
     return this.filter { it.iverksattFom.isBefore(dato).or(it.iverksattFom.isEqual(dato)) }
 }
 
-fun GrunnbeløpMapping.gjelderFor(dato: LocalDate): Boolean {
+private fun GrunnbeløpMapping.gjelderFor(dato: LocalDate): Boolean {
     return !(dato.isBefore(this.fom))
 }
 
-fun GrunnbeløpMapping.gjelderFor(regel: Regel): Boolean {
+private fun GrunnbeløpMapping.gjelderFor(regel: Regel): Boolean {
     return this.regel == regel
 }
 
