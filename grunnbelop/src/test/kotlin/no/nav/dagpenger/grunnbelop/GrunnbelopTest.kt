@@ -3,7 +3,9 @@ package no.nav.dagpenger.grunnbelop
 import io.kotlintest.assertSoftly
 import io.kotlintest.data.forall
 import io.kotlintest.inspectors.forAll
+import io.kotlintest.inspectors.forOne
 import io.kotlintest.matchers.maps.shouldContainKey
+import io.kotlintest.matchers.types.shouldBeInstanceOf
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
 import io.kotlintest.tables.row
