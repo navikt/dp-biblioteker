@@ -120,10 +120,6 @@ class GrunnbelopTest {
 
     @Test
     fun `Er det ikke definert noe gyldighetsperiode som varer lenge nok, skal den nyeste brukes`() {
-        Grunnbeløp.values().forAll { grunnbeløp ->
-            gyldighetsperioder shouldContainKey grunnbeløp
-        }
-
         forall(
             row(Regel.Minsteinntekt),
             row(Regel.Grunnlag)
@@ -141,10 +137,6 @@ class GrunnbelopTest {
 
     @Test
     fun `Spør man for langt tilbake i tid skal man ikke få et grunnbeløp`() {
-        Grunnbeløp.values().forAll { grunnbeløp ->
-            gyldighetsperioder shouldContainKey grunnbeløp
-        }
-
         shouldThrow<NoSuchElementException> {
             getGrunnbeløpForRegel(Regel.Grunnlag).forDato(
                 LocalDate.of(
