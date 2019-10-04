@@ -19,7 +19,7 @@ object Bekk {
 }
 
 object Cucumber {
-    const val version = "4.0.0"
+    const val version = "4.7.2"
     const val java8 = "io.cucumber:cucumber-java8:$version"
     const val junit = "io.cucumber:cucumber-junit:$version"
     fun library(name: String) = "io.cucumber:cucumber-$name:$version"
@@ -28,7 +28,7 @@ object Cucumber {
 object Dagpenger {
 
     object Biblioteker {
-        const val version = "2019.09.06-10.34.4777e7ddd918"
+        const val version = "2019.09.23-14.08.1092fd2f077b"
         const val stsKlient = "com.github.navikt.dp-biblioteker:sts-klient:$version"
         const val grunnbeløp = "com.github.navikt.dp-biblioteker:grunnbelop:$version"
         const val ktorUtils = "com.github.navikt.dp-biblioteker:ktor-utils:$version"
@@ -39,15 +39,15 @@ object Dagpenger {
 }
 
 object Database {
-    const val Postgres = "org.postgresql:postgresql:42.2.5"
-    const val Kotlinquery = "com.github.seratch:kotliquery:1.3.0"
-    const val Flyway = "org.flywaydb:flyway-core:6.0.0-beta2"
-    const val HikariCP = "com.zaxxer:HikariCP:3.3.1"
+    const val Postgres = "org.postgresql:postgresql:42.2.8"
+    const val Kotlinquery = "com.github.seratch:kotliquery:1.3.1"
+    const val Flyway = "org.flywaydb:flyway-core:6.0.4"
+    const val HikariCP = "com.zaxxer:HikariCP:3.4.1"
     const val VaultJdbc = "no.nav:vault-jdbc:1.3.1"
 }
 
 object Fuel {
-    const val version = "2.1.0"
+    const val version = "2.2.1"
     const val fuel = "com.github.kittinunf.fuel:fuel:$version"
     const val fuelMoshi = "com.github.kittinunf.fuel:fuel-moshi:$version"
     fun library(name: String) = "com.github.kittinunf.fuel:fuel-$name:$version"
@@ -58,7 +58,7 @@ object GradleWrapper {
 }
 
 object Junit5 {
-    const val version = "5.5.0"
+    const val version = "5.5.2"
     const val api = "org.junit.jupiter:junit-jupiter-api:$version"
     const val params = "org.junit.jupiter:junit-jupiter-params:$version"
     const val engine = "org.junit.jupiter:junit-jupiter-engine:$version"
@@ -103,11 +103,11 @@ object Konfig {
 }
 
 object Kotlin {
-    const val version = "1.3.41"
+    const val version = "1.3.50"
     const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
 
     object Logging {
-        const val version = "1.6.22"
+        const val version = "1.7.6"
         const val kotlinLogging = "io.github.microutils:kotlin-logging:$version"
     }
 }
@@ -117,7 +117,7 @@ object Kotlinx {
 }
 
 object Ktor {
-    const val version = "1.2.3"
+    const val version = "1.2.5"
     const val server = "io.ktor:ktor-server:$version"
     const val serverNetty = "io.ktor:ktor-server-netty:$version"
     const val auth = "io.ktor:ktor-auth:$version"
@@ -129,20 +129,20 @@ object Ktor {
 }
 
 object Log4j2 {
-    const val version = "2.12.0"
+    const val version = "2.12.1"
     const val api = "org.apache.logging.log4j:log4j-api:$version"
     const val core = "org.apache.logging.log4j:log4j-core:$version"
     const val slf4j = "org.apache.logging.log4j:log4j-slf4j-impl:$version"
 
     fun library(name: String) = "org.apache.logging.log4j:log4j-$name:$version"
     object Logstash {
-        private const val version = "0.15"
+        private const val version = "0.19"
         const val logstashLayout = "com.vlkan.log4j2:log4j2-logstash-layout-fatjar:$version"
     }
 }
 
 object Micrometer {
-    const val version = "1.1.5"
+    const val version = "1.3.0"
     const val prometheusRegistry = "io.micrometer:micrometer-registry-prometheus:$version"
 }
 
@@ -166,7 +166,7 @@ object Nare {
 }
 
 object Prometheus {
-    const val version = "0.6.0"
+    const val version = "0.7.0"
     const val common = "io.prometheus:simpleclient_common:$version"
     const val hotspot = "io.prometheus:simpleclient_hotspot:$version"
     const val log4j2 = "io.prometheus:simpleclient_log4j2:$version"
@@ -183,7 +183,7 @@ object Slf4j {
 }
 
 object Spotless {
-    const val version = "3.23.0"
+    const val version = "3.24.2"
     const val spotless = "com.diffplug.gradle.spotless"
 }
 
@@ -193,7 +193,7 @@ object Shadow {
 }
 
 object TestContainers {
-    const val version = "1.10.6"
+    const val version = "1.12.2"
     const val postgresql = "org.testcontainers:postgresql:$version"
     const val kafka = "org.testcontainers:kafka:$version"
 }
