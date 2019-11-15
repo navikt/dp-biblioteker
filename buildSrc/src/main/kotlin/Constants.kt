@@ -5,11 +5,7 @@
  *  repo sync
  *
  */
-object Assertj {
-    const val version = "3.12.2"
-    const val core = "org.assertj:assertj-core:$version"
-    fun library(name: String) = "org.assertj:assertj-$name:$version"
-}
+
 object Avro {
     const val avro = "org.apache.avro:avro:1.8.2"
 }
@@ -28,14 +24,14 @@ object Cucumber {
 object Dagpenger {
 
     object Biblioteker {
-        const val version = "2019.10.04-11.45.e5eff2e37bb7"
+        const val version = "2019.11.15-08.17.056900b17f09"
         const val stsKlient = "com.github.navikt.dp-biblioteker:sts-klient:$version"
         const val grunnbeløp = "com.github.navikt.dp-biblioteker:grunnbelop:$version"
         const val ktorUtils = "com.github.navikt.dp-biblioteker:ktor-utils:$version"
     }
 
-    const val Streams = "com.github.navikt:dagpenger-streams:2019.10.30-14.25.deeac1c614e9"
-    const val Events = "com.github.navikt:dagpenger-events:2019.08.06-10.38.92d9930cd257"
+    const val Streams = "com.github.navikt:dagpenger-streams:2019.11.15-08.16.6a7aaaf97980"
+    const val Events = "com.github.navikt:dagpenger-events:2019.09.18-14.06.017d68533202"
 }
 
 object Database {
