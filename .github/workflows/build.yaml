@@ -33,7 +33,7 @@ jobs:
     if: github.ref == 'refs/heads/master' && !contains(github.event.head_commit.message, 'ci skip')
     steps:
       - name: Checkout code
-        uses: actions/checkout@master
+        uses: actions/checkout@v1
       - name: Set release tag
         run: |
           export TAG_NAME="$(TZ="Europe/Oslo" date +%Y.%m.%d-%H.%M).$(echo $GITHUB_SHA | cut -c 1-12)"
@@ -41,7 +41,7 @@ jobs:
       - name: Set changelog
         # (Escape newlines see https://github.com/actions/create-release/issues/25)
         run: |
-          text="$(git --no-pager log HEAD...$(git rev-list --tags --max-count=1) --oneline --decorate)"
+          text="$(git --no-pager log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"%h %s")"
           text="${text//$'%'/%25}"
           text="${text//$'\n'/%0A}"
           text="${text//$'\r'/%0D}"
@@ -53,9 +53,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ env.RELEASE_TAG }}
-          release_name: Release ${{ env.RELEASE_TAG }}
+          release_name: ${{ env.RELEASE_TAG }}
           body: |
             Changes in this Release
-            ${{ github.CHANGELOG }}
+            ${{ env.CHANGELOG }}
           draft: false
           prerelease: false
