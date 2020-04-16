@@ -1,9 +1,7 @@
-
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 
 plugins {
     kotlin("jvm") version Kotlin.version
@@ -70,9 +68,8 @@ subprojects {
     }
 
     tasks.withType<Wrapper> {
-    gradleVersion = "6.0.1"
-}
-
+        gradleVersion = "6.0.1"
+    }
 
     val dokka = tasks.withType<DokkaTask> {
         outputFormat = "html"
@@ -101,7 +98,7 @@ subprojects {
             ktlint(Klint.version)
         }
         kotlinGradle {
-            target("*.gradle.kts", "additionalScripts/*.gradle.kts")
+            target("*.gradle.kts", "buildSrc/**/*.kt*")
             ktlint(Klint.version)
         }
     }
