@@ -128,7 +128,7 @@ object KoTest {
     const val runner = "io.kotest:kotest-runner-junit5-jvm:$version"
 
     // for kotest core jvm assertion
-    const val assertions = "iio.kotest:kotest-assertions-core-jvm:$version"
+    const val assertions = "io.kotest:kotest-assertions-core-jvm:$version"
 
     // for kotest property test
     const val property = "io.kotest:kotest-property-jvm:$version"
