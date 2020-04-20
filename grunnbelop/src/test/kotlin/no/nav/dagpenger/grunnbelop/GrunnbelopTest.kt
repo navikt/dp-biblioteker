@@ -1,14 +1,14 @@
 package no.nav.dagpenger.grunnbelop
 
-import io.kotlintest.assertSoftly
-import io.kotlintest.data.forall
-import io.kotlintest.inspectors.forAll
-import io.kotlintest.inspectors.forOne
-import io.kotlintest.matchers.maps.shouldContainKey
-import io.kotlintest.matchers.types.shouldBeInstanceOf
-import io.kotlintest.shouldBe
-import io.kotlintest.shouldThrow
-import io.kotlintest.tables.row
+import io.kotest.assertions.assertSoftly
+import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.data.row
+import io.kotest.matchers.shouldBe
+import io.kotest.data.blocking.forAll
+import io.kotest.inspectors.forAll
+import io.kotest.inspectors.forOne
+import io.kotest.matchers.maps.shouldContainKey
+import io.kotest.matchers.types.shouldBeInstanceOf
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -122,7 +122,7 @@ class GrunnbelopTest {
 
     @Test
     fun `Er det ikke definert noe gyldighetsperiode som varer lenge nok, skal den nyeste brukes`() {
-        forall(
+        forAll(
             row(Regel.Minsteinntekt),
             row(Regel.Grunnlag)
         ) { regel ->

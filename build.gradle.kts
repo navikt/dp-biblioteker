@@ -38,7 +38,8 @@ subprojects {
         testImplementation(kotlin("test-junit5"))
         testImplementation(Junit5.api)
         testImplementation(Junit5.params)
-        testImplementation(Junit5.kotlinRunner)
+        testImplementation(KoTest.assertions)
+        testImplementation(KoTest.runner)
         testRuntimeOnly(Junit5.engine)
     }
 

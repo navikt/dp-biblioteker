@@ -1,6 +1,6 @@
 package no.nav.dagpenger.ktor.auth
 
-import io.kotlintest.shouldBe
+import io.kotest.matchers.shouldBe
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
