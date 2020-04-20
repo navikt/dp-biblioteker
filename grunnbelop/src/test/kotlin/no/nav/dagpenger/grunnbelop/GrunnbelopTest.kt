@@ -2,18 +2,18 @@ package no.nav.dagpenger.grunnbelop
 
 import io.kotest.assertions.assertSoftly
 import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.data.row
-import io.kotest.matchers.shouldBe
 import io.kotest.data.blocking.forAll
+import io.kotest.data.row
 import io.kotest.inspectors.forAll
 import io.kotest.inspectors.forOne
 import io.kotest.matchers.maps.shouldContainKey
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
-import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.Month
 import java.time.YearMonth
+import org.junit.jupiter.api.Test
 
 class GrunnbelopTest {
     @Test
