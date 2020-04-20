@@ -43,7 +43,6 @@ subprojects {
         testRuntimeOnly(Junit5.engine)
     }
 
-
     java {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -56,7 +55,6 @@ subprojects {
     tasks.named<KotlinCompile>("compileTestKotlin") {
         kotlinOptions.jvmTarget = "1.8"
     }
-
 
     tasks.withType<Test> {
         useJUnitPlatform()
@@ -92,7 +90,6 @@ subprojects {
         add("archives", sourcesJar)
         add("archives", javadocJar)
     }
-
 
     spotless {
         kotlin {

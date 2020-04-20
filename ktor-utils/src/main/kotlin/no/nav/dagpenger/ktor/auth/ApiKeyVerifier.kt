@@ -1,9 +1,9 @@
 package no.nav.dagpenger.ktor.auth
 
-import org.apache.commons.codec.binary.Hex
 import java.nio.charset.StandardCharsets
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
+import org.apache.commons.codec.binary.Hex
 
 class ApiKeyVerifier(private val secret: String) {
 
