@@ -53,6 +53,13 @@ object GradleWrapper {
     const val version = "5.5"
 }
 
+object Jackson {
+    const val version = "2.10.3"
+    const val core = "com.fasterxml.jackson.core:jackson-core:$version"
+    const val kotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:$version"
+    const val jsr310 = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$version"
+}
+
 object Junit5 {
     const val version = "5.6.1"
     const val api = "org.junit.jupiter:junit-jupiter-api:$version"
@@ -112,6 +119,19 @@ object Kotlin {
         const val version = "1.7.9"
         const val kotlinLogging = "io.github.microutils:kotlin-logging:$version"
     }
+}
+
+object KoTest {
+    const val version = "4.0.3"
+
+    // for kotest framework
+    const val runner = "io.kotest:kotest-runner-junit5-jvm:$version"
+
+    // for kotest core jvm assertion
+    const val assertions = "iio.kotest:kotest-assertions-core-jvm:$version"
+
+    // for kotest property test
+    const val property = "io.kotest:kotest-property-jvm:$version"
 }
 
 object Kotlinx {
