@@ -66,7 +66,6 @@ object Junit5 {
     const val params = "org.junit.jupiter:junit-jupiter-params:$version"
     const val engine = "org.junit.jupiter:junit-jupiter-engine:$version"
     const val vintageEngine = "org.junit.vintage:junit-vintage-engine:$version"
-    const val kotlinRunner = "io.kotlintest:kotlintest-runner-junit5:3.4.2"
     fun library(name: String) = "org.junit.jupiter:junit-jupiter-$name:$version"
 }
 
