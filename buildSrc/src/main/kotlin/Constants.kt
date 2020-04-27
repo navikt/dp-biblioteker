@@ -24,13 +24,13 @@ object Cucumber {
 object Dagpenger {
 
     object Biblioteker {
-        const val version = "2020.03.12-13.01.1e6c5fe0396d"
+        const val version = "2020.04.27-16.30.8c8e3524b97d"
         const val stsKlient = "com.github.navikt.dp-biblioteker:sts-klient:$version"
         const val grunnbeløp = "com.github.navikt.dp-biblioteker:grunnbelop:$version"
         const val ktorUtils = "com.github.navikt.dp-biblioteker:ktor-utils:$version"
     }
 
-    const val Streams = "com.github.navikt:dagpenger-streams:2020.03.12-15.34.55b8a8dbab65"
+    const val Streams = "com.github.navikt:dagpenger-streams:2020.04.27-16.29.d11aef4d21d1"
     const val Events = "com.github.navikt:dagpenger-events:2020.03.12-15.47.9ee02e57a328"
 }
 
