@@ -131,6 +131,9 @@ object KoTest {
 
     // for kotest property test
     const val property = "io.kotest:kotest-property-jvm:$version"
+
+    // any other library
+    fun library(name: String) = "io.kotest:kotest-$name:$version"
 }
 
 object Kotlinx {
