@@ -87,7 +87,7 @@ object Kafka {
     fun library(name: String) = "org.apache.kafka:kafka-$name:$version"
 
     object Confluent {
-        const val version = "5.0.3"
+        const val version = "5.3.0"
         const val avroStreamSerdes = "io.confluent:kafka-streams-avro-serde:$version"
         fun library(name: String) = "io.confluent:$name:$version"
     }
