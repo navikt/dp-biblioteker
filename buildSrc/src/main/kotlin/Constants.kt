@@ -7,7 +7,7 @@
  */
 
 object Avro {
-    const val avro = "org.apache.avro:avro:1.8.2"
+    const val avro = "org.apache.avro:avro:1.9.2"
 }
 
 object Bekk {
