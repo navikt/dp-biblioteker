@@ -141,7 +141,7 @@ object Kotlinx {
 }
 
 object Ktor {
-    const val version = "1.2.6"
+    const val version = "1.3.2"
     const val server = "io.ktor:ktor-server:$version"
     const val serverNetty = "io.ktor:ktor-server-netty:$version"
     const val auth = "io.ktor:ktor-auth:$version"
@@ -172,11 +172,12 @@ object Micrometer {
 }
 
 object Moshi {
-    const val version = "1.8.0"
+    const val version = "1.9.2"
     const val moshi = "com.squareup.moshi:moshi:$version"
     const val moshiKotlin = "com.squareup.moshi:moshi-kotlin:$version"
     const val moshiAdapters = "com.squareup.moshi:moshi-adapters:$version"
-    const val moshiKtor = "com.ryanharter.ktor:ktor-moshi:1.0.1"
+    // waiting for https://github.com/rharter/ktor-moshi/pull/8
+    const val moshiKtor = "com.github.cs125-illinois:ktor-moshi:7252ca49ed"
     fun library(name: String) = "com.squareup.moshi:moshi-$name:$version"
 }
 
