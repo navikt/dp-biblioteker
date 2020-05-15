@@ -30,8 +30,8 @@ object Dagpenger {
         const val ktorUtils = "com.github.navikt.dp-biblioteker:ktor-utils:$version"
     }
 
-    const val Streams = "com.github.navikt:dagpenger-streams:2020.04.28-09.38.acb13848c1b4"
-    const val Events = "com.github.navikt:dagpenger-events:2020.04.27-16.29.d11aef4d21d1"
+    const val Streams = "com.github.navikt:dagpenger-streams:2020.05.15-21.38.78c7d3d7f8af"
+    const val Events = "com.github.navikt:dagpenger-events:2020.05.15-21.51.61e3fd753be4"
 }
 
 object Database {
