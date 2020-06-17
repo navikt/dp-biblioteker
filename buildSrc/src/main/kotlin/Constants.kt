@@ -176,6 +176,7 @@ object Moshi {
     const val moshi = "com.squareup.moshi:moshi:$version"
     const val moshiKotlin = "com.squareup.moshi:moshi-kotlin:$version"
     const val moshiAdapters = "com.squareup.moshi:moshi-adapters:$version"
+
     // waiting for https://github.com/rharter/ktor-moshi/pull/8
     const val moshiKtor = "com.github.cs125-illinois:ktor-moshi:7252ca49ed"
     fun library(name: String) = "com.squareup.moshi:moshi-$name:$version"
@@ -239,4 +240,11 @@ object Vault {
 object Wiremock {
     const val version = "2.21.0"
     const val standalone = "com.github.tomakehurst:wiremock-standalone:$version"
+}
+
+object Graphql {
+    const val version = "3.1.1"
+    const val graphql = "com.expediagroup.graphql"
+    val client = library("client")
+    fun library(name: String) = "com.expediagroup:graphql-kotlin-$name:$version"
 }
