@@ -4,7 +4,8 @@ import io.kotest.matchers.doubles.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
-import io.ktor.client.engine.mock.respond
+import io.ktor.client.engine.mock.respondError
+import io.ktor.client.engine.mock.respondOk
 import io.ktor.client.features.ClientRequestException
 import io.ktor.client.request.get
 import io.ktor.http.HttpStatusCode
@@ -32,10 +33,10 @@ class ApiKeyAuthTest {
                     when (request.url.encodedPath) {
                         "measured" -> {
                             delay(100L)
-                            respond("Hello, world")
+                            respondOk("Hello, world")
                         }
-                        "ok" -> respond("Hello, world")
-                        "not-found" -> respond("Not found", HttpStatusCode.NotFound)
+                        "ok" -> respondOk("Hello, world")
+                        "not-found" -> respondError(HttpStatusCode.NotFound)
                         else -> error("Unhandled URL ${request.url.encodedPath}")
                     }
                 }
@@ -68,6 +69,7 @@ class ApiKeyAuthTest {
             }
         }
 
+        getStatus("201") shouldBe null
         getStatus("200") shouldBe 1
         getStatus("404") shouldBe 1
     }
