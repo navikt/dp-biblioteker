@@ -12,7 +12,7 @@ import io.prometheus.client.CollectorRegistry
 import io.prometheus.client.Counter
 import io.prometheus.client.Histogram
 
-internal class PrometheusMetrics(registry: CollectorRegistry, baseName: String) {
+class PrometheusMetrics private constructor(registry: CollectorRegistry, baseName: String) {
     private val duration = Histogram
         .build("duration", "Time spent in requests")
         .namespace(baseName)
