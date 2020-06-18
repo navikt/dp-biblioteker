@@ -1,5 +1,6 @@
 rootProject.name = "dp-biblioteker"
 
-include("sts-klient")
-include("ktor-utils")
 include("grunnbelop")
+include("ktor-client-metrics")
+include("ktor-utils")
+include("sts-klient")
