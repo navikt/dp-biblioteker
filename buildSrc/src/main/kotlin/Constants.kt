@@ -24,10 +24,20 @@ object Cucumber {
 object Dagpenger {
 
     object Biblioteker {
-        const val version = " 2020.06.17-22.33.29e5d0b9f6d8"
+        const val version = "2020.06.18-11.51.04c53a63371d"
         const val stsKlient = "com.github.navikt.dp-biblioteker:sts-klient:$version"
         const val grunnbeløp = "com.github.navikt.dp-biblioteker:grunnbelop:$version"
         const val ktorUtils = "com.github.navikt.dp-biblioteker:ktor-utils:$version"
+
+        object Ktor {
+            object Server {
+                const val apiKeyAuth = "com.github.navikt.dp-biblioteker:ktor-utils:$version"
+            }
+
+            object Client {
+                const val metrics = "com.github.navikt.dp-biblioteker:ktor-client-metrics:$version"
+            }
+        }
     }
 
     const val Streams = "com.github.navikt:dagpenger-streams:2020.05.15-23.03.e0ab571caee4"
