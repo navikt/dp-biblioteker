@@ -1,5 +1,6 @@
 package no.nav.dagpenger.soap.client
 
+import de.huxhorn.sulky.ulid.ULID
 import org.apache.cxf.Bus
 import org.apache.cxf.BusFactory
 import org.apache.cxf.binding.soap.Soap12
@@ -17,14 +18,20 @@ const val STS_CLIENT_AUTHENTICATION_POLICY = "classpath:policy/untPolicy.xml"
 const val STS_SAML_POLICY = "classpath:policy/requestSamlPolicy.xml"
 const val STS_SAML_POLICY_NO_TRANSPORT_BINDING = "classpath:policy/requestSamlPolicyNoTransportBinding.xml"
 
-fun stsClient(stsUrl: String, credentials: Pair<String, String>): STSClient {
+private val ulid = ULID()
+
+fun stsClient(
+    stsUrl: String,
+    credentials: Pair<String, String>,
+    callIdGenerator: () -> String = { ulid.nextULID() }
+): STSClient {
     val bus = BusFactory.getDefaultBus()
     return STSClient(bus).apply {
         isEnableAppliesTo = false
         isAllowRenewing = false
 
         location = stsUrl
-        outInterceptors = listOf(CallIdInterceptor())
+        outInterceptors = listOf(CallIdInterceptor(callIdGenerator))
 
         properties = mapOf(
             SecurityConstants.USERNAME to credentials.first,
