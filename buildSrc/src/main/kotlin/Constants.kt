@@ -24,7 +24,7 @@ object Cucumber {
 object Dagpenger {
 
     object Biblioteker {
-        const val version = "2020.06.18-11.51.04c53a63371d"
+        const val version = "2020.07.03-13.36.4ef81d2d51f6"
         const val stsKlient = "com.github.navikt.dp-biblioteker:sts-klient:$version"
         const val grunnbeløp = "com.github.navikt.dp-biblioteker:grunnbelop:$version"
         const val ktorUtils = "com.github.navikt.dp-biblioteker:ktor-utils:$version"
@@ -37,6 +37,10 @@ object Dagpenger {
             object Client {
                 const val metrics = "com.github.navikt.dp-biblioteker:ktor-client-metrics:$version"
             }
+        }
+
+        object Soap {
+            const val client = "com.github.navikt.dp-biblioteker:soap-client:$version"
         }
     }
 
