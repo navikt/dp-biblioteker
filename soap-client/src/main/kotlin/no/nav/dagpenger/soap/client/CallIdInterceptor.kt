@@ -1,7 +1,5 @@
 package no.nav.dagpenger.soap.client
 
-import javax.xml.bind.JAXBException
-import javax.xml.namespace.QName
 import org.apache.cxf.binding.soap.SoapHeader
 import org.apache.cxf.binding.soap.SoapMessage
 import org.apache.cxf.interceptor.Fault
@@ -10,6 +8,8 @@ import org.apache.cxf.message.Message
 import org.apache.cxf.phase.AbstractPhaseInterceptor
 import org.apache.cxf.phase.Phase
 import org.slf4j.LoggerFactory
+import javax.xml.bind.JAXBException
+import javax.xml.namespace.QName
 
 private val log = LoggerFactory.getLogger(CallIdInterceptor::class.java)
 

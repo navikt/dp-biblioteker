@@ -6,7 +6,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version Kotlin.version
     id("org.jetbrains.dokka") version "0.9.17" apply false
-    id("com.diffplug.gradle.spotless") version Spotless.version
+    id(Spotless.spotless) version Spotless.version
     `java-library`
     `maven-publish`
 }
@@ -28,7 +28,7 @@ subprojects {
     val scmUrl = "scm:git:https://github.com/navikt/dp-biblioteker.git"
 
     apply(plugin = "org.jetbrains.kotlin.jvm")
-    apply(plugin = "com.diffplug.gradle.spotless")
+    apply(plugin = Spotless.spotless)
     apply(plugin = "java-library")
     apply(plugin = "org.jetbrains.dokka")
     apply(plugin = "maven-publish")
@@ -94,11 +94,11 @@ subprojects {
 
     spotless {
         kotlin {
-            ktlint()
+            ktlint(Ktlint.version)
         }
         kotlinGradle {
             target("*.gradle.kts", "buildSrc/**/*.kt*")
-            ktlint()
+            ktlint(Ktlint.version)
         }
     }
 

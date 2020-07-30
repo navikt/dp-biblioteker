@@ -109,12 +109,13 @@ class StsOidcClientTest {
         assertTrue(result.exceptionOrNull() is StsOidcClientException)
     }
 
-    fun body() = """
+    fun body() =
+        """
                 {
                     "access_token": "token",
                     "token_type" : "openid",
                     "expires_in" : $expires
                 }
 
-            """.trimIndent()
+        """.trimIndent()
 }

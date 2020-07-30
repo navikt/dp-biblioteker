@@ -94,10 +94,12 @@ fun ApplicationRequest.apiKeyAuthenticationCredentials(
     apiKeyName: String,
     apiKeyLocation: ApiKeyLocation
 ): ApiKeyCredential? {
-    return when (val value: String? = when (apiKeyLocation) {
-        ApiKeyLocation.QUERY -> this.queryParameters[apiKeyName]
-        ApiKeyLocation.HEADER -> this.headers[apiKeyName]
-    }) {
+    return when (
+        val value: String? = when (apiKeyLocation) {
+            ApiKeyLocation.QUERY -> this.queryParameters[apiKeyName]
+            ApiKeyLocation.HEADER -> this.headers[apiKeyName]
+        }
+    ) {
         null -> null
         else -> ApiKeyCredential(value)
     }

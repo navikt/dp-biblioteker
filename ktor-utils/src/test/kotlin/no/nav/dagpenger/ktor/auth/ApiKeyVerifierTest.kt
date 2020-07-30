@@ -1,8 +1,8 @@
 package no.nav.dagpenger.ktor.auth
 
+import org.junit.jupiter.api.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import org.junit.jupiter.api.Test
 
 internal class ApiKeyVerifierTest {
 
