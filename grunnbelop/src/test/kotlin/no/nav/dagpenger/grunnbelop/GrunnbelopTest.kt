@@ -9,11 +9,11 @@ import io.kotest.inspectors.forOne
 import io.kotest.matchers.maps.shouldContainKey
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
+import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.Month
 import java.time.YearMonth
-import org.junit.jupiter.api.Test
 
 class GrunnbelopTest {
     @Test
