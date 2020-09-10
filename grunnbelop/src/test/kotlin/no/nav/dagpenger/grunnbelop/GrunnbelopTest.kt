@@ -17,13 +17,14 @@ import java.time.YearMonth
 
 class GrunnbelopTest {
     @Test
-    fun ` Skal returnere grunnbeløp på 99858 for måned mai 2020 `() {
+    fun ` Skal returnere grunnbeløp på 101351 for måned mai 2020 `() {
         getGrunnbeløpForRegel(Regel.Grunnlag).forMåned(
-            YearMonth.of(
+            dato = YearMonth.of(
                 2020,
                 Month.MAY
-            )
-        ).verdi shouldBe 99858.toBigDecimal()
+            ),
+            gjeldendeDato = LocalDate.of(2020, 9, 21)
+        ).verdi shouldBe 101351.toBigDecimal()
     }
 
     @Test
@@ -132,7 +133,8 @@ class GrunnbelopTest {
                     2099,
                     8,
                     6
-                )
+                ),
+                gjeldendeDato = LocalDate.of(2099, 9, 21)
             ).verdi shouldBe grunnbeløpForRegel.first().grunnbeløp.verdi
         }
     }
