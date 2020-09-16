@@ -15,11 +15,13 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '12.x'
-      - name: Cache gradle dependencies
-        uses: actions/cache@v1
+      - name: Setup gradle dependency cache
+        uses: actions/cache@v2
         with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('build.gradle.kts') }}-${{ hashFiles('buildSrc/src/main/kotlin/Constants.kt') }}
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', 'buildSrc/src/main/kotlin/Constants.kt') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Build with Gradle

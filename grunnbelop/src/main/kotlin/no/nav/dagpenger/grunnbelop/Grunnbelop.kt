@@ -8,6 +8,7 @@ import java.time.YearMonth
 
 enum class Grunnbeløp(val verdi: BigDecimal, val iverksattFom: LocalDate) {
     GjusteringsTest(verdi = 101351.toBigDecimal(), iverksattFom = LocalDate.now().plusYears(10)),
+    FastsattI2020(verdi = 101351.toBigDecimal(), iverksattFom = LocalDate.of(2020, Month.SEPTEMBER, 19)),
     FastsattI2019(verdi = 99858.toBigDecimal(), iverksattFom = LocalDate.of(2019, Month.MAY, 26)),
     FastsattI2018(verdi = 96883.toBigDecimal(), iverksattFom = LocalDate.of(2018, Month.JUNE, 3)),
     FastsattI2017(verdi = 93634.toBigDecimal(), iverksattFom = LocalDate.of(2017, Month.MAY, 28)),
@@ -27,6 +28,16 @@ enum class Regel {
 }
 
 internal val gyldighetsperioder = mapOf(
+
+    Grunnbeløp.FastsattI2020 to mapOf(
+        Regel.Grunnlag to Gyldighetsperiode(
+            fom = LocalDate.of(2020, Month.MAY, 1)
+        ),
+        Regel.Minsteinntekt to Gyldighetsperiode(
+            fom = LocalDate.of(2020, Month.SEPTEMBER, 21)
+        )
+    ),
+
     Grunnbeløp.FastsattI2019 to mapOf(
         Regel.Grunnlag to Gyldighetsperiode(
             fom = LocalDate.of(2019, Month.MAY, 1)
@@ -80,43 +91,24 @@ private val grunnbeløp = gyldighetsperioder.flatMap { (grunnbeløp, mappings) -
     }
 }.toSet().sortedByDescending { it.fom }
 
-@Deprecated(
-    message = "Du må angi regel først, så måned",
-    replaceWith = ReplaceWith("getGrunnbeløpForRegel(regel).forMåned(dato)")
-)
-fun getGrunnbeløpForMåned(dato: YearMonth): GrunnbeløpPolicy {
-    return getGrunnbeløpForRegel(Regel.Grunnlag)
-        .first { it.gjelderFor(LocalDate.of(dato.year, dato.month, 10)) }
-}
-
-@Deprecated(
-    message = "Du må angi regel først, så dato",
-    replaceWith = ReplaceWith("getGrunnbeløpForRegel(regel).forDato(dato)")
-)
-fun getGrunnbeløpForDato(dato: LocalDate): GrunnbeløpPolicy {
-    return getGrunnbeløpForRegel(Regel.Grunnlag)
-        .first { it.gjelderFor(dato) }
-}
-
 fun getGrunnbeløpForRegel(regel: Regel): Set<GrunnbeløpPolicy> {
     return grunnbeløp.filter { it.gjelderFor(regel) }.toSet()
 }
 
-fun Set<GrunnbeløpPolicy>.forDato(dato: LocalDate): Grunnbeløp {
-    return utenFramtidigeGrunnbeløp()
+fun Set<GrunnbeløpPolicy>.forDato(dato: LocalDate, gjeldendeDato: LocalDate = LocalDate.now()): Grunnbeløp {
+    return utenFramtidigeGrunnbeløp(gjeldendeDato)
         .first { it.gjelderFor(dato) }
         .grunnbeløp
 }
 
-fun Set<GrunnbeløpPolicy>.forMåned(dato: YearMonth): Grunnbeløp {
-    return utenFramtidigeGrunnbeløp()
+fun Set<GrunnbeløpPolicy>.forMåned(dato: YearMonth, gjeldendeDato: LocalDate = LocalDate.now()): Grunnbeløp {
+    return utenFramtidigeGrunnbeløp(gjeldendeDato)
         .first { it.gjelderFor(LocalDate.of(dato.year, dato.month, 10)) }
         .grunnbeløp
 }
 
-private fun Set<GrunnbeløpPolicy>.utenFramtidigeGrunnbeløp(): List<GrunnbeløpPolicy> {
-    val dato = LocalDate.now()
-    return this.filter { it.iverksattFom.isBefore(dato).or(it.iverksattFom.isEqual(dato)) }
+private fun Set<GrunnbeløpPolicy>.utenFramtidigeGrunnbeløp(gjeldendeDato: LocalDate): List<GrunnbeløpPolicy> {
+    return this.filter { it.iverksattFom.isBefore(gjeldendeDato).or(it.iverksattFom.isEqual(gjeldendeDato)) }
 }
 
 private fun GrunnbeløpPolicy.gjelderFor(dato: LocalDate): Boolean {
