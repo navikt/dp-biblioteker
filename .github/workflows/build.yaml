@@ -54,10 +54,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: $RELEASE_TAG
-          release_name: $RELEASE_TAG
+          tag_name: ${{ env.RELEASE_TAG }}
+          release_name: ${{ env.RELEASE_TAG }}
           body: |
             Changes in this Release
-            $CHANGELOG
+            ${{ env.CHANGELOG }}
           draft: false
           prerelease: false
