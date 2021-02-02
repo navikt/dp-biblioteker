@@ -10,13 +10,23 @@ import com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
 import com.github.tomakehurst.wiremock.client.WireMock.verify
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration
 import com.github.tomakehurst.wiremock.matching.RegexPattern
+import io.kotest.data.headers
+import io.kotest.matchers.shouldHave
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.mock.MockEngine
+import io.ktor.client.engine.mock.respond
+import io.ktor.client.engine.mock.respondOk
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 class StsOidcClientTest {
 
     companion object {
@@ -55,10 +65,24 @@ class StsOidcClientTest {
                 )
         )
 
-        val stsOidcClient = StsOidcClient(server.url(""), "username", "password")
-        val oidcToken: OidcToken = stsOidcClient.oidcToken()
+        runBlocking {
+            val stsOidcClient = StsOidcClient(server.url(""), "username", "password")
+            val oidcToken: OidcToken = stsOidcClient.oidcToken()
+            assertEquals(oidcToken, OidcToken("token", "openid", expires))
+        }
+    }
 
-        assertEquals(oidcToken, OidcToken("token", "openid", expires))
+    @Test
+    fun `fetch open id token from sts server with KtorMock`() {
+
+        runBlocking {
+            val engine = MockEngine{
+                respondOk(body())
+            }
+            val stsOidcClient = StsOidcClient(server.url(""), "username", "password", engine)
+            val oidcToken: OidcToken = stsOidcClient.oidcToken()
+            assertEquals(oidcToken, OidcToken("token", "openid", expires))
+        }
     }
 
     @Test
@@ -75,19 +99,22 @@ class StsOidcClientTest {
         )
         val stsOidcClient = StsOidcClient(server.url("cached"), "username", "password")
 
-        val firstCall: OidcToken = stsOidcClient.oidcToken()
+        runBlocking {
+            val firstCall: OidcToken = stsOidcClient.oidcToken()
 
-        assertEquals(firstCall, OidcToken("token", "openid", expires))
+            assertEquals(firstCall, OidcToken("token", "openid", expires))
 
-        val secondCall: OidcToken = stsOidcClient.oidcToken()
+            val secondCall: OidcToken = stsOidcClient.oidcToken()
 
-        assertEquals(secondCall, OidcToken("token", "openid", expires))
+            assertEquals(secondCall, OidcToken("token", "openid", expires))
 
-        verify(
-            exactly(1),
-            getRequestedFor(urlEqualTo("/cached/rest/v1/sts/token/?grant_type=client_credentials&scope=openid"))
-                .withHeader("Authorization", RegexPattern("Basic\\s[a-zA-Z0-9]*="))
-        )
+            verify(
+                exactly(1),
+                getRequestedFor(urlEqualTo("/cached/rest/v1/sts/token/?grant_type=client_credentials&scope=openid"))
+                    .withHeader("Authorization", RegexPattern("Basic\\s[a-zA-Z0-9]*="))
+            )
+        }
+
     }
 
     @Test
@@ -104,9 +131,11 @@ class StsOidcClientTest {
         )
 
         val stsOidcClient = StsOidcClient(server.url(""), "username", "password")
-        val result = runCatching { stsOidcClient.oidcToken() }
-        assertTrue(result.isFailure)
-        assertTrue(result.exceptionOrNull() is StsOidcClientException)
+        runBlocking {
+            val result = runCatching { stsOidcClient.oidcToken() }
+            assertTrue(result.isFailure)
+            assertTrue(result.exceptionOrNull() is StsOidcClientException)
+        }
     }
 
     fun body() =
