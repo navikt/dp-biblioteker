@@ -2,6 +2,7 @@ package no.nav.dagpenger.oidc
 
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldMatch
+import io.kotest.matchers.types.shouldBeInstanceOf
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.client.engine.mock.respondBadRequest
@@ -11,7 +12,6 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.headersOf
 import io.ktor.util.KtorExperimentalAPI
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import kotlin.time.ExperimentalTime
 
@@ -70,10 +70,17 @@ class StsOidcClientTest {
 
         runBlocking {
             val engine = MockEngine { respondBadRequest() }
-            val stsOidcClient = StsOidcClient("https://localhost/", "username", "password", engine)
-            val result = runCatching { stsOidcClient.oidcToken() }
-            assertTrue(result.isFailure)
-            assertTrue(result.exceptionOrNull() is StsOidcClientException)
+            runCatching {
+                StsOidcClient(
+                    "https://localhost/",
+                    "username",
+                    "password",
+                    engine
+                ).oidcToken()
+            }.also { result ->
+                result.isFailure shouldBe true
+                result.exceptionOrNull().shouldBeInstanceOf<StsOidcClientException>()
+            }
         }
     }
 

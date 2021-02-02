@@ -43,7 +43,7 @@ class StsOidcClient(
     private val password: String,
     engine: HttpClientEngine = CIO.create()
 ) : OidcClient {
-    @KtorExperimentalAPI
+
     private val client = HttpClient(engine) {
         install(JsonFeature) {
             serializer = JacksonSerializer {
@@ -58,7 +58,7 @@ class StsOidcClient(
         }
         install(Logging) {
             logger = Logger.DEFAULT
-            level = LogLevel.ALL
+            level = LogLevel.INFO
         }
     }
 
