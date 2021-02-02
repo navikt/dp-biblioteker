@@ -1,5 +1,8 @@
 package no.nav.dagpenger.oidc
 
+import kotlin.time.ExperimentalTime
+
+@ExperimentalTime
 interface OidcClient {
-    fun oidcToken(): OidcToken
+    suspend fun oidcToken(): OidcToken
 }
