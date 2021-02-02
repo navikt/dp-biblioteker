@@ -37,12 +37,18 @@ private val requestLatency = Summary.build()
 
 @KtorExperimentalAPI
 @ExperimentalTime
-class StsOidcClient(
+class StsOidcClient internal constructor(
     stsBaseUrl: String,
     private val username: String,
     private val password: String,
-    engine: HttpClientEngine = CIO.create()
+    engine: HttpClientEngine
 ) : OidcClient {
+
+    constructor(
+        stsBaseUrl: String,
+        username: String,
+        password: String,
+    ) : this(stsBaseUrl, username, password, CIO.create())
 
     private val client = HttpClient(engine) {
         install(JsonFeature) {
