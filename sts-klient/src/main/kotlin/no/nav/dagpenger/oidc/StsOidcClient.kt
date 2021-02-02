@@ -12,10 +12,7 @@ import io.ktor.client.features.logging.LogLevel
 import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.Logging
 import io.ktor.client.request.get
-import io.ktor.client.request.header
 import io.ktor.client.request.parameter
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
 import io.ktor.util.KtorExperimentalAPI
 import io.prometheus.client.Summary
 import kotlinx.coroutines.Dispatchers
@@ -40,12 +37,16 @@ private val requestLatency = Summary.build()
 
 @KtorExperimentalAPI
 @ExperimentalTime
-class StsOidcClient(stsBaseUrl: String, private val username: String, private val password: String, engine: HttpClientEngine = CIO.create()) : OidcClient {
+class StsOidcClient(
+    stsBaseUrl: String,
+    private val username: String,
+    private val password: String,
+    engine: HttpClientEngine = CIO.create()
+) : OidcClient {
     @KtorExperimentalAPI
     private val client = HttpClient(engine) {
         install(JsonFeature) {
             serializer = JacksonSerializer {
-
             }
         }
         install(Auth) {
@@ -55,7 +56,7 @@ class StsOidcClient(stsBaseUrl: String, private val username: String, private va
                 password = this@StsOidcClient.password
             }
         }
-        install(Logging){
+        install(Logging) {
             logger = Logger.DEFAULT
             level = LogLevel.ALL
         }
@@ -84,7 +85,6 @@ class StsOidcClient(stsBaseUrl: String, private val username: String, private va
                 client.get<OidcToken>(stsTokenUrl) {
                     parameter("grant_type", "client_credentials")
                     parameter("scope", "openid")
-                    contentType(ContentType.Application.Json)
                 }
             }.getOrElse {
                 throw StsOidcClientException(it.localizedMessage, it)
