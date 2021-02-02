@@ -100,12 +100,13 @@ class StsOidcClientException(override val message: String, override val cause: T
 data class OidcToken(
     val access_token: String,
     val token_type: String,
-    val expires_in: Long,
+    private val expires_in: Long,
     private val timeToRefresh: Long = 60
 ) {
-    val valid: Boolean
+    private val valid: Boolean
         get() = LocalDateTime.now() < expireTime
-    val expireTime: LocalDateTime = LocalDateTime.now().plus(Duration.ofSeconds(this.expires_in - timeToRefresh))
+    private val expireTime: LocalDateTime =
+        LocalDateTime.now().plus(Duration.ofSeconds(this.expires_in - timeToRefresh))
 
     companion object {
         fun isValid(token: OidcToken?) = when (token) {

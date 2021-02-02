@@ -1,5 +1,11 @@
 
 dependencies {
+
+    constraints {
+        implementation("org.jetbrains.kotlin:kotlin-reflect:${Ktor.version}") {
+            because("To align with ktor version")
+        }
+    }
     implementation(Ktor.library("client-cio-jvm"))
     implementation(Ktor.library("client-jackson"))
     implementation(Ktor.library("client-logging"))

@@ -43,10 +43,8 @@ class StsOidcClientTest {
 
         runBlocking {
             var requestCount = 0
-            val engine = MockEngine { request ->
+            val engine = MockEngine {
                 requestCount++
-                request.headers[HttpHeaders.Accept] shouldBe ContentType.Application.Json.toString()
-                request.headers[HttpHeaders.Authorization] shouldMatch "Basic\\s[a-zA-Z0-9]*="
                 this.respond(
                     content = body(),
                     headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString())
@@ -62,6 +60,25 @@ class StsOidcClientTest {
             secondCall shouldBe OidcToken("token", "openid", expires)
 
             requestCount shouldBe 1
+        }
+    }
+
+    @Test
+    fun `Fetch new token if token has expired`() {
+        runBlocking {
+            var requestCount = 0
+            val engine = MockEngine { request ->
+                requestCount++
+                this.respond(
+                    content = body(-10),
+                    headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                )
+            }
+
+            val stsOidcClient = StsOidcClient("https://localhost/", "username", "password", engine)
+
+            (1..3).forEach { stsOidcClient.oidcToken() }
+            requestCount shouldBe 3
         }
     }
 
@@ -84,12 +101,12 @@ class StsOidcClientTest {
         }
     }
 
-    fun body() =
+    fun body(expireTime: Long = expires) =
         """
                 {
                     "access_token": "token",
                     "token_type" : "openid",
-                    "expires_in" : $expires
+                    "expires_in" : $expireTime
                 }
 
         """.trimIndent()
