@@ -10,13 +10,9 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.http.headersOf
-import io.ktor.util.KtorExperimentalAPI
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
-import kotlin.time.ExperimentalTime
 
-@KtorExperimentalAPI
-@ExperimentalTime
 class StsOidcClientTest {
     private val expires = 300L
 

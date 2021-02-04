@@ -13,7 +13,6 @@ import io.ktor.client.features.logging.Logger
 import io.ktor.client.features.logging.Logging
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
-import io.ktor.util.KtorExperimentalAPI
 import io.prometheus.client.Summary
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
@@ -21,7 +20,6 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import java.time.Duration
 import java.time.LocalDateTime
-import kotlin.time.ExperimentalTime
 
 /**
  * henter jwt token fra STS
@@ -35,8 +33,6 @@ private val requestLatency = Summary.build()
     .help("Request latency in seconds for Oidc client")
     .register()
 
-@KtorExperimentalAPI
-@ExperimentalTime
 class StsOidcClient internal constructor(
     stsBaseUrl: String,
     private val username: String,
@@ -102,7 +98,6 @@ class StsOidcClient internal constructor(
 class StsOidcClientException(override val message: String, override val cause: Throwable) :
     RuntimeException(message, cause)
 
-@ExperimentalTime
 data class OidcToken(
     val access_token: String,
     val token_type: String,
