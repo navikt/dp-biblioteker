@@ -1,108 +1,120 @@
 package no.nav.dagpenger.oidc
 
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.string.shouldMatch
-import io.kotest.matchers.types.shouldBeInstanceOf
-import io.ktor.client.engine.mock.MockEngine
-import io.ktor.client.engine.mock.respond
-import io.ktor.client.engine.mock.respondBadRequest
-import io.ktor.http.ContentType
-import io.ktor.http.HttpHeaders
-import io.ktor.http.HttpMethod
-import io.ktor.http.headersOf
-import kotlinx.coroutines.runBlocking
+import com.github.tomakehurst.wiremock.WireMockServer
+import com.github.tomakehurst.wiremock.client.WireMock
+import com.github.tomakehurst.wiremock.client.WireMock.configureFor
+import com.github.tomakehurst.wiremock.client.WireMock.exactly
+import com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor
+import com.github.tomakehurst.wiremock.client.WireMock.stubFor
+import com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
+import com.github.tomakehurst.wiremock.client.WireMock.verify
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration
+import com.github.tomakehurst.wiremock.matching.RegexPattern
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class StsOidcClientTest {
+
+    companion object {
+        val server: WireMockServer = WireMockServer(WireMockConfiguration.options().dynamicPort())
+
+        @BeforeAll
+        @JvmStatic
+        fun start() {
+            server.start()
+        }
+
+        @AfterAll
+        @JvmStatic
+        fun stop() {
+            server.stop()
+        }
+    }
+
+    @BeforeEach
+    fun configure() {
+        configureFor(server.port())
+    }
+
     private val expires = 300L
 
     @Test
-    fun `fetch open id token from sts server with KtorMock`() {
-        runBlocking {
-            val engine = MockEngine { request ->
-                request.method shouldBe HttpMethod.Get
-                request.url.toString() shouldBe "https://localhost/rest/v1/sts/token/?grant_type=client_credentials&scope=openid"
-                request.headers[HttpHeaders.Accept] shouldBe ContentType.Application.Json.toString()
-                request.headers[HttpHeaders.Authorization] shouldMatch "Basic\\s[a-zA-Z0-9]*="
-                this.respond(
-                    content = body(),
-                    headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+    fun `fetch open id token from sts server`() {
+
+        stubFor(
+            WireMock.get(urlEqualTo("/rest/v1/sts/token/?grant_type=client_credentials&scope=openid"))
+                .withHeader("Authorization", RegexPattern("Basic\\s[a-zA-Z0-9]*="))
+                .willReturn(
+                    WireMock.aResponse()
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(body())
                 )
-            }
-            val oidcToken: OidcToken = StsOidcClient("https://localhost/", "username", "password", engine).oidcToken()
-            oidcToken shouldBe OidcToken("token", "openid", expires)
-        }
+        )
+
+        val stsOidcClient = StsOidcClient(server.url(""), "username", "password")
+        val oidcToken: OidcToken = stsOidcClient.oidcToken()
+
+        assertEquals(oidcToken, OidcToken("token", "openid", expires))
     }
 
     @Test
     fun `fetch open id token from sts server and token is cached `() {
 
-        runBlocking {
-            var requestCount = 0
-            val engine = MockEngine {
-                requestCount++
-                this.respond(
-                    content = body(),
-                    headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+        stubFor(
+            WireMock.get(urlEqualTo("/cached/rest/v1/sts/token/?grant_type=client_credentials&scope=openid"))
+                .withHeader("Authorization", RegexPattern("Basic\\s[a-zA-Z0-9]*="))
+                .willReturn(
+                    WireMock.aResponse()
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(body())
                 )
-            }
+        )
+        val stsOidcClient = StsOidcClient(server.url("cached"), "username", "password")
 
-            val stsOidcClient = StsOidcClient("https://localhost/", "username", "password", engine)
+        val firstCall: OidcToken = stsOidcClient.oidcToken()
 
-            val firstCall: OidcToken = stsOidcClient.oidcToken()
-            firstCall shouldBe OidcToken("token", "openid", expires)
+        assertEquals(firstCall, OidcToken("token", "openid", expires))
 
-            val secondCall: OidcToken = stsOidcClient.oidcToken()
-            secondCall shouldBe OidcToken("token", "openid", expires)
+        val secondCall: OidcToken = stsOidcClient.oidcToken()
 
-            requestCount shouldBe 1
-        }
-    }
+        assertEquals(secondCall, OidcToken("token", "openid", expires))
 
-    @Test
-    fun `Fetch new token if token has expired`() {
-        runBlocking {
-            var requestCount = 0
-            val engine = MockEngine { request ->
-                requestCount++
-                this.respond(
-                    content = body(-10),
-                    headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString())
-                )
-            }
-
-            val stsOidcClient = StsOidcClient("https://localhost/", "username", "password", engine)
-
-            (1..3).forEach { stsOidcClient.oidcToken() }
-            requestCount shouldBe 3
-        }
+        verify(
+            exactly(1),
+            getRequestedFor(urlEqualTo("/cached/rest/v1/sts/token/?grant_type=client_credentials&scope=openid"))
+                .withHeader("Authorization", RegexPattern("Basic\\s[a-zA-Z0-9]*="))
+        )
     }
 
     @Test
     fun `fetch open id token from sts on server error`() {
 
-        runBlocking {
-            val engine = MockEngine { respondBadRequest() }
-            runCatching {
-                StsOidcClient(
-                    "https://localhost/",
-                    "username",
-                    "password",
-                    engine
-                ).oidcToken()
-            }.also { result ->
-                result.isFailure shouldBe true
-                result.exceptionOrNull().shouldBeInstanceOf<StsOidcClientException>()
-            }
-        }
+        stubFor(
+            WireMock.get(urlEqualTo("/rest/v1/sts/token/?grant_type=client_credentials&scope=openid"))
+                .withHeader("Authorization", RegexPattern("Basic\\s[a-zA-Z0-9]*="))
+                .willReturn(
+                    WireMock.serverError()
+                        .withHeader("Content-Type", "text/plain")
+                        .withBody("FAILED")
+                )
+        )
+
+        val stsOidcClient = StsOidcClient(server.url(""), "username", "password")
+        val result = runCatching { stsOidcClient.oidcToken() }
+        assertTrue(result.isFailure)
+        assertTrue(result.exceptionOrNull() is StsOidcClientException)
     }
 
-    fun body(expireTime: Long = expires) =
+    fun body() =
         """
                 {
                     "access_token": "token",
                     "token_type" : "openid",
-                    "expires_in" : $expireTime
+                    "expires_in" : $expires
                 }
 
         """.trimIndent()
