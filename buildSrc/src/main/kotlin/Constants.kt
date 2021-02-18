@@ -24,7 +24,7 @@ object Cucumber {
 object Dagpenger {
 
     object Biblioteker {
-        const val version = "2020.09.16-07.28.a797a00c180a"
+        const val version = "2020.11.24-08.15.86482b2eead8"
         const val stsKlient = "com.github.navikt.dp-biblioteker:sts-klient:$version"
         const val grunnbeløp = "com.github.navikt.dp-biblioteker:grunnbelop:$version"
         const val ktorUtils = "com.github.navikt.dp-biblioteker:ktor-utils:$version"
@@ -81,6 +81,7 @@ object Junit5 {
     const val params = "org.junit.jupiter:junit-jupiter-params:$version"
     const val engine = "org.junit.jupiter:junit-jupiter-engine:$version"
     const val vintageEngine = "org.junit.vintage:junit-vintage-engine:$version"
+    const val kotlinRunner = "io.kotlintest:kotlintest-runner-junit5:3.4.2"
     fun library(name: String) = "org.junit.jupiter:junit-jupiter-$name:$version"
 }
 
