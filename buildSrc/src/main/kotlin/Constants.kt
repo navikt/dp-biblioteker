@@ -24,7 +24,7 @@ object Cucumber {
 object Dagpenger {
 
     object Biblioteker {
-        const val version = "2020.11.24-08.15.86482b2eead8"
+        const val version = "2021.02.19-08.21.87bd1082f665"
         const val stsKlient = "com.github.navikt.dp-biblioteker:sts-klient:$version"
         const val grunnbeløp = "com.github.navikt.dp-biblioteker:grunnbelop:$version"
         const val ktorUtils = "com.github.navikt.dp-biblioteker:ktor-utils:$version"
@@ -45,8 +45,8 @@ object Dagpenger {
         }
     }
 
-    const val Streams = "com.github.navikt:dagpenger-streams:2020.08.19-13.32.0fd360f3ef11"
-    const val Events = "com.github.navikt:dagpenger-events:2020.08.19-10.57.d2fe892352eb"
+    const val Streams = "com.github.navikt:dagpenger-streams:2021.02.19-13.25.b08e90333a2e"
+    const val Events = "com.github.navikt:dagpenger-events:2021.02.19-08.31.cfd52901bc9f"
 }
 
 object Database {
@@ -110,7 +110,7 @@ object Kafka {
 }
 
 object KafkaEmbedded {
-    const val env = "no.nav:kafka-embedded-env:2.2.3"
+    const val env = "no.nav:kafka-embedded-env:2.4.0"
 }
 
 object Klint {
