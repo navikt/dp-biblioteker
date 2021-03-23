@@ -1,8 +1,8 @@
 package no.nav.dagpenger.oidc
 
 import com.github.kittinunf.fuel.core.extensions.authentication
-import com.github.kittinunf.fuel.gson.responseObject
 import com.github.kittinunf.fuel.httpGet
+import com.github.kittinunf.fuel.jackson.responseObject
 import com.github.kittinunf.result.Result
 import io.prometheus.client.Summary
 import java.time.Duration
