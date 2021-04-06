@@ -13,7 +13,7 @@ plugins {
 
 allprojects {
     repositories {
-        jcenter()
+        mavenCentral()
         maven("https://jitpack.io")
     }
 }
