@@ -23,7 +23,12 @@ enum class Grunnbeløp(val verdi: BigDecimal, val iverksattFom: LocalDate) {
     FastsattI2008(verdi = 70256.toBigDecimal(), iverksattFom = LocalDate.of(2008, Month.JUNE, 29)),
     FastsattI2007(verdi = 66812.toBigDecimal(), iverksattFom = LocalDate.of(2007, Month.JUNE, 24)),
     FastsattI2006(verdi = 62892.toBigDecimal(), iverksattFom = LocalDate.of(2006, Month.JUNE, 25)),
-    FastsattI2005(verdi = 60699.toBigDecimal(), iverksattFom = LocalDate.of(2005, Month.JUNE, 26))
+    FastsattI2005(verdi = 60699.toBigDecimal(), iverksattFom = LocalDate.of(2005, Month.JUNE, 26)),
+    FastsattI2004(verdi = 58778.toBigDecimal(), iverksattFom = LocalDate.of(2004, Month.JUNE, 27)),
+    FastsattI2003(verdi = 56861.toBigDecimal(), iverksattFom = LocalDate.of(2003, Month.JUNE, 29)),
+    FastsattI2002(verdi = 54170.toBigDecimal(), iverksattFom = LocalDate.of(2002, Month.JUNE, 30)),
+    FastsattI2001(verdi = 51360.toBigDecimal(), iverksattFom = LocalDate.of(2001, Month.JUNE, 24)),
+    FastsattI2000(verdi = 49090.toBigDecimal(), iverksattFom = LocalDate.of(2000, Month.APRIL, 30)),
 }
 
 fun Grunnbeløp.faktorMellom(grunnbeløp: Grunnbeløp): BigDecimal {
@@ -166,6 +171,46 @@ internal val gyldighetsperioder = mapOf(
         ),
         Regel.Minsteinntekt to Gyldighetsperiode(
             fom = LocalDate.of(2005, Month.JUNE, 27)
+        )
+    ),
+    Grunnbeløp.FastsattI2004 to mapOf(
+        Regel.Grunnlag to Gyldighetsperiode(
+            fom = LocalDate.of(2004, Month.MAY, 1)
+        ),
+        Regel.Minsteinntekt to Gyldighetsperiode(
+            fom = LocalDate.of(2004, Month.JUNE, 28)
+        )
+    ),
+    Grunnbeløp.FastsattI2003 to mapOf(
+        Regel.Grunnlag to Gyldighetsperiode(
+            fom = LocalDate.of(2003, Month.MAY, 1)
+        ),
+        Regel.Minsteinntekt to Gyldighetsperiode(
+            fom = LocalDate.of(2003, Month.JUNE, 30)
+        )
+    ),
+    Grunnbeløp.FastsattI2002 to mapOf(
+        Regel.Grunnlag to Gyldighetsperiode(
+            fom = LocalDate.of(2002, Month.MAY, 1)
+        ),
+        Regel.Minsteinntekt to Gyldighetsperiode(
+            fom = LocalDate.of(2002, Month.JULY, 1)
+        )
+    ),
+    Grunnbeløp.FastsattI2001 to mapOf(
+        Regel.Grunnlag to Gyldighetsperiode(
+            fom = LocalDate.of(2001, Month.MAY, 1)
+        ),
+        Regel.Minsteinntekt to Gyldighetsperiode(
+            fom = LocalDate.of(2001, Month.JUNE, 25)
+        )
+    ),
+    Grunnbeløp.FastsattI2000 to mapOf(
+        Regel.Grunnlag to Gyldighetsperiode(
+            fom = LocalDate.of(2000, Month.MAY, 1)
+        ),
+        Regel.Minsteinntekt to Gyldighetsperiode(
+            fom = LocalDate.of(2000, Month.MAY, 1)
         )
     )
 )
