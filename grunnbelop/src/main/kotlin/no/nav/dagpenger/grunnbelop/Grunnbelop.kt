@@ -50,8 +50,7 @@ internal val gyldighetsperioder = mapOf(
             fom = LocalDate.of(2021, Month.MAY, 1)
         ),
         Regel.Minsteinntekt to Gyldighetsperiode(
-            // todo fix
-            fom = LocalDate.of(2021, Month.SEPTEMBER, 21)
+            fom = LocalDate.of(2021, Month.MAY, 24)
         )
     ),
 
