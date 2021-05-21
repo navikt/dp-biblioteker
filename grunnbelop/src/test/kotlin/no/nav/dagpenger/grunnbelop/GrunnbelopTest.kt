@@ -17,13 +17,13 @@ import java.time.YearMonth
 
 class GrunnbelopTest {
     @Test
-    fun ` Skal returnere grunnbeløp på 106399 for måned mai 2021 `() {
+    fun ` Skal returnere grunnbeløp på 101351 måned mai 2021 `() {
         getGrunnbeløpForRegel(Regel.Grunnlag).forMåned(
             dato = YearMonth.of(
                 2021,
                 Month.MAY
             ),
-        ).verdi shouldBe 106399.toBigDecimal()
+        ).verdi shouldBe 101351.toBigDecimal()
     }
 
     @Test
