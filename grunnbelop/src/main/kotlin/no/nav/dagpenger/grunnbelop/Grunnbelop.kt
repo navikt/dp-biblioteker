@@ -8,7 +8,7 @@ import java.time.YearMonth
 
 enum class Grunnbeløp(val verdi: BigDecimal, val iverksattFom: LocalDate) {
     GjusteringsTest(verdi = 106399.toBigDecimal(), iverksattFom = LocalDate.now().plusYears(10)),
-    FastsattI2021(verdi = 106399.toBigDecimal(), iverksattFom = LocalDate.of(2020, Month.MAY, 23)),
+    FastsattI2021(verdi = 106399.toBigDecimal(), iverksattFom = LocalDate.of(2021, Month.MAY, 23)),
     FastsattI2020(verdi = 101351.toBigDecimal(), iverksattFom = LocalDate.of(2020, Month.SEPTEMBER, 19)),
     FastsattI2019(verdi = 99858.toBigDecimal(), iverksattFom = LocalDate.of(2019, Month.MAY, 26)),
     FastsattI2018(verdi = 96883.toBigDecimal(), iverksattFom = LocalDate.of(2018, Month.JUNE, 3)),
