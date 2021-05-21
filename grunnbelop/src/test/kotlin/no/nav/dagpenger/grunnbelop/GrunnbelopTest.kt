@@ -17,12 +17,24 @@ import java.time.YearMonth
 
 class GrunnbelopTest {
     @Test
-    fun ` Skal returnere grunnbeløp på 101351 måned mai 2021 `() {
+    fun ` Skal returnere grunnbeløp 2021 etter iverkssatt FOM dato `() {
         getGrunnbeløpForRegel(Regel.Grunnlag).forMåned(
             dato = YearMonth.of(
                 2021,
                 Month.MAY
             ),
+            gjeldendeDato = LocalDate.of(2021, 5, 24)
+        ).verdi shouldBe 106399.toBigDecimal()
+    }
+
+    @Test
+    fun ` Skal returnere grunnbeløp for 2020 dersom gjeldendedato er før iverksatt dato for 2021 G`() {
+        getGrunnbeløpForRegel(Regel.Grunnlag).forMåned(
+            dato = YearMonth.of(
+                2021,
+                Month.MAY
+            ),
+            gjeldendeDato = LocalDate.of(2021, 5, 22)
         ).verdi shouldBe 101351.toBigDecimal()
     }
 
