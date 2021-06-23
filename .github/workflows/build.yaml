@@ -44,6 +44,9 @@ jobs:
         # (Escape newlines see https://github.com/actions/create-release/issues/25)
         run: |
           text="$(git --no-pager log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"%h %s")"
+          text="${text//$'%'/%25}"
+          text="${text//$'\n'/%0A}"
+          text="${text//$'\r'/%0D}"
           echo "CHANGELOG=$text" >> $GITHUB_ENV
       - name: Create Release
         id: create_release
