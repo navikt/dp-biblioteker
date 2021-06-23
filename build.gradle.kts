@@ -1,11 +1,9 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
-import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version Kotlin.version
-    id("org.jetbrains.dokka") version "0.10.1" apply false
     id(Spotless.spotless) version Spotless.version
     `java-library`
     `maven-publish`
@@ -30,7 +28,6 @@ subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = Spotless.spotless)
     apply(plugin = "java-library")
-    apply(plugin = "org.jetbrains.dokka")
     apply(plugin = "maven-publish")
 
     dependencies {
@@ -70,25 +67,13 @@ subprojects {
         gradleVersion = "6.0.1"
     }
 
-    val dokka = tasks.withType<DokkaTask> {
-        outputFormat = "html"
-        outputDirectory = "$buildDir/javadoc"
-    }
-
     val sourcesJar by tasks.registering(Jar::class) {
         archiveClassifier.set("sources")
         from(sourceSets["main"].allSource)
     }
 
-    val javadocJar by tasks.registering(Jar::class) {
-        dependsOn(dokka)
-        archiveClassifier.set("javadoc")
-        from(buildDir.resolve("javadoc"))
-    }
-
     artifacts {
         add("archives", sourcesJar)
-        add("archives", javadocJar)
     }
 
     spotless {
