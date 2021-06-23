@@ -24,7 +24,7 @@ object Cucumber {
 object Dagpenger {
 
     object Biblioteker {
-        const val version = "2021.06.23-13.05.a9a03bec5a52"
+        const val version = "2021.06.23-14.39.74fbb7b79fde"
         const val stsKlient = "com.github.navikt.dp-biblioteker:sts-klient:$version"
         const val grunnbeløp = "com.github.navikt.dp-biblioteker:grunnbelop:$version"
         const val ktorUtils = "com.github.navikt.dp-biblioteker:ktor-utils:$version"
@@ -45,8 +45,8 @@ object Dagpenger {
         }
     }
 
-    const val Streams = "com.github.navikt:dagpenger-streams:2021.06.23-10.14.3148165cac87"
-    const val Events = "com.github.navikt:dagpenger-events:2021.06.22-13.11.867907822eb6"
+    const val Streams = "com.github.navikt:dagpenger-streams:2021.06.23-14.29.bbb62ad15d52"
+    const val Events = "com.github.navikt:dagpenger-events:2021.06.23-14.38.f9ef5d423585"
 }
 
 object Database {
