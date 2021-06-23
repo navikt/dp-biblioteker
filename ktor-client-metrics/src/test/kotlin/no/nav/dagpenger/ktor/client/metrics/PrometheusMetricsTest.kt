@@ -75,7 +75,7 @@ class PrometheusMetricsTest {
     }
 
     private fun getStatus(statusCode: String) =
-        registry.getSampleValue("status", listOf("status").toTypedArray(), listOf(statusCode).toTypedArray())
+        registry.getSampleValue("status_total", listOf("status").toTypedArray(), listOf(statusCode).toTypedArray())
 
     private fun getCount(name: String): Double = registry.getSampleValue("${name}_count").toDouble()
     private fun getSum(name: String): Double = registry.getSampleValue("${name}_sum").toDouble()

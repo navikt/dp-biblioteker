@@ -35,7 +35,6 @@ subprojects {
 
     dependencies {
         implementation(kotlin("stdlib"))
-        testImplementation(kotlin("test-junit5"))
         testImplementation(Junit5.api)
         testImplementation(Junit5.params)
         testImplementation(KoTest.assertions)

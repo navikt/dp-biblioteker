@@ -19,7 +19,7 @@ class PrometheusMetrics private constructor(registry: CollectorRegistry, baseNam
         .register(registry)
 
     private val httpStatus = Counter
-        .build("status", "Count status codes for responses")
+        .build("status_total", "Count status codes for responses")
         .namespace(baseName)
         .labelNames("status")
         .register(registry)
