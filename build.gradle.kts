@@ -5,7 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version Kotlin.version
-    id("org.jetbrains.dokka") version "0.9.17" apply false
+    id("org.jetbrains.dokka") version "0.10.1" apply false
     id(Spotless.spotless) version Spotless.version
     `java-library`
     `maven-publish`
