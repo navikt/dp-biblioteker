@@ -13,5 +13,5 @@ dependencies {
 
     testImplementation(Ktor.library("client-mock"))
     testImplementation(KoTest.assertions)
-    testImplementation(KoTest.library("assertions-ktor"))
+    testImplementation("io.kotest:kotest-assertions-ktor:4.4.3")
 }
