@@ -11,10 +11,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
-      - name: Set up Java 12
+      - name: Set up Java
         uses: actions/setup-java@v1
         with:
-          java-version: '12.x'
+          java-version: '14.x'
       - name: Setup gradle dependency cache
         uses: actions/cache@v2
         with:
@@ -41,13 +41,11 @@ jobs:
           export TAG_NAME="$(TZ="Europe/Oslo" date +%Y.%m.%d-%H.%M).$(echo $GITHUB_SHA | cut -c 1-12)"
           echo "RELEASE_TAG=$TAG_NAME" >> $GITHUB_ENV
       - name: Set changelog
+        id: changelog
         # (Escape newlines see https://github.com/actions/create-release/issues/25)
         run: |
           text="$(git --no-pager log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"%h %s")"
-          text="${text//$'%'/%25}"
-          text="${text//$'\n'/%0A}"
-          text="${text//$'\r'/%0D}"
-          echo "CHANGELOG=$text" >> $GITHUB_ENV
+          echo "::set-output name=CHANGELOG::$text"
       - name: Create Release
         id: create_release
         uses: actions/create-release@latest
@@ -58,6 +56,6 @@ jobs:
           release_name: ${{ env.RELEASE_TAG }}
           body: |
             Changes in this Release
-            ${{ env.CHANGELOG }}
+            ${{ steps.changelog.outputs.CHANGELOG }}"
           draft: false
           prerelease: false

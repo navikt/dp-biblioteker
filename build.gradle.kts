@@ -21,9 +21,9 @@ subprojects {
     group = "com.github.navikt"
     version = "1.0-SNAPSHOT"
 
-    val artifactDescription = "Libraries for Dagpenger"
-    val repoUrl = "https://github.com/navikt/dp-biblioteker.git"
-    val scmUrl = "scm:git:https://github.com/navikt/dp-biblioteker.git"
+    val artifactDescription = "Bibliotek som holder nåværende og historiske grunnbeløp for Dagpenger domenet"
+    val repoUrl = "https://github.com/navikt/dp-grunnbelop.git"
+    val scmUrl = "scm:git:https://github.com/navikt/dp-grunnbelop.git"
 
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = Spotless.spotless)
