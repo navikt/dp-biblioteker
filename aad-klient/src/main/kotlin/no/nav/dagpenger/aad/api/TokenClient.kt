@@ -18,6 +18,7 @@ interface TokenXClient {
     suspend fun getAccessToken(): String
 }
 
+@JvmOverloads
 fun ClientCredentialsClient(
     env: Configuration = EnvironmentVariables,
     httpClient: HttpClient = defaultHttpClient(),
@@ -31,6 +32,7 @@ fun ClientCredentialsClient(
     override suspend fun getAccessToken(): String = getOrFetch().accessToken
 }
 
+@JvmOverloads
 fun OnBehalfClient(
     env: Configuration = EnvironmentVariables,
     httpClient: HttpClient = defaultHttpClient(),
@@ -46,6 +48,7 @@ fun OnBehalfClient(
     }.accessToken
 }
 
+@JvmOverloads
 fun TokenXClient(
     env: Configuration = EnvironmentVariables,
     httpClient: HttpClient = defaultHttpClient(),
