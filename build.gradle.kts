@@ -78,6 +78,7 @@ subprojects {
 
     spotless {
         kotlin {
+            targetExclude("**/generated/**") // ignore generated stuff
             ktlint(Ktlint.version)
         }
         kotlinGradle {

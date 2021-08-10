@@ -9,7 +9,7 @@ dependencies {
     implementation(Ktor.library("client-cio-jvm"))
     implementation(Ktor.library("client-jackson"))
     implementation(Ktor.library("client-logging"))
-    implementation("com.github.ben-manes.caffeine:caffeine:3.0.1")
+    implementation("com.github.ben-manes.caffeine:caffeine:2.9.2")
 
     testImplementation(Ktor.library("client-mock"))
     testImplementation(KoTest.assertions)
