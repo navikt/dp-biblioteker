@@ -1,0 +1,182 @@
+fragment folkeregistermetadataDetails on Folkeregistermetadata {
+    aarsak
+    ajourholdstidspunkt
+    gyldighetstidspunkt
+    kilde
+    opphoerstidspunkt
+    sekvens
+}
+
+fragment metadataDetails on Metadata {
+    endringer {
+        kilde
+        registrert
+        registrertAv
+        systemkilde
+        type
+    }
+    master
+    opplysningsId
+    historisk
+}
+
+fragment koordinaterDetails on Koordinater {
+    x
+    y
+    z
+    kvalitet
+}
+
+fragment vegadresseDetails on Vegadresse {
+    matrikkelId
+    husbokstav
+    husnummer
+    adressenavn
+    bruksenhetsnummer
+    tilleggsnavn
+    postnummer
+    kommunenummer
+    bydelsnummer
+    koordinater {
+        ...koordinaterDetails
+    }
+}
+
+fragment matrikkeladresseDetails on Matrikkeladresse{
+    matrikkelId
+    bruksenhetsnummer
+    tilleggsnavn
+    postnummer
+    kommunenummer
+    koordinater {
+        ...koordinaterDetails
+    }
+}
+
+fragment utenlandskAdresseDetails on UtenlandskAdresse {
+    adressenavnNummer
+    bygningEtasjeLeilighet
+    postboksNummerNavn
+    postkode
+    bySted
+    regionDistriktOmraade
+    landkode
+}
+
+query hentPerson($ident: ID! ) {
+    hentPerson(ident: $ident) {
+        folkeregisterpersonstatus {
+            folkeregistermetadata{
+                ...folkeregistermetadataDetails
+            }
+            forenkletStatus
+            metadata{
+                ...metadataDetails
+            }
+            status
+        }
+        navn {
+            etternavn
+            #            folkeregistermetadata: Folkeregistermetadata
+            forkortetNavn
+            fornavn
+            gyldigFraOgMed
+            mellomnavn
+            metadata{
+                ...metadataDetails
+            }
+            originaltNavn {
+                etternavn
+                fornavn
+                mellomnavn
+            }
+        }
+        adressebeskyttelse {
+            gradering
+        }
+        kontaktadresse
+        {
+            coAdressenavn
+            folkeregistermetadata {
+                ...folkeregistermetadataDetails
+            }
+            gyldigFraOgMed
+            gyldigTilOgMed
+            metadata {
+                ...metadataDetails
+            }
+            postadresseIFrittFormat{
+                adresselinje1
+                adresselinje2
+                adresselinje3
+                postnummer
+            }
+            postboksadresse {
+                postboks
+                postbokseier
+                postnummer
+            }
+            type
+            utenlandskAdresse {
+                ...utenlandskAdresseDetails
+            }
+            utenlandskAdresseIFrittFormat {
+                adresselinje1
+                adresselinje2
+                adresselinje3
+                byEllerStedsnavn
+                landkode
+                postkode
+            }
+            vegadresse {
+                ...vegadresseDetails
+            }
+        }
+        oppholdsadresse {
+            coAdressenavn
+            folkeregistermetadata{
+                ...folkeregistermetadataDetails
+            }
+            gyldigFraOgMed
+            gyldigTilOgMed
+            matrikkeladresse {
+                ...matrikkeladresseDetails
+            }
+            metadata {
+                ...metadataDetails
+            }
+            oppholdAnnetSted
+            utenlandskAdresse {
+                ...utenlandskAdresseDetails
+            }
+            vegadresse {
+                ... vegadresseDetails
+            }
+
+        }
+        bostedsadresse {
+            angittFlyttedato
+            coAdressenavn
+            folkeregistermetadata {
+                ...folkeregistermetadataDetails
+            }
+            gyldigFraOgMed
+            gyldigTilOgMed
+            matrikkeladresse{
+                ...matrikkeladresseDetails
+            }
+            metadata{
+                ...metadataDetails
+            }
+            ukjentBosted{
+                bostedskommune
+            }
+            utenlandskAdresse{
+                ...utenlandskAdresseDetails
+            }
+            vegadresse{
+                ...vegadresseDetails
+            }
+        }
+    }
+}
