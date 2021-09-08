@@ -1,0 +1,13 @@
+query hentPersonNavnBolk($identer: [ID!]!) {
+    hentPersonBolk(identer: $identer ) {
+        ident
+        person{
+            navn{
+                etternavn
+                fornavn
+                gyldigFraOgMed
+                mellomnavn
+            }
+        }
+    }
+}

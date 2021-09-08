@@ -104,15 +104,6 @@ type FalskIdentitetIdentifiserendeInformasjon {
     statsborgerskap: [String!]!
 }
 
-" todo: DEPRCATED & FOR REMOVAL: Familierelasjoner vil bli fjernet fra PDL 1. september 2021: Opplysningen Familierelasjon har byttet navn til ForelderBarnRelasjon. Mer informasjon i dokumentasjonen."
-type Familierelasjon {
-    folkeregistermetadata: Folkeregistermetadata
-    metadata: Metadata!
-    minRolleForPerson: Familierelasjonsrolle
-    relatertPersonsIdent: String!
-    relatertPersonsRolle: Familierelasjonsrolle!
-}
-
 type Foedsel {
     foedekommune: String
     foedeland: String
@@ -214,6 +205,84 @@ type InnflyttingTilNorge {
     fraflyttingsland: String
     fraflyttingsstedIUtlandet: String
     metadata: Metadata!
+}
+
+type KartverketAdresse {
+    id: Long!
+    matrikkeladresse: KartverketMatrikkeladresse
+    vegadresse: KartverketVegadresse
+}
+
+type KartverketBydel {
+    bydelsnavn: String
+    bydelsnummer: String
+}
+
+type KartverketFylke {
+    navn: String
+    nummer: String
+}
+
+type KartverketGrunnkrets {
+    grunnkretsnavn: String
+    grunnkretsnummer: String
+}
+
+type KartverketKommune {
+    fylke: KartverketFylke
+    navn: String
+    nummer: String
+}
+
+type KartverketMatrikkeladresse {
+    adressetilleggsnavn: String
+    bydel: KartverketBydel
+    grunnkrets: KartverketGrunnkrets
+    kortnavn: String
+    matrikkelnummer: KartverketMatrikkelnummer
+    postnummeromraade: KartverketPostnummeromraade
+    representasjonspunkt: KartverketRepresentasjonspunkt
+    undernummer: Int
+}
+
+type KartverketMatrikkelnummer {
+    bruksnummer: Int
+    festenummer: Int
+    gaardsnummer: Int
+    kommunenummer: String
+    seksjonsnummer: Int
+}
+
+type KartverketPostnummeromraade {
+    postnummer: String
+    poststed: String
+}
+
+type KartverketRepresentasjonspunkt {
+    posisjonskvalitet: Int
+    x: Float
+    y: Float
+    z: Float
+}
+
+type KartverketVeg {
+    adressekode: Int
+    adressenavn: String
+    kommune: KartverketKommune
+    kortnavn: String
+    stedsnummer: String
+}
+
+type KartverketVegadresse {
+    adressetilleggsnavn: String
+    bokstav: String
+    bydel: KartverketBydel
+    grunnkrets: KartverketGrunnkrets
+    kortnavn: String
+    nummer: Int
+    postnummeromraade: KartverketPostnummeromraade
+    representasjonspunkt: KartverketRepresentasjonspunkt
+    veg: KartverketVeg
 }
 
 type Kjoenn {
@@ -369,7 +438,6 @@ type Person {
     doedfoedtBarn: [DoedfoedtBarn!]!
     doedsfall: [Doedsfall!]!
     falskIdentitet: FalskIdentitet
-    familierelasjoner: [Familierelasjon!]! @deprecated(reason : "Opplysningen Familierelasjon har byttet navn til ForelderBarnRelasjon. Mer informasjon i dokumentasjonen. Familierelasjoner vil bli fjernet fra PDL 1. september 2021.")
     foedsel: [Foedsel!]!
     folkeregisteridentifikator(historikk: Boolean = false): [Folkeregisteridentifikator!]!
     folkeregisterpersonstatus(historikk: Boolean = false): [Folkeregisterpersonstatus!]!
@@ -460,6 +528,7 @@ type Postboksadresse {
 
 type Query {
     forslagAdresse(parameters: CompletionParameters): AdresseCompletionResult
+    hentAdresse(matrikkelId: ID!): KartverketAdresse
     hentGeografiskTilknytning(ident: ID!): GeografiskTilknytning
     hentIdenter(grupper: [IdentGruppe!], historikk: Boolean = false, ident: ID!): Identliste
     hentIdenterBolk(grupper: [IdentGruppe!], historikk: Boolean = false, identer: [ID!]!): [HentIdenterBolkResult!]!

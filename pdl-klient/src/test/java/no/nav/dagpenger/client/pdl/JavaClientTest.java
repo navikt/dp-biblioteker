@@ -1,5 +1,6 @@
 package no.nav.dagpenger.client.pdl;
 
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -8,6 +9,7 @@ import static no.nav.dagpenger.pdl.HttpClientKt.createAccessTokenFun;
 import static no.nav.dagpenger.pdl.HttpClientKt.createRequestBuilder;
 import no.nav.dagpenger.pdl.PersonOppslag;
 import static no.nav.dagpenger.pdl.PersonOppslagKt.createPersonOppslag;
+import no.nav.pdl.hentpersonnavnbolk.HentPersonBolkResult;
 import no.nav.pdl.personby.Person;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -28,11 +30,13 @@ public class JavaClientTest {
             "https://pdl-api.dev.intern.nav.no/graphql",
             createRequestBuilder(createAccessTokenFun("api://dev-fss.pdl.pdl-api/.default", env)));
 
-//        Person person = personOppslagClient.hentPerson("14108009242");
+        Person person = personOppslagClient.hentPerson("14108009242");
+        System.out.println(person);
 //        Person person = personOppslagClient.hentPerson("01038401226");
 //        Person person = personOppslagClient.hentPerson("20028418370");
-        Person person = personOppslagClient.hentPerson("25108621845");
+//        Person person = personOppslagClient.hentPerson("25108621845");
 
-        System.out.println(person);
+        List<HentPersonBolkResult> barn = personOppslagClient.hentBarn("14108009242");
+        System.out.println(barn);
     }
 }
