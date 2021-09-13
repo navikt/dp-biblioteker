@@ -2,6 +2,7 @@ package no.nav.dagpenger.client.pdl;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -10,7 +11,7 @@ import static no.nav.dagpenger.pdl.HttpClientKt.createAccessTokenFun;
 import static no.nav.dagpenger.pdl.HttpClientKt.createRequestBuilder;
 import no.nav.dagpenger.pdl.PersonOppslag;
 import static no.nav.dagpenger.pdl.PersonOppslagKt.createPersonOppslag;
-import no.nav.pdl.personby.Person;
+import no.nav.pdl.personerby.HentPersonBolkResult;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -41,7 +42,7 @@ public class JavaClientTest {
 
         Set<String> fnrs = new HashSet<>();
         Collections.addAll(fnrs, "14108009242", "01038401226", "20028418370", "25108621845");
-        Set<Person> personer = personOppslagClient.hentPersoner(fnrs);
+        List<HentPersonBolkResult> personer = personOppslagClient.hentPersoner(fnrs);
         System.out.println(personer);
     }
 }

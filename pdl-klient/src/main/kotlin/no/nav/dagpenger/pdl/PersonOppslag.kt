@@ -3,17 +3,16 @@ package no.nav.dagpenger.pdl
 import com.expediagroup.graphql.client.ktor.GraphQLKtorClient
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toSet
 import kotlinx.coroutines.runBlocking
 import no.nav.pdl.PersonBy
+import no.nav.pdl.PersonerBy
 import no.nav.pdl.personby.Person
+import no.nav.pdl.personerby.HentPersonBolkResult
 import java.net.URL
 
 interface PersonOppslag {
     fun hentPerson(fnr: String): Person
-    fun hentPersoner(fnrs: Set<String>): Set<Person>
+    fun hentPersoner(fnrs: Set<String>): List<HentPersonBolkResult>
 }
 
 @JvmOverloads
@@ -36,8 +35,12 @@ fun createPersonOppslag(
             return client.execute(PersonBy(PersonBy.Variables(fnr)), requestBuilder).responseParser().hentPerson!!
         }
 
-        override fun hentPersoner(fnrs: Set<String>): Set<Person> = runBlocking {
-            fnrs.asFlow().map { hentPersonSuspendable(it) }.toSet()
+        private suspend fun hentPersonerSuspendable(fnrs: List<String>): List<HentPersonBolkResult> {
+            return client.execute(PersonerBy(PersonerBy.Variables(fnrs)), requestBuilder).responseParser().hentPersonBolk
+        }
+
+        override fun hentPersoner(fnrs: Set<String>): List<HentPersonBolkResult> = runBlocking {
+            hentPersonerSuspendable(fnrs.toList())
         }
     }
 }
