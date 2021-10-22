@@ -82,6 +82,9 @@ query personBy($ident: ID! ) {
             relatertPersonsRolle
 
         }
+        doedsfall{
+            doedsdato
+        }
         foedsel {
             foedselsdato
         }
