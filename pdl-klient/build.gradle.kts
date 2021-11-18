@@ -28,18 +28,21 @@ dependencies {
 tasks.withType<org.gradle.jvm.tasks.Jar> { duplicatesStrategy = DuplicatesStrategy.INCLUDE }
 
 val schema = "schema.graphql"
-
-val graphqlGenerateClient by tasks.getting(com.expediagroup.graphql.plugin.gradle.tasks.GraphQLGenerateClientTask::class) {
-    packageName.set("no.nav.pdl")
-    schemaFileName.set("$projectDir/src/main/resources/pdl/pdl-api-schema.graphql")
-    queryFileDirectory.set("$projectDir/src/main/resources/pdl")
-    serializer.set(GraphQLSerializer.JACKSON)
-    customScalars.set(
-        listOf(
+graphql {
+    client {
+        packageName = "no.nav.pdl"
+        schemaFile = file("$projectDir/src/main/resources/pdl/pdl-api-schema.graphql")
+        queryFileDirectory = "$projectDir/src/main/resources/pdl"
+        serializer = GraphQLSerializer.JACKSON
+        customScalars = listOf(
             GraphQLScalar("Date", "java.time.LocalDate", "no.nav.dagpenger.pdl.graphql.converter.DateScalar"),
-            GraphQLScalar("DateTime", "java.time.LocalDateTime", "no.nav.dagpenger.pdl.graphql.converter.DateTimeScalar")
+            GraphQLScalar(
+                "DateTime",
+                "java.time.LocalDateTime",
+                "no.nav.dagpenger.pdl.graphql.converter.DateTimeScalar"
+            )
         )
-    )
+    }
 }
 
 tasks.named("compileKotlin") {

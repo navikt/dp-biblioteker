@@ -258,7 +258,7 @@ object Wiremock {
 }
 
 object Graphql {
-    const val version = "4.1.1"
+    const val version = "5.2.0"
     const val graphql = "com.expediagroup.graphql"
     val client = library("client")
     fun library(name: String) = "com.expediagroup:graphql-kotlin-$name:$version"
