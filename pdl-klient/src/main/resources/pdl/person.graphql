@@ -62,130 +62,132 @@ fragment utenlandskAdresseDetails on UtenlandskAdresse {
     regionDistriktOmraade
     landkode
 }
+query personBy($identer: [ID!]!) {
+    hentPersonBolk(identer: $identer)  {
+       person  {
+           folkeregisteridentifikator {
+               identifikasjonsnummer
+               status
+               type
+           }
+           forelderBarnRelasjon {
+               folkeregistermetadata {
+                   ...folkeregistermetadataDetails
+               }
+               metadata{
+                   ...metadataDetails
+               }
+               minRolleForPerson
+               relatertPersonsIdent
+               relatertPersonsRolle
 
-query personBy($ident: ID! ) {
-    hentPerson(ident: $ident) {
-        folkeregisteridentifikator {
-            identifikasjonsnummer
-            status
-            type
-        }
-        forelderBarnRelasjon {
-            folkeregistermetadata {
-                ...folkeregistermetadataDetails
-            }
-            metadata{
-                ...metadataDetails
-            }
-            minRolleForPerson
-            relatertPersonsIdent
-            relatertPersonsRolle
+           }
+           doedsfall{
+               doedsdato
+           }
+           foedsel {
+               foedselsdato
+           }
+           navn {
+               etternavn
+               fornavn
+               gyldigFraOgMed
+               mellomnavn
+           }
+           statsborgerskap{
+               land
+           }
+           kjoenn{
+               kjoenn
+           }
+           adressebeskyttelse {
+               gradering
+           }
+           kontaktadresse
+           {
+               coAdressenavn
+               folkeregistermetadata {
+                   ...folkeregistermetadataDetails
+               }
+               gyldigFraOgMed
+               gyldigTilOgMed
+               metadata {
+                   ...metadataDetails
+               }
+               postadresseIFrittFormat{
+                   adresselinje1
+                   adresselinje2
+                   adresselinje3
+                   postnummer
+               }
+               postboksadresse {
+                   postboks
+                   postbokseier
+                   postnummer
+               }
+               type
+               utenlandskAdresse {
+                   ...utenlandskAdresseDetails
+               }
+               utenlandskAdresseIFrittFormat {
+                   adresselinje1
+                   adresselinje2
+                   adresselinje3
+                   byEllerStedsnavn
+                   landkode
+                   postkode
+               }
+               vegadresse {
+                   ...vegadresseDetails
+               }
+           }
+           oppholdsadresse {
+               coAdressenavn
+               folkeregistermetadata{
+                   ...folkeregistermetadataDetails
+               }
+               gyldigFraOgMed
+               gyldigTilOgMed
+               matrikkeladresse {
+                   ...matrikkeladresseDetails
+               }
+               metadata {
+                   ...metadataDetails
+               }
+               oppholdAnnetSted
+               utenlandskAdresse {
+                   ...utenlandskAdresseDetails
+               }
+               vegadresse {
+                   ... vegadresseDetails
+               }
 
-        }
-        doedsfall{
-            doedsdato
-        }
-        foedsel {
-            foedselsdato
-        }
-        navn {
-            etternavn
-            fornavn
-            gyldigFraOgMed
-            mellomnavn
-        }
-        statsborgerskap{
-           land
-        }
-        kjoenn{
-            kjoenn
-        }
-        adressebeskyttelse {
-            gradering
-        }
-        kontaktadresse
-        {
-            coAdressenavn
-            folkeregistermetadata {
-                ...folkeregistermetadataDetails
-            }
-            gyldigFraOgMed
-            gyldigTilOgMed
-            metadata {
-                ...metadataDetails
-            }
-            postadresseIFrittFormat{
-                adresselinje1
-                adresselinje2
-                adresselinje3
-                postnummer
-            }
-            postboksadresse {
-                postboks
-                postbokseier
-                postnummer
-            }
-            type
-            utenlandskAdresse {
-                ...utenlandskAdresseDetails
-            }
-            utenlandskAdresseIFrittFormat {
-                adresselinje1
-                adresselinje2
-                adresselinje3
-                byEllerStedsnavn
-                landkode
-                postkode
-            }
-            vegadresse {
-                ...vegadresseDetails
-            }
-        }
-        oppholdsadresse {
-            coAdressenavn
-            folkeregistermetadata{
-                ...folkeregistermetadataDetails
-            }
-            gyldigFraOgMed
-            gyldigTilOgMed
-            matrikkeladresse {
-                ...matrikkeladresseDetails
-            }
-            metadata {
-                ...metadataDetails
-            }
-            oppholdAnnetSted
-            utenlandskAdresse {
-                ...utenlandskAdresseDetails
-            }
-            vegadresse {
-                ... vegadresseDetails
-            }
-
-        }
-        bostedsadresse {
-            angittFlyttedato
-            coAdressenavn
-            folkeregistermetadata {
-                ...folkeregistermetadataDetails
-            }
-            gyldigFraOgMed
-            gyldigTilOgMed
-            matrikkeladresse{
-                ...matrikkeladresseDetails
-            }
-            metadata{
-                ...metadataDetails
-            }
-            ukjentBosted{
-                bostedskommune
-            }
-            utenlandskAdresse{
-                ...utenlandskAdresseDetails
-            }
-            vegadresse{
-                ...vegadresseDetails
-            }
-        }
+           }
+           bostedsadresse {
+               angittFlyttedato
+               coAdressenavn
+               folkeregistermetadata {
+                   ...folkeregistermetadataDetails
+               }
+               gyldigFraOgMed
+               gyldigTilOgMed
+               matrikkeladresse{
+                   ...matrikkeladresseDetails
+               }
+               metadata{
+                   ...metadataDetails
+               }
+               ukjentBosted{
+                   bostedskommune
+               }
+               utenlandskAdresse{
+                   ...utenlandskAdresseDetails
+               }
+               vegadresse{
+                   ...vegadresseDetails
+               }
+           }
+       }
     }
 }
+

@@ -3,17 +3,15 @@ package no.nav.dagpenger.pdl
 import com.expediagroup.graphql.client.ktor.GraphQLKtorClient
 import io.ktor.client.HttpClient
 import io.ktor.client.request.HttpRequestBuilder
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toSet
 import kotlinx.coroutines.runBlocking
 import no.nav.pdl.PersonBy
+import no.nav.pdl.enums.ForelderBarnRelasjonRolle
 import no.nav.pdl.personby.Person
 import java.net.URL
 
 interface PersonOppslag {
     fun hentPerson(fnr: String): Person
-    fun hentPersoner(fnrs: Set<String>): Set<Person>
+    fun hentBarn(fnr: String): List<Person>
 }
 
 @JvmOverloads
@@ -29,15 +27,22 @@ fun createPersonOppslag(
         )
 
         override fun hentPerson(fnr: String): Person = runBlocking {
-            hentPersonSuspendable(fnr)
+            hentPersoner(listOf(fnr)).single()
         }
 
-        private suspend fun hentPersonSuspendable(fnr: String): Person {
-            return client.execute(PersonBy(PersonBy.Variables(fnr)), requestBuilder).responseParser().hentPerson!!
+        private suspend fun hentPersoner(fnrs: List<String>): List<Person> {
+            return client.execute(PersonBy(PersonBy.Variables(fnrs)), requestBuilder)
+                .responseParser().hentPersonBolk
+                .mapNotNull { it.person }
         }
 
-        override fun hentPersoner(fnrs: Set<String>): Set<Person> = runBlocking {
-            fnrs.asFlow().map { hentPersonSuspendable(it) }.toSet()
+        override fun hentBarn(fnr: String): List<Person> = runBlocking {
+            hentPerson(fnr)
+                .forelderBarnRelasjon
+                .filter { it.relatertPersonsRolle == ForelderBarnRelasjonRolle.BARN }
+                .map { it.relatertPersonsIdent }
+                .let { hentPersoner(it) }
+                .filter { it.doedsfall.isEmpty() }
         }
     }
 }

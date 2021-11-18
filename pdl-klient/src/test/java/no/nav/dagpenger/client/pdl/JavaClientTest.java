@@ -1,11 +1,14 @@
 package no.nav.dagpenger.client.pdl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import jdk.nashorn.api.tree.ArrayLiteralTree;
 import static no.nav.dagpenger.pdl.HttpClientKt.createAccessTokenFun;
 import static no.nav.dagpenger.pdl.HttpClientKt.createRequestBuilder;
 import no.nav.dagpenger.pdl.PersonOppslag;
@@ -38,10 +41,5 @@ public class JavaClientTest {
 
 //        List<HentPersonBolkResult> barn = personOppslagClient.hentBarn("14108009242");
 //        System.out.println(barn);
-
-        Set<String> fnrs = new HashSet<>();
-        Collections.addAll(fnrs, "14108009242", "01038401226", "20028418370", "25108621845");
-        Set<Person> personer = personOppslagClient.hentPersoner(fnrs);
-        System.out.println(personer);
     }
 }
