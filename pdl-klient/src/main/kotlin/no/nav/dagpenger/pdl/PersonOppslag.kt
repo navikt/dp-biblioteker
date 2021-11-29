@@ -41,8 +41,9 @@ fun createPersonOppslag(
                 .forelderBarnRelasjon
                 .filter { it.relatertPersonsRolle == ForelderBarnRelasjonRolle.BARN }
                 .map { it.relatertPersonsIdent }
-                .let { hentPersoner(it) }
-                .filter { it.doedsfall.isEmpty() }
+                .takeIf { it.isNotEmpty() }
+                ?.let { hentPersoner(it) }
+                ?.filter { it.doedsfall.isEmpty() } ?: emptyList()
         }
     }
 }

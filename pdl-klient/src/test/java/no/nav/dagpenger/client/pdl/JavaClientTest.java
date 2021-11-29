@@ -19,7 +19,7 @@ public class JavaClientTest {
     public void test() {
         final Map<String, String> env = Stream.of(new String[][]{
             {"AZURE_APP_CLIENT_ID", "b2d1d0e4-e197-477b-bc9e-b50b148c4cb9"},
-            {"AZURE_APP_CLIENT_SECRET", "hubba"},
+            {"AZURE_APP_CLIENT_SECRET", ""},
             {"AZURE_OPENID_CONFIG_TOKEN_ENDPOINT", "https://login.microsoftonline.com/966ac572-f5b7-4bbe-aa88-c76419c0f851/oauth2/v2.0/token"}
         }).collect(Collectors.toMap(data -> data[0], data -> data[1]));
 
@@ -34,7 +34,11 @@ public class JavaClientTest {
 //        Person person = personOppslagClient.hentPerson("20028418370");
 //        Person person = personOppslagClient.hentPerson("25108621845");
 
-        List<Person> barn = personOppslagClient.hentBarn("14108009242");
+        List<Person> barn = personOppslagClient.hentBarn("08089408084");//ingen barn
         System.out.println(barn);
+
+        barn = personOppslagClient.hentBarn("14108009242");
+        System.out.println(barn);
+
     }
 }
