@@ -81,7 +81,7 @@ object Junit5 {
     const val engine = "org.junit.jupiter:junit-jupiter-engine:$version"
     const val vintageEngine = "org.junit.vintage:junit-vintage-engine:$version"
     const val kotlinRunner = "io.kotlintest:kotlintest-runner-junit5:3.4.2"
-    fun library(name: String) = "org.junit.jupiter:junit-jupiter-$name:$version"
+    fun library(name: String) = "Config.junit.jupiter:junit-jupiter-$name:$version"
 }
 
 object Json {
@@ -117,7 +117,7 @@ object Konfig {
 }
 
 object Kotlin {
-    const val version = "1.5.30"
+    const val version = "1.6.0"
     const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
 
     object Coroutines {
@@ -152,7 +152,7 @@ object Kotlinx {
 }
 
 object Ktor {
-    const val version = "1.6.3"
+    const val version = "1.6.6"
     const val server = "io.ktor:ktor-server:$version"
     const val serverNetty = "io.ktor:ktor-server-netty:$version"
     const val auth = "io.ktor:ktor-auth:$version"
