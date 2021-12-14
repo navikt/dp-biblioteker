@@ -81,7 +81,7 @@ object Junit5 {
     const val engine = "org.junit.jupiter:junit-jupiter-engine:$version"
     const val vintageEngine = "org.junit.vintage:junit-vintage-engine:$version"
     const val kotlinRunner = "io.kotlintest:kotlintest-runner-junit5:3.4.2"
-    fun library(name: String) = "Config.junit.jupiter:junit-jupiter-$name:$version"
+    fun library(name: String) = "org.junit.jupiter:junit-jupiter-$name:$version"
 }
 
 object Json {
@@ -164,7 +164,7 @@ object Ktor {
 }
 
 object Log4j2 {
-    const val version = "2.14.1"
+    const val version = "2.16.0"
     const val api = "org.apache.logging.log4j:log4j-api:$version"
     const val core = "org.apache.logging.log4j:log4j-core:$version"
     const val slf4j = "org.apache.logging.log4j:log4j-slf4j-impl:$version"
@@ -258,7 +258,7 @@ object Wiremock {
 }
 
 object Graphql {
-    const val version = "5.2.0"
+    const val version = "4.1.1"
     const val graphql = "com.expediagroup.graphql"
     val client = library("client")
     fun library(name: String) = "com.expediagroup:graphql-kotlin-$name:$version"
