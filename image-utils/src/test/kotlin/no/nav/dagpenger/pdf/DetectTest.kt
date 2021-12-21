@@ -1,6 +1,7 @@
 package no.nav.dagpenger.pdf
 
 import io.kotest.matchers.shouldBe
+import no.nav.dagpenger.pdf.Detect.isImage
 import no.nav.dagpenger.pdf.Detect.isJpeg
 import no.nav.dagpenger.pdf.Detect.isPdf
 import no.nav.dagpenger.pdf.Detect.isPng
@@ -40,6 +41,17 @@ class DetectTest {
 
         "/images/fake_jpg.jpg".asBufferedInputStream().use {
             it.isJpeg() shouldBe false
+        }
+    }
+
+    @Test
+    fun `detect image`() {
+        "/images/bilde.jpg".asBufferedInputStream().use {
+            it.isImage() shouldBe true
+        }
+
+        "/images/bilde.jpg".asBufferedInputStream().use {
+            it.isImage() shouldBe true
         }
     }
 

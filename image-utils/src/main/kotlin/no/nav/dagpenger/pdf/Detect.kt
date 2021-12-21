@@ -11,4 +11,6 @@ object Detect {
     fun InputStream.isPng(): Boolean = this.detect() == "image/png"
     fun InputStream.isJpeg(): Boolean = this.detect() == "image/jpeg"
     fun InputStream.isPdf(): Boolean = this.detect() == "application/pdf"
+
+    fun InputStream.isImage(): Boolean = this.isJpeg() || this.isPng()
 }
