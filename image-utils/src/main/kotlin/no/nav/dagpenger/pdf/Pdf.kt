@@ -34,7 +34,6 @@ class InvalidPDFDocument(private val exception: Exception) : PDFDocument(PDDocum
 class ValidPDFDocument(document: PDDocument) : PDFDocument(document) {
     override fun split(splitAtPage: Int): List<PDFDocument> {
         return Splitter().also { it.setSplitAtPage(splitAtPage) }.split(this.document).map { ValidPDFDocument(it) }
-
     }
 
     override fun save(outputStream: OutputStream) {

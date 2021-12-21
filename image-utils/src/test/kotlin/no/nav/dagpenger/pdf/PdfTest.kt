@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test
 import java.io.FileNotFoundException
 import java.io.InputStream
 
-
 class PdfTest {
 
     @Test
@@ -58,4 +57,3 @@ class PdfTest {
             ?: throw FileNotFoundException()
     }
 }
-
