@@ -5,7 +5,7 @@ import org.apache.pdfbox.pdmodel.PDDocument
 import java.io.Closeable
 import java.io.OutputStream
 
-sealed class PDFDocument private constructor(protected val document: PDDocument) : Closeable {
+sealed class PDFDocument private constructor(val document: PDDocument) : Closeable {
     companion object {
         fun load(bytes: ByteArray): PDFDocument {
             return try {
