@@ -3,6 +3,7 @@ package no.nav.dagpenger.pdf
 import org.apache.pdfbox.multipdf.Splitter
 import org.apache.pdfbox.pdmodel.PDDocument
 import java.io.Closeable
+import java.io.InputStream
 import java.io.OutputStream
 
 sealed class PDFDocument private constructor(val document: PDDocument) : Closeable {
@@ -10,6 +11,14 @@ sealed class PDFDocument private constructor(val document: PDDocument) : Closeab
         fun load(bytes: ByteArray): PDFDocument {
             return try {
                 ValidPDFDocument(PDDocument.load(bytes))
+            } catch (e: Exception) {
+                InvalidPDFDocument(e)
+            }
+        }
+
+        fun load(inputStream: InputStream): PDFDocument {
+            return try {
+                ValidPDFDocument(PDDocument.load(inputStream.buffered()))
             } catch (e: Exception) {
                 InvalidPDFDocument(e)
             }

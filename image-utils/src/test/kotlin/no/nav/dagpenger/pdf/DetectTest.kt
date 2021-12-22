@@ -6,57 +6,50 @@ import no.nav.dagpenger.pdf.Detect.isJpeg
 import no.nav.dagpenger.pdf.Detect.isPdf
 import no.nav.dagpenger.pdf.Detect.isPng
 import org.junit.jupiter.api.Test
-import java.io.BufferedInputStream
-import java.io.FileNotFoundException
 
 class DetectTest {
 
     @Test
     fun `detect pdf`() {
-        "/pdfs/minimal.pdf".asBufferedInputStream().use {
+        "/pdfs/minimal.pdf".fileAsBufferedInputStream().use {
             it.isPdf() shouldBe true
         }
 
-        "/pdfs/fake_pdf.pdf".asBufferedInputStream().use {
+        "/pdfs/fake_pdf.pdf".fileAsBufferedInputStream().use {
             it.isPdf() shouldBe false
         }
     }
 
     @Test
     fun `detect png`() {
-        "/images/bilde.png".asBufferedInputStream().use {
+        "/images/bilde.png".fileAsBufferedInputStream().use {
             it.isPng() shouldBe true
         }
 
-        "/images/fake_png.png".asBufferedInputStream().use {
+        "/images/fake_png.png".fileAsBufferedInputStream().use {
             it.isPng() shouldBe false
         }
     }
 
     @Test
     fun `detect jpg`() {
-        "/images/bilde.jpg".asBufferedInputStream().use {
+        "/images/bilde.jpeg".fileAsBufferedInputStream().use {
             it.isJpeg() shouldBe true
         }
 
-        "/images/fake_jpg.jpg".asBufferedInputStream().use {
+        "/images/fake_jpeg.jpeg".fileAsBufferedInputStream().use {
             it.isJpeg() shouldBe false
         }
     }
 
     @Test
     fun `detect image`() {
-        "/images/bilde.jpg".asBufferedInputStream().use {
+        "/images/bilde.jpeg".fileAsBufferedInputStream().use {
             it.isImage() shouldBe true
         }
 
-        "/images/bilde.jpg".asBufferedInputStream().use {
+        "/images/bilde.jpeg".fileAsBufferedInputStream().use {
             it.isImage() shouldBe true
         }
-    }
-
-    private fun String.asBufferedInputStream(): BufferedInputStream {
-        return object {}.javaClass.getResource(this)?.openStream()?.buffered()
-            ?: throw FileNotFoundException()
     }
 }
