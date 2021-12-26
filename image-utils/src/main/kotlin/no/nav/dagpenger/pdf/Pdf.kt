@@ -2,6 +2,8 @@ package no.nav.dagpenger.pdf
 
 import org.apache.pdfbox.multipdf.Splitter
 import org.apache.pdfbox.pdmodel.PDDocument
+import org.apache.pdfbox.rendering.PDFRenderer
+import java.awt.image.BufferedImage
 import java.io.Closeable
 import java.io.InputStream
 import java.io.OutputStream
@@ -25,11 +27,31 @@ sealed class PDFDocument private constructor(val document: PDDocument) : Closeab
         }
     }
 
-    open fun split(splitAtPage: Int = 1): List<PDFDocument> = emptyList()
-    open fun save(outputStream: OutputStream): Unit = throw NotImplementedError()
+    fun numberOfPages(): Int = this.document.numberOfPages
+
+    fun split(splitAtPage: Int = 1): List<PDFDocument> {
+        require(numberOfPages() > 0) {
+            "Document must have a least one page."
+        }
+        return Splitter().also { it.setSplitAtPage(splitAtPage) }.split(this.document).map { ValidPDFDocument(it) }
+    }
+
+    open fun save(outputStream: OutputStream) {
+        require(numberOfPages() > 0) {
+            "Document must have a least one page."
+        }
+        this.document.save(outputStream)
+    }
+
     val signed: Boolean = this.document.signatureDictionaries.isEmpty().not()
     val encrypted: Boolean = this.document.isEncrypted
-    fun numberOfPages(): Int = this.document.numberOfPages
+
+    fun convertToImage(pageIndex: Int): BufferedImage {
+        require(numberOfPages() > pageIndex) {
+            "Document has only ${numberOfPages()} pages"
+        }
+        return PDFRenderer(this.document).renderImage(pageIndex)
+    }
 
     override fun close() {
         this.document.close()
@@ -40,12 +62,4 @@ class InvalidPDFDocument(private val exception: Exception) : PDFDocument(PDDocum
     fun message() = exception.message
 }
 
-class ValidPDFDocument(document: PDDocument) : PDFDocument(document) {
-    override fun split(splitAtPage: Int): List<PDFDocument> {
-        return Splitter().also { it.setSplitAtPage(splitAtPage) }.split(this.document).map { ValidPDFDocument(it) }
-    }
-
-    override fun save(outputStream: OutputStream) {
-        this.document.save(outputStream)
-    }
-}
+class ValidPDFDocument(document: PDDocument) : PDFDocument(document)

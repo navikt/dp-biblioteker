@@ -60,6 +60,21 @@ object ImageConverter {
             }
         }
     }
+
+//    fun toPng(input: ByteArray, dimension: Dimension): ByteArray {
+//        require(input.isImage() || input.isPdf()) {
+//            "Kan kun konvertere PDF, JPG og PNG til PNG."
+//        }
+//
+//        return if (input.isPdf()) {
+//            val pdf = PDFDocument.load(input)
+//
+//
+//
+//        } else {
+//
+//        }
+//    }
 }
 
 object ImageScaler {
