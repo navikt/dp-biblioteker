@@ -3,6 +3,7 @@ package no.nav.dagpenger.pdf
 import no.nav.dagpenger.pdf.Detect.isImage
 import no.nav.dagpenger.pdf.Detect.isPdf
 import no.nav.dagpenger.pdf.ImageConverter.requireImage
+import no.nav.dagpenger.pdf.ImageScaler.ScaleMode.SCALE_TO_FIT_INSIDE_BOX
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.pdmodel.PDPage
 import org.apache.pdfbox.pdmodel.PDPageContentStream
@@ -45,6 +46,20 @@ object ImageConverter {
             os.toByteArray()
         }
     }
+
+    fun toPDF(input: InputStream, dimension: Dimension): ByteArray {
+        requireImage(input)
+
+        return ImageScaler.scale(input, dimension, SCALE_TO_FIT_INSIDE_BOX).let { image ->
+            ByteArrayOutputStream().use { os ->
+                ImageIO.write(image, "png", os)
+                image.flush()
+                os.toByteArray()
+            }.let {
+                toPDF(it)
+            }
+        }
+    }
 }
 
 object ImageScaler {
@@ -63,7 +78,7 @@ object ImageScaler {
         val scaleFactorHeight: Double = dimension.getHeight() / input.height
 
         val scalingFactor = when (scaleMode) {
-            ScaleMode.SCALE_TO_FIT_INSIDE_BOX -> min(scaleFactorWidth, scaleFactorHeight)
+            SCALE_TO_FIT_INSIDE_BOX -> min(scaleFactorWidth, scaleFactorHeight)
             ScaleMode.CROP_TO_FILL_ENTIRE_BOX -> max(scaleFactorWidth, scaleFactorHeight)
         }
 
@@ -74,7 +89,7 @@ object ImageScaler {
         )
 
         return when (scaleMode) {
-            ScaleMode.SCALE_TO_FIT_INSIDE_BOX -> scaledImage
+            SCALE_TO_FIT_INSIDE_BOX -> scaledImage
             ScaleMode.CROP_TO_FILL_ENTIRE_BOX -> crop(scaledImage, dimension)
         }
     }
