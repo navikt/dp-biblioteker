@@ -50,10 +50,10 @@ object ImageConverter {
 
     fun toPDF(input: InputStream, dimension: Dimension): ByteArray {
         requireImage(input)
-        return ImageScaler.scale(input, dimension, SCALE_TO_FIT_INSIDE_BOX).toByteArray().let { toPDF(it) }
+        return ImageScaler.scale(input, dimension, SCALE_TO_FIT_INSIDE_BOX).toPNG().let { toPDF(it) }
     }
 
-    private fun BufferedImage.toByteArray(): ByteArray {
+    private fun BufferedImage.toPNG(): ByteArray {
         return ByteArrayOutputStream().use { os ->
             ImageIO.write(this, "png", os)
             this.flush()
@@ -61,24 +61,25 @@ object ImageConverter {
         }
     }
 
-//    fun toPng(input: ByteArray, dimension: Dimension): ByteArray {
-//        require(input.isImage() || input.isPdf()) {
-//            "Kan kun konvertere PDF, JPG og PNG til PNG."
-//        }
-//
-//        return if (input.isPdf()) {
-//            PDFDocument.load(input)
-//
-//        } else {
-//                ImageScaler.scale(input, dimension, SCALE_TO_FIT_INSIDE_BOX).let { image ->
-//                    ImageIO.write(image, "png", os)
-//                    image.flush()
-//                    os.toByteArray()
-//                }
-//            }
-//
-//        }
-//    }
+    fun toPNG(input: ByteArray, dimension: Dimension): ByteArray {
+        require(input.isImage() || input.isPdf()) {
+            "Kan kun konvertere PDF, JPG og PNG til PNG."
+        }
+
+        return if (input.isPdf()) {
+            val pdfDocument = PDFDocument.load(input)
+            when (pdfDocument) {
+                is ValidPDFDocument -> {
+                    pdfDocument.convertToImage(0).let {
+                        ImageScaler.scale(it, dimension, SCALE_TO_FIT_INSIDE_BOX).toPNG()
+                    }
+                }
+                is InvalidPDFDocument -> throw IllegalArgumentException("Illegal pdf: ${pdfDocument.message()} ")
+            }
+        } else {
+            ImageScaler.scale(input, dimension, SCALE_TO_FIT_INSIDE_BOX).toPNG()
+        }
+    }
 }
 
 object ImageScaler {
@@ -90,7 +91,7 @@ object ImageScaler {
     fun scale(input: ByteArray, dimension: Dimension, scaleMode: ScaleMode): BufferedImage {
         requireImage(input)
         return ByteArrayInputStream(input).use { stream ->
-            scale(stream, dimension, scaleMode)
+            scale(ImageIO.read(stream), dimension, scaleMode)
         }
     }
 
