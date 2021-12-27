@@ -21,6 +21,21 @@ class DetectTest {
     }
 
     @Test
+    fun `detect list of byte arrays representing pdfs`() {
+
+        val legalPdf = "/pdfs/minimal.pdf".fileAsByteArray()
+        val illegalPdf = "/pdfs/fake_pdf.pdf".fileAsByteArray()
+
+        listOf(legalPdf, legalPdf).isPdf() shouldBe true
+
+        listOf(legalPdf).isPdf() shouldBe true
+
+        emptyList<ByteArray>().isPdf() shouldBe false
+        listOf(illegalPdf).isPdf() shouldBe false
+        listOf(legalPdf, illegalPdf).isPdf() shouldBe false
+    }
+
+    @Test
     fun `detect png`() {
         "/images/bilde.png".fileAsBufferedInputStream().use {
             it.isPng() shouldBe true

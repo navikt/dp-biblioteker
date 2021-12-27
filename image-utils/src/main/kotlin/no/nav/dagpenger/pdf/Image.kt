@@ -38,7 +38,6 @@ object ImageConverter {
                 val image = PDImageXObject.createFromByteArray(document, input, null)
                 val page = PDPage(PDRectangle(image.width.toFloat(), image.height.toFloat()))
                 document.addPage(page)
-
                 PDPageContentStream(document, page).use {
                     it.drawImage(image, 0F, 0F)
                 }

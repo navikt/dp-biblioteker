@@ -1,9 +1,14 @@
 package no.nav.dagpenger.pdf
 
+import no.nav.dagpenger.pdf.Detect.isPdf
+import org.apache.pdfbox.io.MemoryUsageSetting
+import org.apache.pdfbox.multipdf.PDFMergerUtility
 import org.apache.pdfbox.multipdf.Splitter
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.rendering.PDFRenderer
 import java.awt.image.BufferedImage
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.io.Closeable
 import java.io.InputStream
 import java.io.OutputStream
@@ -23,6 +28,19 @@ sealed class PDFDocument private constructor(val document: PDDocument) : Closeab
                 ValidPDFDocument(PDDocument.load(inputStream.buffered()))
             } catch (e: Exception) {
                 InvalidPDFDocument(e)
+            }
+        }
+
+        fun merge(pages: List<ByteArray>): PDFDocument {
+            require(pages.isPdf()) { "All bytearrays in this non empty list must represent PDF files" }
+
+            return ByteArrayOutputStream().use { os ->
+                PDFMergerUtility().also {
+                    it.destinationStream = os
+                    it.addSources(pages.map { page -> ByteArrayInputStream(page) })
+                    it.mergeDocuments(MemoryUsageSetting.setupMainMemoryOnly())
+                }
+                load(os.toByteArray())
             }
         }
     }

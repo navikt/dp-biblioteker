@@ -66,6 +66,19 @@ class PdfTest {
     }
 
     @Test
+    fun `merge documents`() {
+        val pages: List<ByteArray> = listOf(
+            "/pdfs/minimal.pdf".fileAsByteArray(),
+            "/pdfs/minimal.pdf".fileAsByteArray()
+        )
+
+        PDFDocument.merge(pages).also {
+            it.shouldBeTypeOf<ValidPDFDocument>()
+            it.numberOfPages() shouldBe 2
+        }
+    }
+
+    @Test
     fun `convert page to image`() {
         "/pdfs/valid_with_5_pages.pdf".fileAsInputStream().use {
             PDFDocument.load(it).use { pdf ->
