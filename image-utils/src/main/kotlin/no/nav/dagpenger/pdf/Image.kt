@@ -12,6 +12,7 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject
 import org.imgscalr.Scalr
 import java.awt.Dimension
 import java.awt.image.BufferedImage
+import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import javax.imageio.ImageIO
@@ -49,15 +50,14 @@ object ImageConverter {
 
     fun toPDF(input: InputStream, dimension: Dimension): ByteArray {
         requireImage(input)
+        return ImageScaler.scale(input, dimension, SCALE_TO_FIT_INSIDE_BOX).toByteArray().let { toPDF(it) }
+    }
 
-        return ImageScaler.scale(input, dimension, SCALE_TO_FIT_INSIDE_BOX).let { image ->
-            ByteArrayOutputStream().use { os ->
-                ImageIO.write(image, "png", os)
-                image.flush()
-                os.toByteArray()
-            }.let {
-                toPDF(it)
-            }
+    private fun BufferedImage.toByteArray(): ByteArray {
+        return ByteArrayOutputStream().use { os ->
+            ImageIO.write(this, "png", os)
+            this.flush()
+            os.toByteArray()
         }
     }
 
@@ -67,11 +67,15 @@ object ImageConverter {
 //        }
 //
 //        return if (input.isPdf()) {
-//            val pdf = PDFDocument.load(input)
-//
-//
+//            PDFDocument.load(input)
 //
 //        } else {
+//                ImageScaler.scale(input, dimension, SCALE_TO_FIT_INSIDE_BOX).let { image ->
+//                    ImageIO.write(image, "png", os)
+//                    image.flush()
+//                    os.toByteArray()
+//                }
+//            }
 //
 //        }
 //    }
@@ -83,9 +87,16 @@ object ImageScaler {
         CROP_TO_FILL_ENTIRE_BOX
     }
 
+    fun scale(input: ByteArray, dimension: Dimension, scaleMode: ScaleMode): BufferedImage {
+        requireImage(input)
+        return ByteArrayInputStream(input).use { stream ->
+            scale(stream, dimension, scaleMode)
+        }
+    }
+
     fun scale(input: InputStream, dimension: Dimension, scaleMode: ScaleMode): BufferedImage {
         requireImage(input)
-        return input.use { scale(ImageIO.read(input), dimension, scaleMode) }
+        return scale(ImageIO.read(input), dimension, scaleMode)
     }
 
     fun scale(input: BufferedImage, dimension: Dimension, scaleMode: ScaleMode): BufferedImage {
