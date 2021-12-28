@@ -7,6 +7,7 @@ import io.kotest.matchers.types.shouldBeTypeOf
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.io.OutputStream
+import java.time.LocalDateTime
 
 class PdfTest {
 
@@ -84,6 +85,23 @@ class PdfTest {
             PDFDocument.load(it).use { pdf ->
                 shouldNotThrowAny { pdf.convertToImage(4) }
                 shouldThrow<IllegalArgumentException> { pdf.convertToImage(5) }
+            }
+        }
+    }
+
+    @Test
+    fun `watermark pdf`() {
+        "/pdfs/valid_with_5_pages.pdf".fileAsInputStream().use {
+            PDFDocument.load(it).use { pdf ->
+                shouldNotThrowAny {
+                    pdf.waterMark("12345", LocalDateTime.now())
+                }
+            }
+        }
+
+        PDFDocument.load("byasf".toByteArray()).use {
+            shouldThrow<IllegalArgumentException> {
+                it.waterMark("12345", LocalDateTime.now())
             }
         }
     }

@@ -12,6 +12,7 @@ import java.io.ByteArrayOutputStream
 import java.io.Closeable
 import java.io.InputStream
 import java.io.OutputStream
+import java.time.LocalDateTime
 
 sealed class PDFDocument private constructor(val document: PDDocument) : Closeable {
     companion object {
@@ -69,6 +70,13 @@ sealed class PDFDocument private constructor(val document: PDDocument) : Closeab
             "Document has only ${numberOfPages()} pages"
         }
         return PDFRenderer(this.document).renderImage(pageIndex)
+    }
+
+    fun waterMark(ident: String, includeDate: LocalDateTime) {
+        require(numberOfPages() > 0) {
+            "Document must have a least one page."
+        }
+        PdfWatermarker.applyOn(this.document, ident, includeDate)
     }
 
     override fun close() {
