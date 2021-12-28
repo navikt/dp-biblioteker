@@ -72,7 +72,8 @@ sealed class PDFDocument private constructor(val document: PDDocument) : Closeab
         return PDFRenderer(this.document).renderImage(pageIndex)
     }
 
-    fun waterMark(ident: String, includeDate: LocalDateTime) {
+    @JvmOverloads
+    fun waterMark(ident: String, includeDate: LocalDateTime? = null) {
         require(numberOfPages() > 0) {
             "Document must have a least one page."
         }
