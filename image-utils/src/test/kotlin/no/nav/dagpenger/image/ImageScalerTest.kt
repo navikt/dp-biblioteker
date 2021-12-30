@@ -1,11 +1,13 @@
-package no.nav.dagpenger.pdf
+package no.nav.dagpenger.image
 
 import io.kotest.assertions.throwables.shouldNotThrowAnyUnit
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.doubles.plusOrMinus
 import io.kotest.matchers.shouldBe
+import no.nav.dagpenger.pdf.ImageScaler
 import no.nav.dagpenger.pdf.ImageScaler.ScaleMode.CROP_TO_FILL_ENTIRE_BOX
 import no.nav.dagpenger.pdf.ImageScaler.ScaleMode.SCALE_TO_FIT_INSIDE_BOX
+import no.nav.dagpenger.pdf.fileAsBufferedInputStream
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.awt.Dimension

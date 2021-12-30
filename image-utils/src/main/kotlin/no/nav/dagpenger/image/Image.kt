@@ -1,7 +1,7 @@
 package no.nav.dagpenger.pdf
 
-import no.nav.dagpenger.pdf.Detect.isImage
-import no.nav.dagpenger.pdf.Detect.isPdf
+import no.nav.dagpenger.io.Detect.isImage
+import no.nav.dagpenger.io.Detect.isPdf
 import no.nav.dagpenger.pdf.ImageConverter.requireImage
 import no.nav.dagpenger.pdf.ImageScaler.ScaleMode.SCALE_TO_FIT_INSIDE_BOX
 import org.apache.pdfbox.pdmodel.PDDocument

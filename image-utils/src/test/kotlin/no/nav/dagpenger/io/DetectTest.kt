@@ -1,10 +1,12 @@
-package no.nav.dagpenger.pdf
+package no.nav.dagpenger.io
 
 import io.kotest.matchers.shouldBe
-import no.nav.dagpenger.pdf.Detect.isImage
-import no.nav.dagpenger.pdf.Detect.isJpeg
-import no.nav.dagpenger.pdf.Detect.isPdf
-import no.nav.dagpenger.pdf.Detect.isPng
+import no.nav.dagpenger.io.Detect.isImage
+import no.nav.dagpenger.io.Detect.isJpeg
+import no.nav.dagpenger.io.Detect.isPdf
+import no.nav.dagpenger.io.Detect.isPng
+import no.nav.dagpenger.pdf.fileAsBufferedInputStream
+import no.nav.dagpenger.pdf.fileAsByteArray
 import org.junit.jupiter.api.Test
 
 class DetectTest {

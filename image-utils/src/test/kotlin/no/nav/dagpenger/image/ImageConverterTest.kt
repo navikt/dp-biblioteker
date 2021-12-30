@@ -1,10 +1,15 @@
-package no.nav.dagpenger.pdf
+package no.nav.dagpenger.image
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeSameInstanceAs
 import io.kotest.matchers.types.shouldBeTypeOf
-import no.nav.dagpenger.pdf.Detect.isPng
+import no.nav.dagpenger.io.Detect.isPng
+import no.nav.dagpenger.pdf.ImageConverter
+import no.nav.dagpenger.pdf.PDFDocument
+import no.nav.dagpenger.pdf.ValidPDFDocument
+import no.nav.dagpenger.pdf.fileAsByteArray
+import no.nav.dagpenger.pdf.fileAsInputStream
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.awt.Dimension

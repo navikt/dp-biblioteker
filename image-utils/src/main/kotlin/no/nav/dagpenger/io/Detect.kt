@@ -1,4 +1,4 @@
-package no.nav.dagpenger.pdf
+package no.nav.dagpenger.io
 
 import org.apache.tika.Tika
 import java.io.InputStream

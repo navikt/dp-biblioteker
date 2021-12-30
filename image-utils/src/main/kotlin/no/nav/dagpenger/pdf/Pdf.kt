@@ -1,6 +1,6 @@
 package no.nav.dagpenger.pdf
 
-import no.nav.dagpenger.pdf.Detect.isPdf
+import no.nav.dagpenger.io.Detect.isPdf
 import org.apache.pdfbox.io.MemoryUsageSetting
 import org.apache.pdfbox.multipdf.PDFMergerUtility
 import org.apache.pdfbox.multipdf.Splitter

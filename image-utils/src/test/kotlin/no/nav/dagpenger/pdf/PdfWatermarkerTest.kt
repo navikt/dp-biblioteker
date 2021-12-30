@@ -5,7 +5,7 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.string.shouldNotContain
-import no.nav.dagpenger.pdf.Detect.isPdf
+import no.nav.dagpenger.io.Detect.isPdf
 import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 

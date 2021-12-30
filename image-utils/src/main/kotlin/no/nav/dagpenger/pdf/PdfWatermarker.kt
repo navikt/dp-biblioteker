@@ -1,6 +1,6 @@
 package no.nav.dagpenger.pdf
 
-import no.nav.dagpenger.pdf.Detect.isPdf
+import no.nav.dagpenger.io.Detect.isPdf
 import org.apache.pdfbox.cos.COSDictionary
 import org.apache.pdfbox.cos.COSName
 import org.apache.pdfbox.pdmodel.PDDocument
