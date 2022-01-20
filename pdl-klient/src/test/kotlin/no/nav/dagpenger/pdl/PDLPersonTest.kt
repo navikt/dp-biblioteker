@@ -25,7 +25,7 @@ class PDLPersonTest {
             visitor.visit(
                 fodselnummer = testPersonBuilder.fnr,
                 fodselsdato = testPersonBuilder.fodselsdato,
-                alder = ChronoUnit.YEARS.between(testPersonBuilder.fodselsdato, LocalDate.now()).toString(),
+                alder = ChronoUnit.YEARS.between(testPersonBuilder.fodselsdato, LocalDate.now()),
                 adressebeskyttelseGradering = PDLPerson.AdressebeskyttelseGradering.UGRADERT,
                 fornavn = testPersonBuilder.fornavn,
                 mellomNavn = testPersonBuilder.mellomnavn,

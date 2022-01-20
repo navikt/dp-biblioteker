@@ -21,7 +21,7 @@ class PDLPerson(private val person: Person) {
         FORTROLIG, STRENGT_FORTROLIG, STRENGT_FORTROLIG_UTLAND, UGRADERT
     }
 
-    class PDLExcepction(msg: String?) : RuntimeException(msg)
+    class PDLException(msg: String?) : RuntimeException(msg)
 
     fun acceptPersonaliaVisitor(visitor: PersonaliaVisitor) {
         visitor.visit(
@@ -176,23 +176,23 @@ class PDLPerson(private val person: Person) {
     }
 
     private val fodselnummer: String = person.folkeregisteridentifikator.firstOrNull()?.identifikasjonsnummer
-        ?: throw PDLExcepction("Ingen fodselsnummer funnet")
+        ?: throw PDLException("Ingen fodselsnummer funnet")
 
     private val fodselsdato: LocalDate =
-        person.foedsel.firstOrNull()?.foedselsdato ?: throw PDLExcepction("Ingen fodselsdato funnet")
+        person.foedsel.firstOrNull()?.foedselsdato ?: throw PDLException("Ingen fodselsdato funnet")
 
-    private val alder: String = ChronoUnit.YEARS.between(fodselsdato, LocalDate.now()).toString()
+    private val alder: Long = ChronoUnit.YEARS.between(fodselsdato, LocalDate.now())
 
     private val adresseBeskyttelse: AdressebeskyttelseGradering = person.adressebeskyttelse.firstOrNull()?.let {
         AdressebeskyttelseGradering.valueOf(it.gradering.name)
     } ?: AdressebeskyttelseGradering.UGRADERT
 
-    private val navn: Navn = person.navn.firstOrNull() ?: throw PDLExcepction("Ingen navn funnet")
+    private val navn: Navn = person.navn.firstOrNull() ?: throw PDLException("Ingen navn funnet")
     private val fornavn: String = navn.fornavn
     private val mellomnavn: String? = navn.mellomnavn
     private val etternavn: String = navn.etternavn
     private val statsborgerskap: String = person.statsborgerskap.firstOrNull { it.land == "NOR" }?.land
-        ?: person.statsborgerskap.firstOrNull()?.land ?: throw PDLExcepction("Ingen statsborgerskap funnet")
+        ?: person.statsborgerskap.firstOrNull()?.land ?: throw PDLException("Ingen statsborgerskap funnet")
 
     private val kjonn: Kjonn = person.kjoenn.firstOrNull()?.kjoenn?.let { Kjonn.valueOf(it.toString()) }
         ?: Kjonn.UKJENT

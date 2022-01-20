@@ -6,15 +6,15 @@ import java.time.LocalDate
 
 interface PersonaliaVisitor {
     fun visit(
-        fodselnummer: String?,
-        fodselsdato: LocalDate?,
-        alder: String?,
+        fodselnummer: String,
+        fodselsdato: LocalDate,
+        alder: Long,
         adressebeskyttelseGradering: PDLPerson.AdressebeskyttelseGradering,
-        fornavn: String?,
+        fornavn: String,
         mellomNavn: String?,
-        etternavn: String?,
-        statsborgerskap: String?,
-        kjonn: Kjonn?
+        etternavn: String,
+        statsborgerskap: String,
+        kjonn: Kjonn
     ) {
     }
 }
