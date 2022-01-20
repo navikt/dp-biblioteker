@@ -3,7 +3,7 @@ package no.nav.dagpenger.pdl
 import io.mockk.confirmVerified
 import io.mockk.mockk
 import io.mockk.verify
-import no.nav.sbl.dialogarena.soknadinnsending.consumer.person.pdl.dto.PDLAdresse
+import no.nav.dagpenger.pdl.dto.PDLAdresse
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit

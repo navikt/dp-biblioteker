@@ -8,7 +8,7 @@ import no.nav.pdl.personby.Oppholdsadresse
 import no.nav.pdl.personby.Person
 import no.nav.pdl.personby.UtenlandskAdresse
 import no.nav.pdl.personby.Vegadresse
-import no.nav.sbl.dialogarena.soknadinnsending.consumer.person.pdl.dto.PDLAdresse
+import no.nav.dagpenger.pdl.dto.PDLAdresse
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 

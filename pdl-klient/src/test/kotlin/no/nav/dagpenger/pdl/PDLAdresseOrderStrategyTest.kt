@@ -5,7 +5,7 @@ import no.nav.dagpenger.pdl.AdresseMetadata.MasterType
 import no.nav.dagpenger.pdl.AdresseMetadata.MasterType.FREG
 import no.nav.dagpenger.pdl.AdresseMetadata.MasterType.PDL
 import no.nav.dagpenger.pdl.PDLAdresseOrderStrategy.rank
-import no.nav.sbl.dialogarena.soknadinnsending.consumer.person.pdl.dto.PDLAdresse
+import no.nav.dagpenger.pdl.dto.PDLAdresse
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.time.LocalDate

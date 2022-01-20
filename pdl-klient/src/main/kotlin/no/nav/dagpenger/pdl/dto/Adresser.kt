@@ -1,4 +1,4 @@
-package no.nav.sbl.dialogarena.soknadinnsending.consumer.person.pdl.dto
+package no.nav.dagpenger.pdl.dto
 
 import no.nav.dagpenger.pdl.AdresseMetadata
 

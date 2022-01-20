@@ -1,7 +1,7 @@
 package no.nav.dagpenger.pdl
 
 import no.nav.dagpenger.pdl.AdresseMetadata.MasterType
-import no.nav.sbl.dialogarena.soknadinnsending.consumer.person.pdl.dto.PDLAdresse
+import no.nav.dagpenger.pdl.dto.PDLAdresse
 
 object PDLAdresseOrderStrategy {
     private val ADRESSETYPE_RANKING = mapOf(
