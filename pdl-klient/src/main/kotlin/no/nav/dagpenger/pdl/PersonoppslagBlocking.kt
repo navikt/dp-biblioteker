@@ -10,13 +10,13 @@ import no.nav.pdl.personby.Person
 import java.net.URL
 
 interface PersonoppslagBlocking {
-    fun hentPerson(fnr: String): Person
-    fun hentBarn(fnr: String): List<Person>
+    fun hentPerson(fnr: String): PDLPerson
+    fun hentBarn(fnr: String): List<PDLPerson>
 }
 
 interface PersonOppslag {
-    suspend fun hentPerson(fnr: String): Person
-    suspend fun hentBarn(fnr: String): List<Person>
+    suspend fun hentPerson(fnr: String): PDLPerson
+    suspend fun hentBarn(fnr: String): List<PDLPerson>
 }
 
 fun createPersonOppslag(
@@ -30,7 +30,23 @@ fun createPersonOppslag(
             httpClient = httpClient
         )
 
-        override suspend fun hentPerson(fnr: String): Person {
+        override suspend fun hentPerson(fnr: String): PDLPerson {
+            return PDLPerson(person(fnr))
+        }
+
+        override suspend fun hentBarn(fnr: String): List<PDLPerson> {
+            return person(fnr)
+                .forelderBarnRelasjon
+                .filter { it.relatertPersonsRolle == ForelderBarnRelasjonRolle.BARN }
+                .map { it.relatertPersonsIdent }
+                .takeIf { it.isNotEmpty() }
+                ?.let { hentPersoner(it) }
+                ?.filter { it.doedsfall.isEmpty() }
+                ?.map(::PDLPerson)
+                ?: emptyList()
+        }
+
+        private suspend fun person(fnr: String): Person {
             return this.hentPersoner(listOf(fnr)).single()
         }
 
@@ -38,16 +54,6 @@ fun createPersonOppslag(
             return client.execute(PersonBy(PersonBy.Variables(fnrs)), requestBuilder)
                 .responseParser().hentPersonBolk
                 .mapNotNull { it.person }
-        }
-
-        override suspend fun hentBarn(fnr: String): List<Person> {
-            return hentPerson(fnr)
-                .forelderBarnRelasjon
-                .filter { it.relatertPersonsRolle == ForelderBarnRelasjonRolle.BARN }
-                .map { it.relatertPersonsIdent }
-                .takeIf { it.isNotEmpty() }
-                ?.let { hentPersoner(it) }
-                ?.filter { it.doedsfall.isEmpty() } ?: emptyList()
         }
     }
 }
@@ -61,9 +67,9 @@ fun createPersonOppslagBlocking(
     return object : PersonoppslagBlocking {
         private val client = createPersonOppslag(url, requestBuilder, httpClient)
 
-        override fun hentPerson(fnr: String): Person = runBlocking { client.hentPerson(fnr) }
+        override fun hentPerson(fnr: String): PDLPerson = runBlocking { client.hentPerson(fnr) }
 
-        override fun hentBarn(fnr: String): List<Person> = runBlocking {
+        override fun hentBarn(fnr: String): List<PDLPerson> = runBlocking {
             client.hentBarn(fnr)
         }
     }
