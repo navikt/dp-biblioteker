@@ -9,22 +9,22 @@ import no.nav.pdl.enums.ForelderBarnRelasjonRolle
 import no.nav.pdl.personby.Person
 import java.net.URL
 
-interface PersonOppslag {
+interface PersonoppslagBlocking {
     fun hentPerson(fnr: String): Person
     fun hentBarn(fnr: String): List<Person>
 }
 
-interface PersonOppslagSuspendable {
+interface PersonOppslag {
     suspend fun hentPerson(fnr: String): Person
     suspend fun hentBarn(fnr: String): List<Person>
 }
 
-fun createPersonOppslagSuspendable(
+fun createPersonOppslag(
     url: String,
     requestBuilder: HttpRequestBuilder.() -> Unit,
     httpClient: HttpClient = defaultHttpClient
-): PersonOppslagSuspendable {
-    return object : PersonOppslagSuspendable {
+): PersonOppslag {
+    return object : PersonOppslag {
         private val client = GraphQLKtorClient(
             url = URL(url),
             httpClient = httpClient
@@ -53,13 +53,13 @@ fun createPersonOppslagSuspendable(
 }
 
 @JvmOverloads
-fun createPersonOppslag(
+fun createPersonOppslagBlocking(
     url: String,
     requestBuilder: HttpRequestBuilder.() -> Unit,
     httpClient: HttpClient = defaultHttpClient
-): PersonOppslag {
-    return object : PersonOppslag {
-        private val client = createPersonOppslagSuspendable(url, requestBuilder, httpClient)
+): PersonoppslagBlocking {
+    return object : PersonoppslagBlocking {
+        private val client = createPersonOppslag(url, requestBuilder, httpClient)
 
         override fun hentPerson(fnr: String): Person = runBlocking { client.hentPerson(fnr) }
 

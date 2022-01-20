@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import static no.nav.dagpenger.pdl.HttpClientKt.createAccessTokenFun;
 import static no.nav.dagpenger.pdl.HttpClientKt.createRequestBuilder;
-import no.nav.dagpenger.pdl.PersonOppslag;
-import static no.nav.dagpenger.pdl.PersonOppslagKt.createPersonOppslag;
+import no.nav.dagpenger.pdl.PersonoppslagBlocking;
+import static no.nav.dagpenger.pdl.PersonoppslagBlockingKt.createPersonOppslagBlocking;
 import no.nav.pdl.personby.Person;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ public class JavaClientTest {
         }).collect(Collectors.toMap(data -> data[0], data -> data[1]));
 
 
-        final PersonOppslag personOppslagClient = createPersonOppslag(
+        final PersonoppslagBlocking personOppslagClient = createPersonOppslagBlocking(
             "https://pdl-api.dev.intern.nav.no/graphql",
             createRequestBuilder(createAccessTokenFun("api://dev-fss.pdl.pdl-api/.default", env)));
 
