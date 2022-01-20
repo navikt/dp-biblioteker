@@ -14,20 +14,24 @@ interface PersonOppslag {
     fun hentBarn(fnr: String): List<Person>
 }
 
-@JvmOverloads
-fun createPersonOppslag(
+interface PersonOppslagSuspendable {
+    suspend fun hentPerson(fnr: String): Person
+    suspend fun hentBarn(fnr: String): List<Person>
+}
+
+fun createPersonOppslagSuspendable(
     url: String,
     requestBuilder: HttpRequestBuilder.() -> Unit,
     httpClient: HttpClient = defaultHttpClient
-): PersonOppslag {
-    return object : PersonOppslag {
+): PersonOppslagSuspendable {
+    return object : PersonOppslagSuspendable {
         private val client = GraphQLKtorClient(
             url = URL(url),
             httpClient = httpClient
         )
 
-        override fun hentPerson(fnr: String): Person = runBlocking {
-            hentPersoner(listOf(fnr)).single()
+        override suspend fun hentPerson(fnr: String): Person {
+            return this.hentPersoner(listOf(fnr)).single()
         }
 
         private suspend fun hentPersoner(fnrs: List<String>): List<Person> {
@@ -36,14 +40,31 @@ fun createPersonOppslag(
                 .mapNotNull { it.person }
         }
 
-        override fun hentBarn(fnr: String): List<Person> = runBlocking {
-            hentPerson(fnr)
+        override suspend fun hentBarn(fnr: String): List<Person> {
+            return hentPerson(fnr)
                 .forelderBarnRelasjon
                 .filter { it.relatertPersonsRolle == ForelderBarnRelasjonRolle.BARN }
                 .map { it.relatertPersonsIdent }
                 .takeIf { it.isNotEmpty() }
                 ?.let { hentPersoner(it) }
                 ?.filter { it.doedsfall.isEmpty() } ?: emptyList()
+        }
+    }
+}
+
+@JvmOverloads
+fun createPersonOppslag(
+    url: String,
+    requestBuilder: HttpRequestBuilder.() -> Unit,
+    httpClient: HttpClient = defaultHttpClient
+): PersonOppslag {
+    return object : PersonOppslag {
+        private val client = createPersonOppslagSuspendable(url, requestBuilder, httpClient)
+
+        override fun hentPerson(fnr: String): Person = runBlocking { client.hentPerson(fnr) }
+
+        override fun hentBarn(fnr: String): List<Person> = runBlocking {
+            client.hentBarn(fnr)
         }
     }
 }

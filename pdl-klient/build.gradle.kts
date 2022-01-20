@@ -17,11 +17,11 @@ dependencies {
     implementation(project(":aad-klient"))
     implementation(Ktor.library("client-logging"))
     implementation(Ktor.library("client-jackson"))
-    implementation("com.github.ben-manes.caffeine:caffeine:2.9.2")
     implementation(Graphql.library("ktor-client")) {
         exclude("com.expediagroup", "graphql-kotlin-client-serialization")
     }
     testImplementation(Junit5.api)
+    testImplementation(Mockk.mockk)
     testRuntimeOnly(Junit5.engine)
 }
 
