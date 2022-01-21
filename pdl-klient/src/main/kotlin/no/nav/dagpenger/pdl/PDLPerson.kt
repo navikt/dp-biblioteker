@@ -1,6 +1,7 @@
 package no.nav.dagpenger.pdl
 
 import no.nav.dagpenger.pdl.AdresseMetadata.Companion.from
+import no.nav.dagpenger.pdl.dto.PDLAdresse
 import no.nav.pdl.personby.Bostedsadresse
 import no.nav.pdl.personby.Matrikkeladresse
 import no.nav.pdl.personby.Navn
@@ -8,7 +9,6 @@ import no.nav.pdl.personby.Oppholdsadresse
 import no.nav.pdl.personby.Person
 import no.nav.pdl.personby.UtenlandskAdresse
 import no.nav.pdl.personby.Vegadresse
-import no.nav.dagpenger.pdl.dto.PDLAdresse
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
@@ -175,25 +175,25 @@ class PDLPerson(private val person: Person) {
         )
     }
 
-    private val fodselnummer: String = person.folkeregisteridentifikator.firstOrNull()?.identifikasjonsnummer
+    val fodselnummer: String = person.folkeregisteridentifikator.firstOrNull()?.identifikasjonsnummer
         ?: throw PDLException("Ingen fodselsnummer funnet")
 
-    private val fodselsdato: LocalDate =
+    val fodselsdato: LocalDate =
         person.foedsel.firstOrNull()?.foedselsdato ?: throw PDLException("Ingen fodselsdato funnet")
 
-    private val alder: Long = ChronoUnit.YEARS.between(fodselsdato, LocalDate.now())
+    val alder: Long = ChronoUnit.YEARS.between(fodselsdato, LocalDate.now())
 
-    private val adresseBeskyttelse: AdressebeskyttelseGradering = person.adressebeskyttelse.firstOrNull()?.let {
+    val adresseBeskyttelse: AdressebeskyttelseGradering = person.adressebeskyttelse.firstOrNull()?.let {
         AdressebeskyttelseGradering.valueOf(it.gradering.name)
     } ?: AdressebeskyttelseGradering.UGRADERT
 
-    private val navn: Navn = person.navn.firstOrNull() ?: throw PDLException("Ingen navn funnet")
-    private val fornavn: String = navn.fornavn
-    private val mellomnavn: String? = navn.mellomnavn
-    private val etternavn: String = navn.etternavn
-    private val statsborgerskap: String = person.statsborgerskap.firstOrNull { it.land == "NOR" }?.land
+    val navn: Navn = person.navn.firstOrNull() ?: throw PDLException("Ingen navn funnet")
+    val fornavn: String = navn.fornavn
+    val mellomnavn: String? = navn.mellomnavn
+    val etternavn: String = navn.etternavn
+    val statsborgerskap: String = person.statsborgerskap.firstOrNull { it.land == "NOR" }?.land
         ?: person.statsborgerskap.firstOrNull()?.land ?: throw PDLException("Ingen statsborgerskap funnet")
 
-    private val kjonn: Kjonn = person.kjoenn.firstOrNull()?.kjoenn?.let { Kjonn.valueOf(it.toString()) }
+    val kjonn: Kjonn = person.kjoenn.firstOrNull()?.kjoenn?.let { Kjonn.valueOf(it.toString()) }
         ?: Kjonn.UKJENT
 }

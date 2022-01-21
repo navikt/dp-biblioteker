@@ -16,6 +16,7 @@ interface PersonoppslagBlocking {
 
 interface PersonOppslag {
     suspend fun hentPerson(fnr: String): PDLPerson
+    suspend fun hentPersoner(fnrs: List<String>): List<PDLPerson>
     suspend fun hentBarn(fnr: String): List<PDLPerson>
 }
 
@@ -31,26 +32,27 @@ fun createPersonOppslag(
         )
 
         override suspend fun hentPerson(fnr: String): PDLPerson {
-            return PDLPerson(person(fnr))
+            return hentPersoner(listOf(fnr)).single()
+        }
+
+        override suspend fun hentPersoner(fnrs: List<String>): List<PDLPerson> {
+            return hentPersonerBolk(fnrs).map(::PDLPerson)
         }
 
         override suspend fun hentBarn(fnr: String): List<PDLPerson> {
-            return person(fnr)
+            return hentPersonerBolk(listOf(fnr))
+                .single()
                 .forelderBarnRelasjon
                 .filter { it.relatertPersonsRolle == ForelderBarnRelasjonRolle.BARN }
                 .map { it.relatertPersonsIdent }
                 .takeIf { it.isNotEmpty() }
-                ?.let { hentPersoner(it) }
+                ?.let { hentPersonerBolk(it) }
                 ?.filter { it.doedsfall.isEmpty() }
                 ?.map(::PDLPerson)
                 ?: emptyList()
         }
 
-        private suspend fun person(fnr: String): Person {
-            return this.hentPersoner(listOf(fnr)).single()
-        }
-
-        private suspend fun hentPersoner(fnrs: List<String>): List<Person> {
+        private suspend fun hentPersonerBolk(fnrs: List<String>): List<Person> {
             return client.execute(PersonBy(PersonBy.Variables(fnrs)), requestBuilder)
                 .responseParser().hentPersonBolk
                 .mapNotNull { it.person }
