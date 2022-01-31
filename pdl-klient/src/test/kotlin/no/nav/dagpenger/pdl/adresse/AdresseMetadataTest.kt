@@ -1,5 +1,6 @@
-package no.nav.dagpenger.pdl
+package no.nav.dagpenger.pdl.adresse
 
+import no.nav.dagpenger.pdl.TestPersonBuilder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.time.LocalDate

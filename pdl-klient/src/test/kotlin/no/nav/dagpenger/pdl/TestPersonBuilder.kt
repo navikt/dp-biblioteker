@@ -83,7 +83,7 @@ internal data class TestPersonBuilder(
         ): Bostedsadresse {
             return Bostedsadresse(
                 angittFlyttedato = angittFlyttedato,
-                coAdressenavn = "",
+                coAdressenavn = null,
                 folkeregistermetadata = null,
                 gyldigFraOgMed = gyldigFom?.atStartOfDay(),
                 gyldigTilOgMed = gyldigTom?.atStartOfDay(),

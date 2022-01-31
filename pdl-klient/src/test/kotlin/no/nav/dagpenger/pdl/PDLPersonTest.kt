@@ -3,7 +3,8 @@ package no.nav.dagpenger.pdl
 import io.mockk.confirmVerified
 import io.mockk.mockk
 import io.mockk.verify
-import no.nav.dagpenger.pdl.dto.PDLAdresse
+import no.nav.dagpenger.pdl.adresse.AdresseMetadata
+import no.nav.dagpenger.pdl.adresse.PDLAdresse
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
@@ -45,7 +46,9 @@ class PDLPersonTest {
             gyldigTom = today,
             angittFlytteDato = null,
             master = AdresseMetadata.MasterType.PDL,
-            type = null
+            type = null,
+            coAdresseNavn = null
+
         )
 
         val pdlPerson = TestPersonBuilder(
@@ -86,7 +89,8 @@ class PDLPersonTest {
             gyldigTom = today,
             angittFlytteDato = null,
             master = AdresseMetadata.MasterType.PDL,
-            type = "INNLAND"
+            type = "INNLAND",
+            coAdresseNavn = null
         )
 
         val pdlPerson = TestPersonBuilder(
@@ -168,7 +172,8 @@ class PDLPersonTest {
             gyldigTom = today,
             angittFlytteDato = yesterday,
             master = AdresseMetadata.MasterType.PDL,
-            type = "INNLAND"
+            type = "INNLAND",
+            coAdresseNavn = null
         )
 
         val pdlPerson = TestPersonBuilder(
