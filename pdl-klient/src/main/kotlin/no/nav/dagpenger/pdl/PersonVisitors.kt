@@ -1,7 +1,8 @@
 package no.nav.dagpenger.pdl
 
 import no.nav.dagpenger.pdl.PDLPerson.Kjonn
-import no.nav.dagpenger.pdl.dto.PDLAdresse
+import no.nav.dagpenger.pdl.adresse.AdresseMetadata
+import no.nav.dagpenger.pdl.adresse.PDLAdresse
 import java.time.LocalDate
 
 interface PersonaliaVisitor {

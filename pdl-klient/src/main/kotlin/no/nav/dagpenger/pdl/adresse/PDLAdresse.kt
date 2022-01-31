@@ -1,8 +1,17 @@
-package no.nav.dagpenger.pdl.dto
-
-import no.nav.dagpenger.pdl.AdresseMetadata
+package no.nav.dagpenger.pdl.adresse
 
 sealed class PDLAdresse(open val adresseMetadata: AdresseMetadata) {
+    object TomAdresse : PDLAdresse(
+        AdresseMetadata(
+            adresseType = AdresseMetadata.AdresseType.BOSTEDSADRESSE,
+            type = null,
+            gyldigFom = null,
+            gyldigTom = null,
+            angittFlytteDato = null,
+            master = AdresseMetadata.MasterType.PDL
+        )
+    )
+
     data class VegAdresse(
         override val adresseMetadata: AdresseMetadata,
         val adressenavn: String? = null,

@@ -1,9 +1,8 @@
-package no.nav.dagpenger.pdl
+package no.nav.dagpenger.pdl.adresse
 
-import no.nav.dagpenger.pdl.AdresseMetadata.MasterType
-import no.nav.dagpenger.pdl.dto.PDLAdresse
+import no.nav.dagpenger.pdl.adresse.AdresseMetadata.MasterType
 
-object PDLAdresseOrderStrategy {
+object PostAdresseOrder {
     private val ADRESSETYPE_RANKING = mapOf(
         AdresseMetadata.AdresseType.KONTAKTADRESSE to 0,
         AdresseMetadata.AdresseType.OPPHOLDSADRESSE to 1,
@@ -13,12 +12,6 @@ object PDLAdresseOrderStrategy {
         MasterType.PDL to 0,
         MasterType.FREG to 1
     )
-
-    fun List<PDLAdresse>.rank(): List<PDLAdresse> {
-        return this
-            .sortedWith(Comparator.comparing({ it.adresseMetadata }, byAdressetypeMasterRegistrertdato))
-    }
-
     private val byAdressetypeMasterRegistrertdato = Comparator<AdresseMetadata>(
         Comparator
             .comparingInt { metadata: AdresseMetadata ->
@@ -31,4 +24,9 @@ object PDLAdresseOrderStrategy {
             }
             .thenComparing(AdresseMetadata::registreringsDato, Comparator.reverseOrder())::compare
     )
+
+    val comparator: java.util.Comparator<PDLAdresse> =
+        Comparator.comparing({ it.adresseMetadata }, byAdressetypeMasterRegistrertdato)
+
+    fun List<PDLAdresse>.postAdresser(): List<PDLAdresse> = this.sortedWith(comparator)
 }

@@ -1,17 +1,16 @@
-package no.nav.dagpenger.pdl
+package no.nav.dagpenger.pdl.adresse
 
-import no.nav.dagpenger.pdl.AdresseMetadata.AdresseType
-import no.nav.dagpenger.pdl.AdresseMetadata.MasterType
-import no.nav.dagpenger.pdl.AdresseMetadata.MasterType.FREG
-import no.nav.dagpenger.pdl.AdresseMetadata.MasterType.PDL
-import no.nav.dagpenger.pdl.PDLAdresseOrderStrategy.rank
-import no.nav.dagpenger.pdl.dto.PDLAdresse
+import no.nav.dagpenger.pdl.adresse.AdresseMetadata.AdresseType
+import no.nav.dagpenger.pdl.adresse.AdresseMetadata.MasterType
+import no.nav.dagpenger.pdl.adresse.AdresseMetadata.MasterType.FREG
+import no.nav.dagpenger.pdl.adresse.AdresseMetadata.MasterType.PDL
+import no.nav.dagpenger.pdl.adresse.PostAdresseOrder.postAdresser
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import kotlin.random.Random
 
-class PDLAdresseOrderStrategyTest {
+class PostAdresseOrderTest {
     private val today: LocalDate = LocalDate.now()
     private val yesterday: LocalDate = today.minusDays(1)
     private val beforeYesterday: LocalDate = today.minusDays(2)
@@ -35,7 +34,7 @@ class PDLAdresseOrderStrategyTest {
         )
 
         (1..10).forEach {
-            val sorted: List<PDLAdresse> = expected.shuffled(Random(it)).rank()
+            val sorted: List<PDLAdresse> = expected.shuffled(Random(it)).postAdresser()
             assertMetadataEquals(expected, sorted)
         }
     }

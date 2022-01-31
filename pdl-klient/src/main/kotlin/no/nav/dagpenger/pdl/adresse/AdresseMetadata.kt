@@ -1,4 +1,4 @@
-package no.nav.dagpenger.pdl
+package no.nav.dagpenger.pdl.adresse
 
 import no.nav.pdl.enums.KontaktadresseType
 import no.nav.pdl.personby.Bostedsadresse
@@ -12,7 +12,8 @@ class AdresseMetadata(
     gyldigFom: LocalDate? = null,
     gyldigTom: LocalDate? = null,
     angittFlytteDato: LocalDate? = null,
-    val master: MasterType
+    val master: MasterType,
+    val coAdresseNavn: String? = null
 ) {
     enum class AdresseType {
         BOSTEDSADRESSE, KONTAKTADRESSE, OPPHOLDSADRESSE
@@ -45,7 +46,8 @@ class AdresseMetadata(
                 bostedsadresse.gyldigFraOgMed?.toLocalDate(),
                 bostedsadresse.gyldigTilOgMed?.toLocalDate(),
                 bostedsadresse.angittFlyttedato,
-                MasterType.valueOf(bostedsadresse.metadata.master.uppercase())
+                MasterType.valueOf(bostedsadresse.metadata.master.uppercase()),
+                bostedsadresse.coAdressenavn
             )
         }
 
@@ -56,7 +58,8 @@ class AdresseMetadata(
                 kontaktadresse.gyldigFraOgMed?.toLocalDate(),
                 kontaktadresse.gyldigTilOgMed?.toLocalDate(),
                 null,
-                MasterType.valueOf(kontaktadresse.metadata.master.uppercase())
+                MasterType.valueOf(kontaktadresse.metadata.master.uppercase()),
+                coAdresseNavn = kontaktadresse.coAdressenavn
             )
         }
 
@@ -67,13 +70,32 @@ class AdresseMetadata(
                 oppholdsadresse.gyldigFraOgMed?.toLocalDate(),
                 oppholdsadresse.gyldigTilOgMed?.toLocalDate(),
                 null,
-                MasterType.valueOf(oppholdsadresse.metadata.master.uppercase())
+                MasterType.valueOf(oppholdsadresse.metadata.master.uppercase()),
+                coAdresseNavn = oppholdsadresse.coAdressenavn
             )
         }
     }
 
     override fun toString(): String {
-        return "AdresseMetadata(adresseType=$adresseType, type=$type, master=$master, gyldighetsPeriode=$gyldighetsPeriode, registreringsDato=$registreringsDato, erNorskBostedsAdresse=$erNorskBostedsAdresse, erGyldig=$erGyldig)"
+        return buildString {
+            append("AdresseMetadata(adresseType=")
+            append(adresseType)
+            append(", type=")
+            append(type)
+            append(", master=")
+            append(master)
+            append(", gyldighetsPeriode=")
+            append(gyldighetsPeriode)
+            append(", registreringsDato=")
+            append(registreringsDato)
+            append(", erNorskBostedsAdresse=")
+            append(erNorskBostedsAdresse)
+            append(", erGyldig=")
+            append(erGyldig)
+            append(", coAdresseNavn=")
+            append(coAdresseNavn)
+            append(")")
+        }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -89,6 +111,7 @@ class AdresseMetadata(
         if (registreringsDato != other.registreringsDato) return false
         if (erNorskBostedsAdresse != other.erNorskBostedsAdresse) return false
         if (erGyldig != other.erGyldig) return false
+        if (coAdresseNavn != other.coAdresseNavn) return false
 
         return true
     }
@@ -101,6 +124,7 @@ class AdresseMetadata(
         result = 31 * result + registreringsDato.hashCode()
         result = 31 * result + erNorskBostedsAdresse.hashCode()
         result = 31 * result + erGyldig.hashCode()
+        result = 31 * result + (coAdresseNavn?.hashCode() ?: 0)
         return result
     }
 }

@@ -1,7 +1,8 @@
 package no.nav.dagpenger.pdl
 
-import no.nav.dagpenger.pdl.AdresseMetadata.Companion.from
-import no.nav.dagpenger.pdl.dto.PDLAdresse
+import no.nav.dagpenger.pdl.adresse.AdresseMetadata
+import no.nav.dagpenger.pdl.adresse.AdresseMetadata.Companion.from
+import no.nav.dagpenger.pdl.adresse.PDLAdresse
 import no.nav.pdl.personby.Bostedsadresse
 import no.nav.pdl.personby.Matrikkeladresse
 import no.nav.pdl.personby.Navn
