@@ -14,7 +14,7 @@ plugins {
 }
 dependencies {
     implementation(Graphql.library("client-jackson"))
-    implementation(project(":aad-klient"))
+    implementation(project(":oauth2-klient"))
     implementation(Ktor.library("client-logging"))
     implementation(Ktor.library("client-jackson"))
     implementation(Graphql.library("ktor-client")) {
