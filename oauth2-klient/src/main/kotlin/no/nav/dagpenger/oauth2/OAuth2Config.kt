@@ -85,15 +85,15 @@ sealed class OAuth2Config {
             const val wellKnownUrlKey = "TOKEN_X_WELL_KNOWN_URL"
         }
 
+        constructor(config: Configuration) : super(config)
+
+        constructor(config: Map<String, String>) : super(config)
+
+        init {
+            tokenEndpointUrl = getTokenUrl(wellKnowUrl())
+        }
+
         override val tokenEndpointUrl: String
-
-        constructor(config: Configuration, tokenEndpointUrl: String) : super(config) {
-            this.tokenEndpointUrl = tokenEndpointUrl
-        }
-
-        constructor(config: Map<String, String>, tokenEndpointUrl: String) : super(config) {
-            this.tokenEndpointUrl = tokenEndpointUrl
-        }
 
         override fun clientSecret(): AuthType.ClientSecret {
             throw NotImplementedError("Not supported")
