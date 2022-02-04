@@ -10,8 +10,6 @@ dependencies {
 java {
     val mainJavaSourceSet: SourceDirectorySet = sourceSets.getByName("main").java
     val graphqlDir = "$buildDir/generated/sources/kobby/main/kotlin"
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
     mainJavaSourceSet.srcDirs(graphqlDir)
 }
 
