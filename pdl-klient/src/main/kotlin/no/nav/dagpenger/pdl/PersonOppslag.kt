@@ -32,7 +32,6 @@ fun createPersonOppslagBolk(
             }
                 .hentPersonBolk
                 .mapNotNull { it.person }
-                .map { it }
                 .map(::PDLPerson)
         }
 
