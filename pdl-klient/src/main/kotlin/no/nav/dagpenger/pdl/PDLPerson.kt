@@ -3,13 +3,13 @@ package no.nav.dagpenger.pdl
 import no.nav.dagpenger.pdl.adresse.AdresseMetadata
 import no.nav.dagpenger.pdl.adresse.AdresseMetadata.Companion.from
 import no.nav.dagpenger.pdl.adresse.PDLAdresse
-import no.nav.pdl.personby.Bostedsadresse
-import no.nav.pdl.personby.Matrikkeladresse
-import no.nav.pdl.personby.Navn
-import no.nav.pdl.personby.Oppholdsadresse
-import no.nav.pdl.personby.Person
-import no.nav.pdl.personby.UtenlandskAdresse
-import no.nav.pdl.personby.Vegadresse
+import no.nav.dagpenger.pdl.entity.Bostedsadresse
+import no.nav.dagpenger.pdl.entity.Matrikkeladresse
+import no.nav.dagpenger.pdl.entity.Navn
+import no.nav.dagpenger.pdl.entity.Oppholdsadresse
+import no.nav.dagpenger.pdl.entity.Person
+import no.nav.dagpenger.pdl.entity.UtenlandskAdresse
+import no.nav.dagpenger.pdl.entity.Vegadresse
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 

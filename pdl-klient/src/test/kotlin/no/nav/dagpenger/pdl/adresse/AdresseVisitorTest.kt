@@ -2,15 +2,11 @@ package no.nav.dagpenger.pdl.adresse
 
 import no.nav.dagpenger.pdl.PDLPerson
 import no.nav.dagpenger.pdl.TestPersonBuilder
-import no.nav.dagpenger.pdl.adresse.AdresseMetadata.AdresseType.BOSTEDSADRESSE
-import no.nav.dagpenger.pdl.adresse.AdresseMetadata.AdresseType.KONTAKTADRESSE
-import no.nav.dagpenger.pdl.adresse.AdresseMetadata.AdresseType.OPPHOLDSADRESSE
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 
 internal class AdresseVisitorTest {
-
     @Test
     fun `Tom adresse hvis personen har fortrolig adresse`() {
         listOf(
@@ -25,11 +21,13 @@ internal class AdresseVisitorTest {
                         TestPersonBuilder.bostedsAdresse(
                             vegadresse = TestPersonBuilder.vegadresse(
                                 postnummer = "2013"
-                            )
+                            ),
+                            matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
+                            utenlandskAdresse = TestPersonBuilder.utenlandskAdresse()
                         )
                     )
 
-                ).pdlPerson
+                ).testPerson
             ).also {
                 assertEquals(emptyList<PDLAdresse>(), it.adresser, "$gradering")
             }
@@ -45,13 +43,18 @@ internal class AdresseVisitorTest {
                         gyldigTom = LocalDate.now().minusDays(1),
                         vegadresse = TestPersonBuilder.vegadresse(
                             postnummer = "2013"
-                        )
+                        ),
+                        matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
+                        utenlandskAdresse = TestPersonBuilder.utenlandskAdresse()
                     )
                 ),
                 kontaktAdresser = listOf(
                     TestPersonBuilder.kontaktAdresse(
                         gyldigTom = LocalDate.now().minusDays(1),
-                        utenlandskAdresseIFrittFormat = TestPersonBuilder.utenlandskAdresseIFrittFormat()
+                        utenlandskAdresseIFrittFormat = TestPersonBuilder.utenlandskAdresseIFrittFormat(),
+                        utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
+                        postadresseIFrittFormat = TestPersonBuilder.postadresseIFrittFormat(),
+                        postboksadresse = TestPersonBuilder.postboksadresse()
                     )
                 ),
                 oppholdAdresser = listOf(
@@ -59,10 +62,12 @@ internal class AdresseVisitorTest {
                         gyldigTom = LocalDate.now().minusDays(1),
                         vegadresse = TestPersonBuilder.vegadresse(
                             postnummer = "2013"
-                        )
+                        ),
+                        matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
+                        utenlandskAdresse = TestPersonBuilder.utenlandskAdresse()
                     )
                 )
-            ).pdlPerson
+            ).testPerson
         ).let {
             assertEquals(emptyList<PDLAdresse>(), it.adresser)
         }
@@ -98,12 +103,12 @@ internal class AdresseVisitorTest {
                         utenlandskAdresse = TestPersonBuilder.utenlandskAdresse()
                     )
                 )
-            ).pdlPerson
+            ).testPerson
         ).let { visitor ->
             assertEquals(10, visitor.adresser.size)
-            assertEquals(3, visitor.adresser.filter { it.adresseMetadata.adresseType == BOSTEDSADRESSE }.size)
-            assertEquals(4, visitor.adresser.filter { it.adresseMetadata.adresseType == KONTAKTADRESSE }.size)
-            assertEquals(3, visitor.adresser.filter { it.adresseMetadata.adresseType == OPPHOLDSADRESSE }.size)
+            assertEquals(3, visitor.adresser.filter { it.adresseMetadata.adresseType == AdresseMetadata.AdresseType.BOSTEDSADRESSE }.size)
+            assertEquals(4, visitor.adresser.filter { it.adresseMetadata.adresseType == AdresseMetadata.AdresseType.KONTAKTADRESSE }.size)
+            assertEquals(3, visitor.adresser.filter { it.adresseMetadata.adresseType == AdresseMetadata.AdresseType.OPPHOLDSADRESSE }.size)
             assertEquals(2, visitor.adresser.filterIsInstance<PDLAdresse.VegAdresse>().size)
             assertEquals(2, visitor.adresser.filterIsInstance<PDLAdresse.MatrikkelAdresse>().size)
             assertEquals(3, visitor.adresser.filterIsInstance<PDLAdresse.UtenlandskAdresse>().size)

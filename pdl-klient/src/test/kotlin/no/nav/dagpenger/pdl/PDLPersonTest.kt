@@ -20,7 +20,7 @@ class PDLPersonTest {
 
         val testPersonBuilder = TestPersonBuilder()
 
-        testPersonBuilder.pdlPerson.acceptPersonaliaVisitor(visitor)
+        testPersonBuilder.testPerson.acceptPersonaliaVisitor(visitor)
 
         verify {
             visitor.visit(
@@ -69,7 +69,7 @@ class PDLPersonTest {
                     utenlandskAdresse = TestPersonBuilder.utenlandskAdresse()
                 )
             )
-        ).pdlPerson
+        ).testPerson
 
         pdlPerson.acceptOppholdsAdressseVisitor(visitor)
         verify {
@@ -89,7 +89,7 @@ class PDLPersonTest {
             gyldigTom = today,
             angittFlytteDato = null,
             master = AdresseMetadata.MasterType.PDL,
-            type = "INNLAND",
+            type = "Innland",
             coAdresseNavn = null
         )
 
@@ -122,7 +122,7 @@ class PDLPersonTest {
                 ),
 
             )
-        ).pdlPerson
+        ).testPerson
 
         pdlPerson.acceptKontaktAdresseVisitor(visitor)
         verify {
@@ -172,7 +172,7 @@ class PDLPersonTest {
             gyldigTom = today,
             angittFlytteDato = yesterday,
             master = AdresseMetadata.MasterType.PDL,
-            type = "INNLAND",
+            type = "Innland",
             coAdresseNavn = null
         )
 
@@ -198,7 +198,7 @@ class PDLPersonTest {
                     utenlandskAdresse = TestPersonBuilder.utenlandskAdresse()
                 )
             )
-        ).pdlPerson
+        ).testPerson
 
         pdlPerson.acceptBostedsAdresseVisitor(visitor)
         verify {

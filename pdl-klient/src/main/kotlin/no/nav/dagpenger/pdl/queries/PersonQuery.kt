@@ -1,0 +1,143 @@
+package no.nav.dagpenger.pdl.queries
+
+import no.nav.dagpenger.pdl.entity.MatrikkeladresseProjection
+import no.nav.dagpenger.pdl.entity.PersonProjection
+import no.nav.dagpenger.pdl.entity.QueryProjection
+import no.nav.dagpenger.pdl.entity.UtenlandskAdresseProjection
+import no.nav.dagpenger.pdl.entity.VegadresseProjection
+
+fun QueryProjection.hentPersonBolk(fnrs: List<String>) {
+    hentPersonBolk(fnrs) {
+        person {
+            personDetailsFragment()
+        }
+    }
+}
+
+fun QueryProjection.hentPerson(fnr: String) {
+    hentPerson(fnr) {
+        personDetailsFragment()
+    }
+}
+
+fun MatrikkeladresseProjection.matrikkeladresseDetailsFragment() {
+    matrikkelId()
+    bruksenhetsnummer()
+    tilleggsnavn()
+    postnummer()
+    kommunenummer()
+}
+
+fun VegadresseProjection.vegadresseDetailsFragment() {
+    matrikkelId()
+    husbokstav()
+    husnummer()
+    adressenavn()
+    bruksenhetsnummer()
+    tilleggsnavn()
+    postnummer()
+    kommunenummer()
+    bydelsnummer()
+}
+
+fun UtenlandskAdresseProjection.utenlandskAdresseDetailsFragment() {
+    adressenavnNummer()
+    bygningEtasjeLeilighet()
+    postboksNummerNavn()
+    postkode()
+    bySted()
+    regionDistriktOmraade()
+    landkode()
+}
+
+fun PersonProjection.personDetailsFragment() {
+    folkeregisteridentifikator {
+        identifikasjonsnummer()
+        status()
+        type()
+    }
+    forelderBarnRelasjon {
+        minRolleForPerson()
+        relatertPersonsIdent()
+        relatertPersonsRolle()
+    }
+    doedsfall {
+        doedsdato()
+    }
+    foedsel {
+        foedselsdato()
+    }
+    navn {
+        etternavn()
+        fornavn()
+        gyldigFraOgMed()
+        mellomnavn()
+    }
+    statsborgerskap {
+        land()
+    }
+    kjoenn {
+        kjoenn()
+    }
+    adressebeskyttelse {
+        gradering()
+    }
+    kontaktadresse {
+        coAdressenavn()
+        gyldigFraOgMed()
+        gyldigTilOgMed()
+        type()
+        metadata {
+            master()
+        }
+        utenlandskAdresse {
+            utenlandskAdresseDetailsFragment()
+        }
+        utenlandskAdresseIFrittFormat {
+            adresselinje1()
+            adresselinje2()
+            adresselinje3()
+            byEllerStedsnavn()
+            landkode()
+            postkode()
+        }
+        vegadresse {
+            vegadresseDetailsFragment()
+        }
+    }
+    oppholdsadresse {
+        coAdressenavn()
+        gyldigFraOgMed()
+        gyldigTilOgMed()
+        metadata {
+            master()
+        }
+        matrikkeladresse {
+            matrikkeladresseDetailsFragment()
+        }
+        utenlandskAdresse {
+            utenlandskAdresseDetailsFragment()
+        }
+        vegadresse {
+            vegadresseDetailsFragment()
+        }
+    }
+    bostedsadresse {
+        angittFlyttedato()
+        coAdressenavn()
+        gyldigFraOgMed()
+        gyldigTilOgMed()
+        metadata {
+            master()
+        }
+        matrikkeladresse {
+            matrikkeladresseDetailsFragment()
+        }
+        ukjentBosted {
+            bostedskommune()
+        }
+        vegadresse {
+            vegadresseDetailsFragment()
+        }
+    }
+}

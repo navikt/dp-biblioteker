@@ -11,6 +11,7 @@ import io.ktor.client.features.json.JacksonSerializer
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.request.get
 
+@JvmOverloads
 fun defaultHttpClient(httpClientEngine: HttpClientEngine = CIO.create()) =
     HttpClient(httpClientEngine) {
         install(JsonFeature) {

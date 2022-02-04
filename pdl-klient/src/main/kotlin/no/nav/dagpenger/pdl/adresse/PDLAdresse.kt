@@ -28,7 +28,7 @@ sealed class PDLAdresse(open val adresseMetadata: AdresseMetadata) {
         override val adresseMetadata: AdresseMetadata,
         val bruksenhetsnummer: String? = null,
         val kommunenummer: String? = null,
-        val matrikkelId: String? = null,
+        val matrikkelId: Long? = null,
         val postnummer: String? = null,
         val tilleggsnavn: String? = null
     ) : PDLAdresse(adresseMetadata)

@@ -1,9 +1,9 @@
 package no.nav.dagpenger.pdl.adresse
 
-import no.nav.pdl.enums.KontaktadresseType
-import no.nav.pdl.personby.Bostedsadresse
-import no.nav.pdl.personby.Kontaktadresse
-import no.nav.pdl.personby.Oppholdsadresse
+import no.nav.dagpenger.pdl.dto.KontaktadresseType
+import no.nav.dagpenger.pdl.entity.Bostedsadresse
+import no.nav.dagpenger.pdl.entity.Kontaktadresse
+import no.nav.dagpenger.pdl.entity.Oppholdsadresse
 import java.time.LocalDate
 
 class AdresseMetadata(
@@ -42,7 +42,7 @@ class AdresseMetadata(
         fun from(bostedsadresse: Bostedsadresse): AdresseMetadata {
             return AdresseMetadata(
                 AdresseType.BOSTEDSADRESSE,
-                KontaktadresseType.INNLAND.name,
+                KontaktadresseType.Innland.name,
                 bostedsadresse.gyldigFraOgMed?.toLocalDate(),
                 bostedsadresse.gyldigTilOgMed?.toLocalDate(),
                 bostedsadresse.angittFlyttedato,

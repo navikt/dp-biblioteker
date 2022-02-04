@@ -1,14 +1,18 @@
 package no.nav.dagpenger.client.pdl;
 
+import io.ktor.http.HttpHeaders;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import static no.nav.dagpenger.pdl.HttpClientKt.createAccessTokenFun;
-import static no.nav.dagpenger.pdl.HttpClientKt.createRequestBuilder;
+import no.nav.dagpenger.oauth2.CachedOauth2Client;
+import static no.nav.dagpenger.oauth2.HttpClientKt.defaultHttpClient;
+import no.nav.dagpenger.oauth2.LoadingCacheBuilder;
+import no.nav.dagpenger.oauth2.OAuth2Config.AzureAd;
 import no.nav.dagpenger.pdl.PDLPerson;
-import no.nav.dagpenger.pdl.PersonoppslagBlocking;
-import static no.nav.dagpenger.pdl.PersonoppslagBlockingKt.createPersonOppslagBlocking;
+import no.nav.dagpenger.pdl.PersonOppslagBolk;
+import static no.nav.dagpenger.pdl.PersonOppslagKt.createPersonOppslagBolk;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -18,27 +22,20 @@ public class JavaClientTest {
     @Disabled
     public void test() {
         final Map<String, String> env = Stream.of(new String[][]{
-            {"AZURE_APP_CLIENT_ID", "b2d1d0e4-e197-477b-bc9e-b50b148c4cb9"},
+            {"AZURE_APP_CLIENT_ID", ""},
             {"AZURE_APP_CLIENT_SECRET", ""},
-            {"AZURE_OPENID_CONFIG_TOKEN_ENDPOINT", "https://login.microsoftonline.com/966ac572-f5b7-4bbe-aa88-c76419c0f851/oauth2/v2.0/token"}
+            {"AZURE_OPENID_CONFIG_TOKEN_ENDPOINT", ""}
         }).collect(Collectors.toMap(data -> data[0], data -> data[1]));
 
+        AzureAd oAuth2Config = new AzureAd(env);
+        CachedOauth2Client oauth2Client = new CachedOauth2Client(oAuth2Config.getTokenEndpointUrl(), oAuth2Config.clientSecret(), defaultHttpClient(), new LoadingCacheBuilder());
 
-        final PersonoppslagBlocking personOppslagClient = createPersonOppslagBlocking(
-            "https://pdl-api.dev.intern.nav.no/graphql",
-            createRequestBuilder(createAccessTokenFun("api://dev-fss.pdl.pdl-api/.default", env)));
+        PersonOppslagBolk personOppslagBolk = createPersonOppslagBolk("https://pdl-api.dev.intern.nav.no/graphql");
+        List<PDLPerson> pdlPeople = personOppslagBolk.hentPersonerBlocking(Collections.singletonList("01038401226"),
+            Collections.singletonMap(HttpHeaders.INSTANCE.getAuthorization(), "Bearer " + oauth2Client.clientCredentials("api://dev-fss.pdl.pdl-api/.default").getAccessToken()));
 
-        PDLPerson person = personOppslagClient.hentPerson("14108009242");
-        System.out.println(person);
-//        Person person = personOppslagClient.hentPerson("01038401226");
-//        Person person = personOppslagClient.hentPerson("20028418370");
-//        Person person = personOppslagClient.hentPerson("25108621845");
+        System.out.println(pdlPeople);
 
-        List<PDLPerson> barn = personOppslagClient.hentBarn("08089408084");//ingen barn
-        System.out.println(barn);
-
-        barn = personOppslagClient.hentBarn("14108009242");
-        System.out.println(barn);
 
     }
 }
