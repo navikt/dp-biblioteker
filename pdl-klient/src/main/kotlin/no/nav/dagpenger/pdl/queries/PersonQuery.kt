@@ -90,6 +90,19 @@ fun PersonProjection.personDetailsFragment() {
         metadata {
             master()
         }
+        postadresseIFrittFormat {
+            adresselinje1()
+            adresselinje2()
+            adresselinje3()
+            postnummer()
+        }
+
+        postboksadresse {
+            postboks()
+            postbokseier()
+            postnummer()
+        }
+
         utenlandskAdresse {
             utenlandskAdresseDetailsFragment()
         }
@@ -138,6 +151,9 @@ fun PersonProjection.personDetailsFragment() {
         }
         vegadresse {
             vegadresseDetailsFragment()
+        }
+        utenlandskAdresse {
+            utenlandskAdresseDetailsFragment()
         }
     }
 }
