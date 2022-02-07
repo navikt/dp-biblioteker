@@ -62,17 +62,6 @@ fun createPersonOppslagBolk(
                     it.doedsfall.isEmpty()
                 }
                 .map(::PDLPerson)
-            //return hentPersoner(barn)
-//            return hentPersonerBolk(listOf(fnr))
-//                .single()
-//                .forelderBarnRelasjon
-//                .filter { it.relatertPersonsRolle == ForelderBarnRelasjonRolle.BARN }
-//                .map { it.relatertPersonsIdent }
-//                .takeIf { it.isNotEmpty() }
-//                ?.let { hentPersonerBolk(it) }
-//                ?.filter { it.doedsfall.isEmpty() }
-//                ?.map(::PDLPerson)
-//                ?: emptyList()
         }
 
         override fun hentPersonerBlocking(fnrs: List<String>, headersMap: Map<String, String>): List<PDLPerson> =
