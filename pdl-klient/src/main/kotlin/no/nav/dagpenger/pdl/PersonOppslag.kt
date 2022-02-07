@@ -4,6 +4,7 @@ import io.ktor.client.HttpClient
 import kotlinx.coroutines.runBlocking
 import no.nav.dagpenger.pdl.adapter.KtorHttpClientAdapter
 import no.nav.dagpenger.pdl.adapter.proxyAwareHttpClient
+import no.nav.dagpenger.pdl.dto.ForelderBarnRelasjonRolle
 import no.nav.dagpenger.pdl.queries.hentPerson
 import no.nav.dagpenger.pdl.queries.hentPersonBolk
 
@@ -36,7 +37,32 @@ fun createPersonOppslagBolk(
         }
 
         override suspend fun hentBarn(fnr: String, headersMap: Map<String, String>): List<PDLPerson> {
-            TODO("Not yet implemented")
+            val pdlContext = pdlContextOf(KtorHttpClientAdapter(url, headersMap, httpClient))
+            val barn = pdlContext.query {
+                hentPersonBolk(listOf(fnr))
+            }
+                .hentPersonBolk
+                .mapNotNull { it.person }
+                .single()
+                .forelderBarnRelasjon
+                .filter {
+                    it.relatertPersonsRolle == ForelderBarnRelasjonRolle.BARN
+                }
+                .map { it.relatertPersonsIdent }
+                .toList()
+
+            return pdlContext.query {
+                hentPersonBolk(barn)
+            }
+                .hentPersonBolk
+                .mapNotNull {
+                    it.person
+                }
+                .filter {
+                    it.doedsfall.isEmpty()
+                }
+                .map(::PDLPerson)
+            //return hentPersoner(barn)
 //            return hentPersonerBolk(listOf(fnr))
 //                .single()
 //                .forelderBarnRelasjon
