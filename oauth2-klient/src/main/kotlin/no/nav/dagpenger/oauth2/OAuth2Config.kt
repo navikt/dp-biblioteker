@@ -75,7 +75,9 @@ sealed class OAuth2Config {
         }
 
         override val tokenEndpointUrl: String
-            get() = configuration[Key(tokenEndpointUrlKey, stringType)]
+            get() = configuration.getOrElse(Key(tokenEndpointUrlKey, stringType)) {
+                getTokenUrl(wellKnownUrlKey)
+            }
     }
 
     class TokenX : OAuth2Config {
@@ -89,11 +91,8 @@ sealed class OAuth2Config {
 
         constructor(config: Map<String, String>) : super(config)
 
-        init {
-            tokenEndpointUrl = getTokenUrl(wellKnowUrl())
-        }
-
         override val tokenEndpointUrl: String
+            get() = getTokenUrl(wellKnowUrl())
 
         override fun clientSecret(): AuthType.ClientSecret {
             throw NotImplementedError("Not supported")

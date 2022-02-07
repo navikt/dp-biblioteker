@@ -49,7 +49,6 @@ fun createPersonOppslagBolk(
                     it.relatertPersonsRolle == ForelderBarnRelasjonRolle.BARN
                 }
                 .map { it.relatertPersonsIdent }
-                .toList()
 
             return pdlContext.query {
                 hentPersonBolk(barn)
