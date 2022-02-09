@@ -50,17 +50,18 @@ fun createPersonOppslagBolk(
                 }
                 .map { it.relatertPersonsIdent }
 
-            return pdlContext.query {
-                hentPersonBolk(barn)
-            }
-                .hentPersonBolk
-                .mapNotNull {
-                    it.person
+            return if (barn.isEmpty()) emptyList() else
+                pdlContext.query {
+                    hentPersonBolk(barn)
                 }
-                .filter {
-                    it.doedsfall.isEmpty()
-                }
-                .map(::PDLPerson)
+                    .hentPersonBolk
+                    .mapNotNull {
+                        it.person
+                    }
+                    .filter {
+                        it.doedsfall.isEmpty()
+                    }
+                    .map(::PDLPerson)
         }
 
         override fun hentPersonerBlocking(fnrs: List<String>, headersMap: Map<String, String>): List<PDLPerson> =
