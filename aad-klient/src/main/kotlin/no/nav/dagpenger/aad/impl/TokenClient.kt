@@ -2,6 +2,7 @@ package no.nav.dagpenger.aad.impl
 
 import com.github.benmanes.caffeine.cache.Cache
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
 import io.ktor.client.request.forms.submitForm
 import io.ktor.http.Parameters
 import no.nav.dagpenger.aad.api.TokenClientConfiguration
@@ -22,7 +23,7 @@ internal abstract class TokenClient<T : TokenClientConfiguration>(
                     append(it.key, it.value)
                 }
             }
-        )
+        ).body()
     }
 
     protected suspend fun getOrFetch(formParameters: () -> Map<String, String> = { mapOf() }): AccessToken {

@@ -8,8 +8,8 @@ import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.ProxyBuilder
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.engine.http
-import io.ktor.client.features.json.JacksonSerializer
-import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.jackson.jackson
 
 internal data class AccessTokenRequest(
     val tokenEndpointUri: String,
@@ -25,8 +25,8 @@ internal data class AccessToken(
 
 fun defaultHttpClient(httpClientEngine: HttpClientEngine = CIO.create()) =
     HttpClient(httpClientEngine) {
-        install(JsonFeature) {
-            serializer = JacksonSerializer {
+        install(ContentNegotiation) {
+            jackson {
                 configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 setSerializationInclusion(JsonInclude.Include.NON_NULL)
             }

@@ -6,12 +6,13 @@ dependencies {
     }
 
     api(Konfig.konfig)
-    implementation(Ktor.library("client-cio-jvm"))
-    implementation(Ktor.library("client-jackson"))
-    implementation(Ktor.library("client-logging"))
+    implementation(Ktor2.Client.library("cio"))
+    implementation(Ktor2.Client.library("content-negotiation"))
+    implementation(Ktor2.Client.library("logging"))
+    implementation("io.ktor:ktor-serialization-jackson:${Ktor2.version}")
     implementation("com.github.ben-manes.caffeine:caffeine:2.9.2")
 
-    testImplementation(Ktor.library("client-mock"))
+    testImplementation(Ktor2.Client.library("mock"))
     testImplementation(KoTest.assertions)
     testImplementation("io.kotest:kotest-assertions-ktor:4.4.3")
 }
