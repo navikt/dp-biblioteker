@@ -1,6 +1,7 @@
 package no.nav.dagpenger.oauth2
 
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
 import io.ktor.client.request.forms.submitForm
 import io.ktor.http.Parameters
 import no.nav.security.token.support.client.core.oauth2.OAuth2AccessTokenResponse
@@ -28,7 +29,7 @@ class OAuth2Client(
                     this.append(it.key, it.value)
                 }
             },
-        )
+        ).body()
     }
 }
 

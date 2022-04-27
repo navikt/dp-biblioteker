@@ -6,6 +6,7 @@ import com.natpryce.konfig.ConfigurationMap
 import com.natpryce.konfig.Key
 import com.natpryce.konfig.stringType
 import com.nimbusds.jose.jwk.RSAKey
+import io.ktor.client.call.body
 import io.ktor.client.request.get
 import kotlinx.coroutines.runBlocking
 import no.nav.security.token.support.client.core.jwk.JwkFactory
@@ -33,7 +34,7 @@ sealed class OAuth2Config {
     companion object {
         fun getTokenUrl(wellKnownUrl: String): String {
             return runBlocking {
-                defaultHttpClient().get<WellKnown>(urlString = wellKnownUrl)
+                defaultHttpClient().get(urlString = wellKnownUrl).body<WellKnown>()
             }.tokenEndpointUrl
         }
 

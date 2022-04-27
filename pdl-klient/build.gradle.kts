@@ -9,9 +9,10 @@ dependencies {
 dependencies {
     implementation(project(":oauth2-klient"))
     implementation(project(":pdl-klient-kobby"))
-    implementation(Ktor.library("client-logging"))
-    implementation(Ktor.library("client-jackson"))
-    implementation(Ktor.library("client-cio"))
+    implementation(Ktor2.Client.library("logging"))
+    implementation(Ktor2.Client.library("content-negotiation"))
+    implementation(Ktor2.Client.library("cio"))
+    implementation("io.ktor:ktor-serialization-jackson:${Ktor2.version}")
     implementation(Jackson.jsr310)
     testImplementation(Junit5.api)
     testImplementation(Mockk.mockk)

@@ -7,11 +7,12 @@ dependencies {
 
     api(Konfig.konfig)
     api("no.nav.security:token-client-core:1.3.10")
-    implementation(Ktor.library("client-logging"))
-    implementation(Ktor.library("client-cio-jvm"))
-    implementation(Ktor.library("client-jackson"))
+    implementation(Ktor2.Client.library("logging"))
+    implementation(Ktor2.Client.library("cio-jvm"))
+    implementation(Ktor2.Client.library("content-negotiation"))
+    implementation("io.ktor:ktor-serialization-jackson:${Ktor2.version}")
 
-    testImplementation(Ktor.library("client-mock"))
+    testImplementation(Ktor2.Client.library("mock"))
     testImplementation(KoTest.assertions)
     testImplementation("io.kotest:kotest-assertions-ktor:4.4.3")
 }

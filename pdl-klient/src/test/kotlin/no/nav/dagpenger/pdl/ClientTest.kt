@@ -7,13 +7,13 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
-import io.ktor.client.features.defaultRequest
-import io.ktor.client.features.json.JacksonSerializer
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.logging.LogLevel
-import io.ktor.client.features.logging.Logging
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.header
 import io.ktor.http.HttpHeaders
+import io.ktor.serialization.jackson.jackson
 import kotlinx.coroutines.runBlocking
 import no.nav.dagpenger.oauth2.CachedOauth2Client
 import no.nav.dagpenger.oauth2.OAuth2Config
@@ -50,8 +50,8 @@ class ClientTest {
 
     val httpClient =
         HttpClient(CIO) {
-            install(JsonFeature) {
-                serializer = JacksonSerializer {
+            install(ContentNegotiation) {
+                jackson {
                     configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                     registerModules(JavaTimeModule())
                     setSerializationInclusion(JsonInclude.Include.NON_NULL)
