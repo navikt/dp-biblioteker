@@ -3,7 +3,6 @@ plugins {
 }
 
 dependencies {
-    compileOnly(Ktor.library("client-cio"))
     compileOnly("com.fasterxml.jackson.core:jackson-annotations:${Jackson.version}")
 }
 
@@ -299,12 +298,12 @@ kobby {
                 // Is simple Ktor adapter generation enabled
                 // By default `true` if `io.ktor:ktor-client-cio`
                 // artifact is in the project dependencies
-                simpleEnabled = true // Boolean
+                simpleEnabled = false // Boolean
 
                 // Is composite Ktor adapter generation enabled
                 // By default `true` if `io.ktor:ktor-client-cio`
                 // artifact is in the project dependencies
-                compositeEnabled = true // Boolean
+                compositeEnabled = false // Boolean
 
                 // Package name for Ktor adapter classes relative to root package name
                 packageName = "adapter.ktor"
