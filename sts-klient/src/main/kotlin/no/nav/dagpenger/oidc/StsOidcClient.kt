@@ -1,18 +1,20 @@
 package no.nav.dagpenger.oidc
 
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.cio.CIO
-import io.ktor.client.features.auth.Auth
-import io.ktor.client.features.auth.providers.basic
-import io.ktor.client.features.json.JacksonSerializer
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.features.logging.DEFAULT
-import io.ktor.client.features.logging.LogLevel
-import io.ktor.client.features.logging.Logger
-import io.ktor.client.features.logging.Logging
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BasicAuthCredentials
+import io.ktor.client.plugins.auth.providers.basic
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.logging.DEFAULT
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
+import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
+import io.ktor.serialization.jackson.jackson
 import io.prometheus.client.Summary
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -42,15 +44,13 @@ class StsOidcClient constructor(
 ) : OidcClient {
 
     private val client = HttpClient(engine) {
-        install(JsonFeature) {
-            serializer = JacksonSerializer {
-            }
+        install(ContentNegotiation) {
+            jackson { }
         }
         install(Auth) {
             basic {
-                sendWithoutRequest = true
-                username = this@StsOidcClient.username
-                password = this@StsOidcClient.password
+                sendWithoutRequest { true }
+                credentials { BasicAuthCredentials(this@StsOidcClient.username, this@StsOidcClient.password) }
             }
         }
         install(Logging) {
@@ -81,10 +81,10 @@ class StsOidcClient constructor(
     private suspend fun newOidcToken(): OidcToken {
         return withContext(Dispatchers.IO) {
             kotlin.runCatching {
-                client.get<OidcToken>(stsTokenUrl) {
+                client.get(stsTokenUrl) {
                     parameter("grant_type", "client_credentials")
                     parameter("scope", "openid")
-                }
+                }.body<OidcToken>()
             }.getOrElse {
                 throw StsOidcClientException(it.localizedMessage, it)
             }
