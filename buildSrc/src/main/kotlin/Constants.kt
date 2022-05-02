@@ -165,7 +165,7 @@ object Ktor {
 }
 
 object Ktor2 {
-    const val version = "2.0.0"
+    const val version = "2.0.1"
     object Client {
         fun library(name: String) = "io.ktor:ktor-client-$name:$version"
     }
