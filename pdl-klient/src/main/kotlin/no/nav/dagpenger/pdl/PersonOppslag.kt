@@ -1,15 +1,17 @@
 package no.nav.dagpenger.pdl
 
-import io.ktor.client.HttpClient
+import io.ktor.client.*
 import kotlinx.coroutines.runBlocking
 import no.nav.dagpenger.pdl.adapter.KtorHttpClientAdapter
 import no.nav.dagpenger.pdl.adapter.proxyAwareHttpClient
 import no.nav.dagpenger.pdl.dto.ForelderBarnRelasjonRolle
 import no.nav.dagpenger.pdl.queries.hentPerson
 import no.nav.dagpenger.pdl.queries.hentPersonBolk
+import no.nav.dagpenger.pdl.queries.henteIdenter
 
 interface PersonOppslag {
     suspend fun hentPerson(fnr: String, headersMap: Map<String, String> = emptyMap()): PDLPerson
+    suspend fun hentIdenter(ident: String, historisk: Boolean? = null, headersMap: Map<String, String>): List<PdlIdent>
     fun hentPersonBlocking(fnr: String, headersMap: Map<String, String>): PDLPerson
 }
 
@@ -23,7 +25,7 @@ interface PersonOppslagBolk {
 @JvmOverloads
 fun createPersonOppslagBolk(
     url: String,
-    httpClient: HttpClient = proxyAwareHttpClient()
+    httpClient: HttpClient = proxyAwareHttpClient(),
 ): PersonOppslagBolk {
     return object : PersonOppslagBolk {
         override suspend fun hentPersoner(fnrs: List<String>, headersMap: Map<String, String>): List<PDLPerson> {
@@ -76,17 +78,30 @@ fun createPersonOppslagBolk(
 @JvmOverloads
 fun createPersonOppslag(
     url: String,
-    httpClient: HttpClient = proxyAwareHttpClient()
+    httpClient: HttpClient = proxyAwareHttpClient(),
 ): PersonOppslag {
     return object : PersonOppslag {
         override suspend fun hentPerson(fnr: String, headersMap: Map<String, String>): PDLPerson {
             val pdlContext = pdlContextOf(KtorHttpClientAdapter(url, headersMap, httpClient))
-
             return pdlContext.query { hentPerson(fnr) }
                 .hentPerson
                 ?.let(::PDLPerson)
                 ?: throw PDLPerson.PDLException("Ukjent feil")
         }
+
+        override suspend fun hentIdenter(
+            ident: String,
+            historisk: Boolean?,
+            headersMap: Map<String, String>,
+        ): List<PdlIdent> {
+            val pdlContext = pdlContextOf(KtorHttpClientAdapter(url, headersMap, httpClient))
+            return pdlContext.query {
+                henteIdenter(ident, historisk)
+            }.hentIdenter?.let { identliste ->
+                identliste.identer.map { PdlIdent(it.ident, it.gruppe.name, it.historisk) }
+            } ?: throw PDLPerson.PDLException("Ukjent feil ved henting av identer")
+        }
+
 
         override fun hentPersonBlocking(fnr: String, headersMap: Map<String, String>): PDLPerson {
             return runBlocking { hentPerson(fnr, headersMap) }
