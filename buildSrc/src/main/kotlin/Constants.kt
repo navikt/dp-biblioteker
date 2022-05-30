@@ -44,7 +44,7 @@ object Dagpenger {
         }
     }
 
-    const val Grunnbeløp = "com.github.navikt:dp-grunnbelop:2022.04.25-08.32.f0b301fea096"
+    const val Grunnbeløp = "com.github.navikt:dp-grunnbelop:2022.05.20-09.36.a361a7eb490e"
     const val Streams = "com.github.navikt:dagpenger-streams:2021.12.29-13.08.7857ff52b457"
     const val Events = "com.github.navikt:dagpenger-events:2021.12.14-09.45.e24e8c813b27"
 }
@@ -165,7 +165,7 @@ object Ktor {
 }
 
 object Ktor2 {
-    const val version = "2.0.1"
+    const val version = "2.0.2"
     object Client {
         fun library(name: String) = "io.ktor:ktor-client-$name:$version"
     }
