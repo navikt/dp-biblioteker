@@ -6,9 +6,10 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respondError
 import io.ktor.client.engine.mock.respondOk
-import io.ktor.client.features.ClientRequestException
+import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.request.get
 import io.ktor.http.HttpStatusCode
+import io.ktor.http.path
 import io.prometheus.client.Collector
 import io.prometheus.client.CollectorRegistry
 import kotlinx.coroutines.delay
@@ -17,26 +18,26 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class PrometheusMetricsTest {
-    private val registry: CollectorRegistry = CollectorRegistry.defaultRegistry
+class PrometheusMetricsPluginTest {
+    private val defaultRegistry: CollectorRegistry = CollectorRegistry.defaultRegistry
     private lateinit var client: HttpClient
 
     @BeforeEach
     fun setUp() {
         client = HttpClient(MockEngine) {
-            install(PrometheusMetrics) {
+            install(PrometheusMetricsPlugin) {
                 baseName = ""
-                this.registry = registry
+                this.registry = defaultRegistry
             }
             engine {
                 addHandler { request ->
                     when (request.url.encodedPath) {
-                        "measured" -> {
+                        "/measured" -> {
                             delay(100L)
                             respondOk("Hello, world")
                         }
-                        "ok" -> respondOk("Hello, world")
-                        "not-found" -> respondError(HttpStatusCode.NotFound)
+                        "/ok" -> respondOk("Hello, world")
+                        "/not-found" -> respondError(HttpStatusCode.NotFound)
                         else -> error("Unhandled URL ${request.url.encodedPath}")
                     }
                 }
@@ -46,13 +47,13 @@ class PrometheusMetricsTest {
 
     @AfterEach
     fun tearDown() {
-        registry.clear()
+        defaultRegistry.clear()
     }
 
     @Test
     fun `calls are timed`() {
         runBlocking {
-            client.get<String>("/measured")
+            client.get { url { path("/measured") } }
         }
 
         getCount("duration") shouldBe 1
@@ -63,8 +64,8 @@ class PrometheusMetricsTest {
     fun `status codes are counted`() {
         runBlocking {
             try {
-                client.get<String>("/ok")
-                client.get<String>("/not-found")
+                client.get { url { path("/ok") } }
+                client.get { url { path("/not-found") } }
             } catch (e: ClientRequestException) {
             }
         }
@@ -75,12 +76,12 @@ class PrometheusMetricsTest {
     }
 
     private fun getStatus(statusCode: String) =
-        registry.getSampleValue("status_total", listOf("status").toTypedArray(), listOf(statusCode).toTypedArray())
+        defaultRegistry.getSampleValue("status_total", listOf("status").toTypedArray(), listOf(statusCode).toTypedArray())
 
-    private fun getCount(name: String): Double = registry.getSampleValue("${name}_count").toDouble()
-    private fun getSum(name: String): Double = registry.getSampleValue("${name}_sum").toDouble()
+    private fun getCount(name: String): Double = defaultRegistry.getSampleValue("${name}_count").toDouble()
+    private fun getSum(name: String): Double = defaultRegistry.getSampleValue("${name}_sum").toDouble()
     private fun getBucket(name: String, bucket: Double): Double =
-        registry.getSampleValue(
+        defaultRegistry.getSampleValue(
             "${name}_bucket",
             listOf("le").toTypedArray(),
             listOf(Collector.doubleToGoString(bucket)).toTypedArray()

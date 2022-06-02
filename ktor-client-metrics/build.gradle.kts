@@ -1,6 +1,6 @@
 dependencies {
-    implementation(Ktor.library("client"))
+    api(Ktor2.Client.library("core-jvm"))
     implementation(Prometheus.common)
-    testImplementation(Ktor.library("client-mock-jvm"))
+    testImplementation(Ktor2.Client.library("mock-jvm"))
     testImplementation(KoTest.assertions)
 }

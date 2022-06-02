@@ -2,7 +2,7 @@ package no.nav.dagpenger.ktor.client.metrics
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.HttpClientCall
-import io.ktor.client.features.HttpClientFeature
+import io.ktor.client.plugins.HttpClientPlugin
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.HttpSendPipeline
 import io.ktor.client.statement.HttpReceivePipeline
@@ -12,7 +12,7 @@ import io.prometheus.client.CollectorRegistry
 import io.prometheus.client.Counter
 import io.prometheus.client.Histogram
 
-class PrometheusMetrics private constructor(registry: CollectorRegistry, baseName: String) {
+class PrometheusMetricsPlugin private constructor(registry: CollectorRegistry, baseName: String) {
     private val duration = Histogram
         .build("duration", "Time spent in requests")
         .namespace(baseName)
@@ -29,28 +29,28 @@ class PrometheusMetrics private constructor(registry: CollectorRegistry, baseNam
         var registry: CollectorRegistry = CollectorRegistry.defaultRegistry
     }
 
-    companion object Feature : HttpClientFeature<Config, PrometheusMetrics> {
-        override val key = AttributeKey<PrometheusMetrics>("metrics")
+    companion object Feature : HttpClientPlugin<Config, PrometheusMetricsPlugin> {
+        override val key = AttributeKey<PrometheusMetricsPlugin>("metrics")
 
-        override fun prepare(block: Config.() -> Unit): PrometheusMetrics {
+        override fun prepare(block: Config.() -> Unit): PrometheusMetricsPlugin {
             val conf = Config().apply(block)
-            return PrometheusMetrics(
+            return PrometheusMetricsPlugin(
                 registry = conf.registry,
                 baseName = conf.baseName
             )
         }
 
-        override fun install(feature: PrometheusMetrics, scope: HttpClient) {
+        override fun install(plugin: PrometheusMetricsPlugin, scope: HttpClient) {
             val phase = PipelinePhase("PrometheusMetrics")
 
             scope.sendPipeline.insertPhaseBefore(HttpSendPipeline.Monitoring, phase)
             scope.sendPipeline.intercept(phase) {
-                feature.before(this.context)
+                plugin.before(this.context)
             }
 
             scope.receivePipeline.insertPhaseAfter(HttpReceivePipeline.After, phase)
             scope.receivePipeline.intercept(phase) {
-                feature.after(this.context)
+                plugin.after(it.call)
             }
         }
     }
