@@ -12,9 +12,7 @@ java {
     mainJavaSourceSet.srcDirs(graphqlDir)
 }
 
-
 tasks.withType<org.gradle.jvm.tasks.Jar> { duplicatesStrategy = DuplicatesStrategy.INCLUDE }
-
 
 // Kobby Plugin Configuration
 kobby {
