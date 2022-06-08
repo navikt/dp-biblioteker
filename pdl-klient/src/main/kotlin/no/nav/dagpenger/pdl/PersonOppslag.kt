@@ -47,8 +47,7 @@ fun createPersonOppslagBolk(
                 .forelderBarnRelasjon
                 .filter {
                     it.relatertPersonsRolle == ForelderBarnRelasjonRolle.BARN
-                }
-                .map { it.relatertPersonsIdent }
+                }.mapNotNull { it.relatertPersonsIdent }
 
             return if (barn.isEmpty()) emptyList() else
                 pdlContext.query {
