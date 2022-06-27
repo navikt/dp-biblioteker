@@ -14,7 +14,7 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.time.LocalDateTime
 
-sealed class PDFDocument private constructor(val document: PDDocument) : Closeable {
+sealed class PDFDocument constructor(val document: PDDocument) : Closeable {
     companion object {
         fun load(bytes: ByteArray): PDFDocument {
             return try {
@@ -89,4 +89,8 @@ class InvalidPDFDocument(private val exception: Exception) : PDFDocument(PDDocum
     fun message() = exception.message
 }
 
-class ValidPDFDocument(document: PDDocument) : PDFDocument(document)
+class ValidPDFDocument(document: PDDocument) : PDFDocument(document), Closeable {
+    override fun close() {
+        document.close()
+    }
+}

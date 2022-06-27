@@ -82,9 +82,11 @@ class PdfTest {
     @Test
     fun `convert page to image`() {
         "/pdfs/valid_with_5_pages.pdf".fileAsInputStream().use {
-            PDFDocument.load(it).use { pdf ->
-                shouldNotThrowAny { pdf.convertToImage(4) }
-                shouldThrow<IllegalArgumentException> { pdf.convertToImage(5) }
+            PDFDocument.load(it).use { pdfDockument: PDFDocument ->
+                pdfDockument.use { pdf ->
+                    shouldNotThrowAny { pdf.convertToImage(4) }
+                    shouldThrow<IllegalArgumentException> { pdf.convertToImage(5) }
+                }
             }
         }
     }
