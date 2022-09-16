@@ -26,7 +26,9 @@ sealed class PDFDocument constructor(val document: PDDocument) : Closeable {
 
         fun load(inputStream: InputStream): PDFDocument {
             return try {
-                ValidPDFDocument(PDDocument.load(inputStream.buffered()))
+                inputStream.buffered().use { buffered ->
+                    ValidPDFDocument(PDDocument.load(buffered))
+                }
             } catch (e: Exception) {
                 InvalidPDFDocument(e)
             }
