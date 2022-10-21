@@ -6,7 +6,7 @@ dependencies {
     }
 
     api(Konfig.konfig)
-    api("no.nav.security:token-client-core:1.3.10")
+    api("no.nav.security:token-client-core:2.1.6")
     implementation(Ktor2.Client.library("logging"))
     implementation(Ktor2.Client.library("cio-jvm"))
     implementation(Ktor2.Client.library("content-negotiation"))
@@ -17,4 +17,17 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-ktor:4.4.3")
     // FOr E2E
     testImplementation("io.kubernetes:client-java:16.0.0")
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    tasks.named<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>("compileKotlin") {
+        kotlinOptions.jvmTarget = "11"
+    }
+
+    tasks.named<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>("compileTestKotlin") {
+        kotlinOptions.jvmTarget = "11"
+    }
 }
