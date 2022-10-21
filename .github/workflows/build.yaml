@@ -16,7 +16,7 @@ jobs:
 
       - uses: gradle/gradle-build-action@v2
         with:
-          arguments: build --configuration-cache
+          arguments: build
 
   release:
     name: Create Release
