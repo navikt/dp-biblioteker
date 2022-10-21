@@ -17,17 +17,4 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-ktor:4.4.3")
     // FOr E2E
     testImplementation("io.kubernetes:client-java:16.0.0")
-
-    java {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    tasks.named<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>("compileKotlin") {
-        kotlinOptions.jvmTarget = "11"
-    }
-
-    tasks.named<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>("compileTestKotlin") {
-        kotlinOptions.jvmTarget = "11"
-    }
 }
