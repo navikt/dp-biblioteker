@@ -21,11 +21,14 @@ sealed class AuthType {
         private val privateKey: RSAKey
     ) :
         AuthType() {
-        private val clientAssertion = ClientAssertion(URI.create(tokenEndpointUrl), clientId, privateKey, 120)
-        override val authParams: Map<String, String> = mapOf(
-            OAuth2ParameterNames.CLIENT_ID to clientId,
-            OAuth2ParameterNames.CLIENT_ASSERTION_TYPE to clientAssertion.assertionType(),
-            OAuth2ParameterNames.CLIENT_ASSERTION to clientAssertion.assertion()
-        )
+        override val authParams: Map<String, String>
+            get() {
+                val clientAssertion = ClientAssertion(URI.create(tokenEndpointUrl), clientId, privateKey, 120)
+                return mapOf(
+                    OAuth2ParameterNames.CLIENT_ID to clientId,
+                    OAuth2ParameterNames.CLIENT_ASSERTION_TYPE to clientAssertion.assertionType(),
+                    OAuth2ParameterNames.CLIENT_ASSERTION to clientAssertion.assertion()
+                )
+            }
     }
 }

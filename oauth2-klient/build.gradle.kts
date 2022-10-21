@@ -15,4 +15,6 @@ dependencies {
     testImplementation(Ktor2.Client.library("mock"))
     testImplementation(KoTest.assertions)
     testImplementation("io.kotest:kotest-assertions-ktor:4.4.3")
+    // FOr E2E
+    testImplementation("io.kubernetes:client-java:16.0.0")
 }
