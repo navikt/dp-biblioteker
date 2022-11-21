@@ -3,6 +3,7 @@ package no.nav.dagpenger.pdl.queries
 import no.nav.dagpenger.pdl.entity.MatrikkeladresseProjection
 import no.nav.dagpenger.pdl.entity.PersonProjection
 import no.nav.dagpenger.pdl.entity.QueryProjection
+import no.nav.dagpenger.pdl.entity.RelatertBiPersonProjection
 import no.nav.dagpenger.pdl.entity.UtenlandskAdresseProjection
 import no.nav.dagpenger.pdl.entity.VegadresseProjection
 
@@ -50,6 +51,17 @@ fun UtenlandskAdresseProjection.utenlandskAdresseDetailsFragment() {
     landkode()
 }
 
+fun RelatertBiPersonProjection.relatertBiPersonFragment() {
+    navn {
+        fornavn()
+        mellomnavn()
+        etternavn()
+    }
+    foedselsdato()
+    statsborgerskap()
+    kjoenn()
+}
+
 fun PersonProjection.personDetailsFragment() {
     folkeregisteridentifikator {
         identifikasjonsnummer()
@@ -60,6 +72,9 @@ fun PersonProjection.personDetailsFragment() {
         minRolleForPerson()
         relatertPersonsIdent()
         relatertPersonsRolle()
+        relatertPersonUtenFolkeregisteridentifikator {
+            relatertBiPersonFragment()
+        }
     }
     doedsfall {
         doedsdato()
