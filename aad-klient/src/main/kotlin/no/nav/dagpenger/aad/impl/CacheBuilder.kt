@@ -7,7 +7,7 @@ import no.nav.dagpenger.aad.http.AccessToken
 import java.time.Duration
 import java.time.temporal.ChronoUnit
 
-internal fun <T> Cache.create(): com.github.benmanes.caffeine.cache.Cache<T, AccessToken> =
+internal fun <T : Any> Cache.create(): com.github.benmanes.caffeine.cache.Cache<T, AccessToken> =
     Caffeine.newBuilder()
         .maximumSize(maximumSize.toLong())
         .expireAfter(
