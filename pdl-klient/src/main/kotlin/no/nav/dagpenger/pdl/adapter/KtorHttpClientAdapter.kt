@@ -8,6 +8,7 @@ import io.ktor.client.call.body
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.ProxyBuilder
 import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.request.header
@@ -23,6 +24,7 @@ import no.nav.dagpenger.pdl.PdlAdapter
 import no.nav.dagpenger.pdl.dto.QueryDto
 import no.nav.dagpenger.pdl.dto.graphql.PdlQueryResult
 import no.nav.dagpenger.pdl.dto.graphql.PdlRequest
+import kotlin.time.Duration.Companion.seconds
 
 class KtorHttpClientAdapter(
     private val urlString: String,
@@ -53,21 +55,32 @@ class KtorHttpClientAdapter(
     }
 }
 
-fun proxyAwareHttpClient(engine: HttpClientEngine = CIO.create()) = HttpClient(engine) {
-    install(ContentNegotiation) {
-        jackson {
-            configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            setSerializationInclusion(JsonInclude.Include.NON_NULL)
-            registerModules(JavaTimeModule())
+fun proxyAwareHttpClient(
+    engine: HttpClientEngine = CIO.create() {
+        requestTimeout = 0
+    }
+): HttpClient {
+    return HttpClient(engine) {
+        install(ContentNegotiation) {
+            jackson {
+                configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                setSerializationInclusion(JsonInclude.Include.NON_NULL)
+                registerModules(JavaTimeModule())
+            }
         }
-    }
-    defaultRequest {
-        header("TEMA", "DAG")
-    }
+        install(HttpTimeout) {
+            requestTimeoutMillis = 15.seconds.inWholeMilliseconds
+            connectTimeoutMillis = 5.seconds.inWholeMilliseconds
+            socketTimeoutMillis = 15.seconds.inWholeMilliseconds
+        }
+        defaultRequest {
+            header("TEMA", "DAG")
+        }
 
-    engine {
-        System.getenv("HTTP_PROXY")?.let {
-            this.proxy = ProxyBuilder.http(Url(it))
+        engine {
+            System.getenv("HTTP_PROXY")?.let {
+                this.proxy = ProxyBuilder.http(Url(it))
+            }
         }
     }
 }
