@@ -1,7 +1,9 @@
 package no.nav.dagpenger.pdl.adresse
 
+import io.kotest.matchers.shouldBe
 import no.nav.dagpenger.pdl.PDLPerson
 import no.nav.dagpenger.pdl.TestPersonBuilder
+import no.nav.dagpenger.pdl.adresse.AdresseMetadata.AdresseType.BOSTEDSADRESSE
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
@@ -74,6 +76,29 @@ internal class AdresseVisitorTest {
     }
 
     @Test
+    fun `Henter ut bostedsadresse`() {
+        AdresseVisitor(
+            TestPersonBuilder(
+                bostedsAdresser = listOf(
+                    TestPersonBuilder.bostedsAdresse(
+                        vegadresse = TestPersonBuilder.vegadresse()
+                    )
+                ),
+                kontaktAdresser = listOf(
+                    TestPersonBuilder.kontaktAdresse(
+                        utenlandskAdresseIFrittFormat = TestPersonBuilder.utenlandskAdresseIFrittFormat(),
+                    )
+                )
+
+            ).testPerson
+        ).let { visitor ->
+            val bostedsadresse = visitor.bostedsadresse
+            requireNotNull(bostedsadresse)
+            bostedsadresse.adresseMetadata.adresseType shouldBe BOSTEDSADRESSE
+        }
+    }
+
+    @Test
     fun `Henter ut alle typer av adresser`() {
         val tomorrow = LocalDate.now().plusDays(1)
         AdresseVisitor(
@@ -106,9 +131,18 @@ internal class AdresseVisitorTest {
             ).testPerson
         ).let { visitor ->
             assertEquals(10, visitor.adresser.size)
-            assertEquals(3, visitor.adresser.filter { it.adresseMetadata.adresseType == AdresseMetadata.AdresseType.BOSTEDSADRESSE }.size)
-            assertEquals(4, visitor.adresser.filter { it.adresseMetadata.adresseType == AdresseMetadata.AdresseType.KONTAKTADRESSE }.size)
-            assertEquals(3, visitor.adresser.filter { it.adresseMetadata.adresseType == AdresseMetadata.AdresseType.OPPHOLDSADRESSE }.size)
+            assertEquals(
+                3,
+                visitor.adresser.filter { it.adresseMetadata.adresseType == BOSTEDSADRESSE }.size
+            )
+            assertEquals(
+                4,
+                visitor.adresser.filter { it.adresseMetadata.adresseType == AdresseMetadata.AdresseType.KONTAKTADRESSE }.size
+            )
+            assertEquals(
+                3,
+                visitor.adresser.filter { it.adresseMetadata.adresseType == AdresseMetadata.AdresseType.OPPHOLDSADRESSE }.size
+            )
             assertEquals(2, visitor.adresser.filterIsInstance<PDLAdresse.VegAdresse>().size)
             assertEquals(2, visitor.adresser.filterIsInstance<PDLAdresse.MatrikkelAdresse>().size)
             assertEquals(3, visitor.adresser.filterIsInstance<PDLAdresse.UtenlandskAdresse>().size)

@@ -25,11 +25,13 @@ class AdresseVisitor(pdlPerson: PDLPerson) :
             .filter { this.harIkkeHemmeligAdresse() }
     }
 
-    val adresser: List<PDLAdresse>
-        get() = mutableAdresseList
-            .filter { it.adresseMetadata.erGyldig }
-            .filter { this.harIkkeHemmeligAdresse() }
-            .toList()
+    val adresser: List<PDLAdresse> = mutableAdresseList
+        .filter { it.adresseMetadata.erGyldig }
+        .filter { this.harIkkeHemmeligAdresse() }
+        .toList()
+
+    val bostedsadresse: PDLAdresse? =
+        adresser.singleOrNull { it.adresseMetadata.adresseType == AdresseMetadata.AdresseType.BOSTEDSADRESSE }
 
     private fun harIkkeHemmeligAdresse(): Boolean {
         return PDLPerson.AdressebeskyttelseGradering.UGRADERT == adressebeskyttelseGradering
