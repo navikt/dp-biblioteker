@@ -24,7 +24,7 @@ object Cucumber {
 object Dagpenger {
 
     object Biblioteker {
-        const val version = "2022.11.24-14.34.528555d5f3df"
+        const val version = "2023.01.16-10.20.e8450fdff15a"
         const val stsKlient = "com.github.navikt.dp-biblioteker:sts-klient:$version"
         const val ktorUtils = "com.github.navikt.dp-biblioteker:ktor-utils:$version"
 
@@ -69,14 +69,14 @@ object GradleWrapper {
 }
 
 object Jackson {
-    const val version = "2.14.1"
+    const val version = "2.14.2"
     const val core = "com.fasterxml.jackson.core:jackson-core:$version"
     const val kotlin = "com.fasterxml.jackson.module:jackson-module-kotlin:$version"
     const val jsr310 = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$version"
 }
 
 object Junit5 {
-    const val version = "5.9.1"
+    const val version = "5.9.2"
     const val api = "org.junit.jupiter:junit-jupiter-api:$version"
     const val params = "org.junit.jupiter:junit-jupiter-params:$version"
     const val engine = "org.junit.jupiter:junit-jupiter-engine:$version"
@@ -118,7 +118,7 @@ object Konfig {
 }
 
 object Kotlin {
-    const val version = "1.7.21"
+    const val version = "1.8.10"
     const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$version"
 
     object Coroutines {
@@ -133,7 +133,7 @@ object Kotlin {
 }
 
 object KoTest {
-    const val version = "5.5.4"
+    const val version = "5.5.5"
 
     // for kotest framework
     const val runner = "io.kotest:kotest-runner-junit5-jvm:$version"
@@ -153,7 +153,7 @@ object Kotlinx {
 }
 
 object Ktor {
-    const val version = "1.6.6"
+    const val version = "1.6.8"
     const val server = "io.ktor:ktor-server:$version"
     const val serverNetty = "io.ktor:ktor-server-netty:$version"
     const val auth = "io.ktor:ktor-auth:$version"
@@ -165,7 +165,7 @@ object Ktor {
 }
 
 object Ktor2 {
-    const val version = "2.1.3"
+    const val version = "2.2.3"
     object Client {
         fun library(name: String) = "io.ktor:ktor-client-$name:$version"
     }
@@ -205,7 +205,7 @@ object Moshi {
 }
 
 object Mockk {
-    const val version = "1.13.2"
+    const val version = "1.13.4"
     const val mockk = "io.mockk:mockk:$version"
 }
 
