@@ -16,8 +16,9 @@ dependencies {
     implementation(Jackson.jsr310)
     testImplementation(Junit5.api)
     testImplementation(Mockk.mockk)
+    testImplementation("io.kubernetes:client-java:18.0.0")
     testRuntimeOnly(Junit5.engine)
-    testRuntimeOnly("ch.qos.logback:logback-classic:1.2.10")
+    testRuntimeOnly("ch.qos.logback:logback-classic:1.4.5")
 }
 
 tasks.withType<org.gradle.jvm.tasks.Jar> { duplicatesStrategy = DuplicatesStrategy.INCLUDE }
