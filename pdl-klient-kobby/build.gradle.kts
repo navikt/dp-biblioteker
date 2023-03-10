@@ -1,5 +1,5 @@
 plugins {
-    id("io.github.ermadmi78.kobby") version "2.1.0"
+    id("io.github.ermadmi78.kobby") version "2.1.1"
 }
 
 dependencies {
@@ -12,7 +12,10 @@ java {
     mainJavaSourceSet.srcDirs(graphqlDir)
 }
 
-tasks.withType<org.gradle.jvm.tasks.Jar> { duplicatesStrategy = DuplicatesStrategy.INCLUDE }
+tasks.withType<org.gradle.jvm.tasks.Jar> {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    dependsOn("kobbyKotlin")
+}
 
 // Kobby Plugin Configuration
 kobby {

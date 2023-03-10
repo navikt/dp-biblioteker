@@ -6,7 +6,7 @@ dependencies {
     }
 
     api(Konfig.konfig)
-    api("no.nav.security:token-client-core:2.1.6")
+    api("no.nav.security:token-client-core:3.0.3")
     implementation(Ktor2.Client.library("logging"))
     implementation(Ktor2.Client.library("cio-jvm"))
     implementation(Ktor2.Client.library("content-negotiation"))
