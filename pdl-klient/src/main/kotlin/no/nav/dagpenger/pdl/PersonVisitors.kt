@@ -15,7 +15,7 @@ interface PersonaliaVisitor {
         mellomNavn: String?,
         etternavn: String,
         statsborgerskap: String,
-        kjonn: Kjonn
+        kjonn: Kjonn,
     ) {
     }
 }
@@ -23,7 +23,7 @@ interface PersonaliaVisitor {
 interface BostedsAdresseVisitor : MatrikkelAdresseVisitor, VegAdresseVisitor, UtenlandskAdresseVisitor {
     fun visitUkjentBosted(
         adresseMetadata: AdresseMetadata,
-        bostedskommune: String?
+        bostedskommune: String?,
     ) {
     }
 }

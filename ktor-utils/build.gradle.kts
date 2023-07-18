@@ -1,3 +1,6 @@
+plugins {
+    `common-kotlin`
+}
 dependencies {
     implementation(Ktor.server)
     implementation(Ktor.auth)

@@ -45,7 +45,7 @@ class PostAdresseOrderTest {
         gyldigFom: LocalDate? = null,
         gyldigTom: LocalDate? = null,
         angittFlyttedato: LocalDate? = null,
-        master: MasterType = PDL
+        master: MasterType = PDL,
     ): PDLAdresse {
         return PDLAdresse.PostboksAdresse(
             AdresseMetadata(
@@ -54,17 +54,17 @@ class PostAdresseOrderTest {
                 gyldigFom,
                 gyldigTom,
                 angittFlyttedato,
-                master
+                master,
             ),
             null,
             null,
-            null
+            null,
         )
     }
 
     private fun assertMetadataEquals(
         expected: List<PDLAdresse>,
-        actual: List<PDLAdresse>
+        actual: List<PDLAdresse>,
     ) {
         assertEquals(expected.size, actual.size, "Diff i liste størrelse")
         expected.forEachIndexed { i, e ->
@@ -74,7 +74,7 @@ class PostAdresseOrderTest {
 
     private fun assertMetadataEquals(
         expected: AdresseMetadata,
-        actual: AdresseMetadata
+        actual: AdresseMetadata,
     ) {
         assertEquals(expected.adresseType, actual.adresseType, "Diff i addresseType")
         assertEquals(expected.master, actual.master, "Diff i master")

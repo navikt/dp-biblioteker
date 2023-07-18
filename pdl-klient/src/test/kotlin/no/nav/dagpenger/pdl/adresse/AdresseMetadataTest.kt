@@ -19,7 +19,7 @@ class AdresseMetadataTest {
                 gyldigTom = tomorrow,
                 matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
                 utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
-            )
+            ),
         ).also {
             assertEquals(AdresseMetadata.AdresseType.BOSTEDSADRESSE, it.adresseType)
             assertEquals(AdresseMetadata.MasterType.PDL, it.master)
@@ -37,7 +37,7 @@ class AdresseMetadataTest {
                 utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
                 postadresseIFrittFormat = TestPersonBuilder.postadresseIFrittFormat(),
                 postboksadresse = TestPersonBuilder.postboksadresse(),
-            )
+            ),
         ).also {
             assertEquals(AdresseMetadata.AdresseType.KONTAKTADRESSE, it.adresseType)
             assertEquals(AdresseMetadata.MasterType.PDL, it.master)
@@ -54,7 +54,7 @@ class AdresseMetadataTest {
                 gyldigTom = tomorrow,
                 matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
                 utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
-            )
+            ),
         ).also {
             assertEquals(AdresseMetadata.AdresseType.OPPHOLDSADRESSE, it.adresseType)
             assertEquals(AdresseMetadata.MasterType.PDL, it.master)
@@ -71,7 +71,7 @@ class AdresseMetadataTest {
                 gyldigTom = null,
                 matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
                 utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
-            )
+            ),
         ).also {
             assertEquals(LocalDate.MIN..LocalDate.MAX, it.gyldighetsPeriode)
         }
@@ -87,7 +87,7 @@ class AdresseMetadataTest {
                 angittFlyttedato = today,
                 matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
                 utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
-            )
+            ),
         ).also {
             assertEquals(today..tomorrow, it.gyldighetsPeriode)
             assertEquals(today, it.registreringsDato)
@@ -103,7 +103,7 @@ class AdresseMetadataTest {
                 gyldigTom = tomorrow,
                 matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
                 utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
-            )
+            ),
         ).also {
             assertEquals(true, it.erGyldig)
         }
@@ -115,7 +115,7 @@ class AdresseMetadataTest {
                 gyldigTom = yesterday,
                 matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
                 utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
-            )
+            ),
         ).also {
             assertEquals(false, it.erGyldig)
         }
@@ -126,7 +126,7 @@ class AdresseMetadataTest {
                 gyldigFom = tomorrow,
                 matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
                 utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
-            )
+            ),
         ).also {
             assertEquals(false, it.erGyldig)
         }
@@ -138,7 +138,7 @@ class AdresseMetadataTest {
                 gyldigTom = today,
                 matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
                 utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
-            )
+            ),
         ).also {
             assertEquals(true, it.erGyldig)
         }
@@ -150,8 +150,8 @@ class AdresseMetadataTest {
             TestPersonBuilder.bostedsAdresse(
                 master = "FREG",
                 matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
-                utenlandskAdresse = TestPersonBuilder.utenlandskAdresse()
-            )
+                utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
+            ),
         ).also {
             assertEquals(true, it.erNorskBostedsAdresse)
         }
@@ -161,8 +161,8 @@ class AdresseMetadataTest {
                 master = "FREG",
                 utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
                 postadresseIFrittFormat = TestPersonBuilder.postadresseIFrittFormat(),
-                postboksadresse = TestPersonBuilder.postboksadresse()
-            )
+                postboksadresse = TestPersonBuilder.postboksadresse(),
+            ),
         ).also {
             assertEquals(false, it.erNorskBostedsAdresse)
         }
@@ -171,8 +171,8 @@ class AdresseMetadataTest {
             TestPersonBuilder.bostedsAdresse(
                 master = "PDL",
                 matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
-                utenlandskAdresse = TestPersonBuilder.utenlandskAdresse()
-            )
+                utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
+            ),
         ).also {
             assertEquals(false, it.erNorskBostedsAdresse)
         }

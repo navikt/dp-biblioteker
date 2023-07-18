@@ -46,13 +46,13 @@ class AdresseVisitor(pdlPerson: PDLPerson) :
         mellomNavn: String?,
         etternavn: String,
         statsborgerskap: String,
-        kjonn: PDLPerson.Kjonn
+        kjonn: PDLPerson.Kjonn,
     ) {
         this.adressebeskyttelseGradering = adressebeskyttelseGradering
     }
 
     override fun visitMatrikkelAdresse(
-        adresse: PDLAdresse.MatrikkelAdresse
+        adresse: PDLAdresse.MatrikkelAdresse,
     ) {
         mutableAdresseList.add(adresse)
     }
@@ -62,25 +62,25 @@ class AdresseVisitor(pdlPerson: PDLPerson) :
     }
 
     override fun visitPostAdresseIFrittFormat(
-        adresse: PDLAdresse.PostAdresseIFrittFormat
+        adresse: PDLAdresse.PostAdresseIFrittFormat,
     ) {
         mutableAdresseList.add(adresse)
     }
 
     override fun visitPostboksadresse(
-        adresse: PDLAdresse.PostboksAdresse
+        adresse: PDLAdresse.PostboksAdresse,
     ) {
         mutableAdresseList.add(adresse)
     }
 
     override fun visitUtenlandskAdresseIFrittFormat(
-        adresse: PDLAdresse.UtenlandsAdresseIFrittFormat
+        adresse: PDLAdresse.UtenlandsAdresseIFrittFormat,
     ) {
         mutableAdresseList.add(adresse)
     }
 
     override fun visitUtenlandskAdresse(
-        adresse: PDLAdresse.UtenlandskAdresse
+        adresse: PDLAdresse.UtenlandskAdresse,
     ) {
         mutableAdresseList.add(adresse)
     }

@@ -13,14 +13,14 @@ import io.ktor.serialization.jackson.jackson
 
 internal data class AccessTokenRequest(
     val tokenEndpointUri: String,
-    val formParameters: Map<String, String>
+    val formParameters: Map<String, String>,
 )
 
 internal data class AccessToken(
     @JsonProperty("access_token")
     val accessToken: String,
     @JsonProperty("expires_int")
-    val expiresIn: Int
+    val expiresIn: Int,
 )
 
 fun defaultHttpClient(httpClientEngine: HttpClientEngine = CIO.create()) =

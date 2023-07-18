@@ -23,11 +23,14 @@ class OAuth2ClientTest {
         OAuth2Config.AzureAd.clientSecretKey to "clientSecret",
         OAuth2Config.AzureAd.wellKnownUrlKey to "https://wellknown.url/.well-known/openid-configuration",
         OAuth2Config.AzureAd.tokenEndpointUrlKey to "https://token.endpoint/",
-        OAuth2Config.AzureAd.privateJWKKey to jwk
+        OAuth2Config.AzureAd.privateJWKKey to jwk,
     )
 
     val accessTokenResponse = OAuth2AccessTokenResponse(
-        "accessToken", 100, 100, emptyMap()
+        "accessToken",
+        100,
+        100,
+        emptyMap(),
     )
 
     val tokenJsonString: String = jacksonObjectMapper().writeValueAsString(accessTokenResponse)
@@ -47,11 +50,11 @@ class OAuth2ClientTest {
                             requestData = request
                             respond(
                                 content = tokenJsonString,
-                                headers = headersOf("Content-Type", "application/json")
+                                headers = headersOf("Content-Type", "application/json"),
                             )
                         }
-                    }
-                )
+                    },
+                ),
             ).clientCredentials("scope1")
         }
 

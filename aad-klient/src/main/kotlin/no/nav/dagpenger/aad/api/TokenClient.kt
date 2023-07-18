@@ -22,11 +22,11 @@ interface TokenXClient {
 fun ClientCredentialsClient(
     env: Configuration = EnvironmentVariables,
     httpClient: HttpClient = defaultHttpClient(),
-    configure: TokenClientConfiguration.ClientCredential.() -> Unit
+    configure: TokenClientConfiguration.ClientCredential.() -> Unit,
 ): ClientCredentialsClient = object :
     TokenClient<TokenClientConfiguration.ClientCredential>(
         httpClient,
-        TokenClientConfiguration.ClientCredential(env).apply(configure)
+        TokenClientConfiguration.ClientCredential(env).apply(configure),
     ),
     ClientCredentialsClient {
     override suspend fun getAccessToken(): String = getOrFetch().accessToken
@@ -36,11 +36,11 @@ fun ClientCredentialsClient(
 fun OnBehalfClient(
     env: Configuration = EnvironmentVariables,
     httpClient: HttpClient = defaultHttpClient(),
-    configure: TokenClientConfiguration.Onbehalf.() -> Unit
+    configure: TokenClientConfiguration.Onbehalf.() -> Unit,
 ): OnBehalfClient = object :
     TokenClient<TokenClientConfiguration.Onbehalf>(
         httpClient,
-        TokenClientConfiguration.Onbehalf(env).apply(configure)
+        TokenClientConfiguration.Onbehalf(env).apply(configure),
     ),
     OnBehalfClient {
     override suspend fun getAccessToken(onBehalfOfToken: String): String = getOrFetch() {
@@ -52,11 +52,11 @@ fun OnBehalfClient(
 fun TokenXClient(
     env: Configuration = EnvironmentVariables,
     httpClient: HttpClient = defaultHttpClient(),
-    configure: TokenClientConfiguration.TokenX.() -> Unit
+    configure: TokenClientConfiguration.TokenX.() -> Unit,
 ): TokenXClient = object :
     TokenClient<TokenClientConfiguration.TokenX>(
         httpClient,
-        TokenClientConfiguration.TokenX(env).apply(configure)
+        TokenClientConfiguration.TokenX(env).apply(configure),
     ),
     TokenXClient {
     override suspend fun getAccessToken(): String = getOrFetch().accessToken

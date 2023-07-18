@@ -14,7 +14,7 @@ import javax.xml.namespace.QName
 private val log = LoggerFactory.getLogger(CallIdInterceptor::class.java)
 
 class CallIdInterceptor(
-    private val callIdGenerator: () -> String
+    private val callIdGenerator: () -> String,
 ) : AbstractPhaseInterceptor<Message>(Phase.PRE_STREAM) {
     @Throws(Fault::class)
     override fun handleMessage(message: Message) {

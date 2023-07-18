@@ -19,7 +19,7 @@ internal class TokenClientTest {
     val env = ConfigurationMap(
         "AZURE_APP_CLIENT_ID" to "clientId",
         "AZURE_APP_CLIENT_SECRET" to "clientSecret",
-        "AZURE_OPENID_CONFIG_TOKEN_ENDPOINT" to "https://token.endpoint/"
+        "AZURE_OPENID_CONFIG_TOKEN_ENDPOINT" to "https://token.endpoint/",
 
     )
 
@@ -38,11 +38,11 @@ internal class TokenClientTest {
                             requestData = request
                             respond(
                                 content = tokenJsonString,
-                                headers = headersOf("Content-Type", "application/json")
+                                headers = headersOf("Content-Type", "application/json"),
                             )
                         }
-                    }
-                )
+                    },
+                ),
             ) {
                 scope {
                     add("scope1")

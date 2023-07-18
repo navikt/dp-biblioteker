@@ -11,7 +11,7 @@ fun Auth.bearer(block: BearerAuthConfig.() -> Unit) {
         providers += BearerAuthProvider(
             tokenProvider,
             realm,
-            sendWithoutRequest
+            sendWithoutRequest,
         )
     }
 }
@@ -19,13 +19,13 @@ fun Auth.bearer(block: BearerAuthConfig.() -> Unit) {
 data class BearerAuthConfig(
     var tokenProvider: () -> String = { "" },
     var realm: String? = null,
-    var sendWithoutRequest: Boolean = false
+    var sendWithoutRequest: Boolean = false,
 )
 
 class BearerAuthProvider(
     private val tokenProvider: () -> String,
     private val realm: String? = null,
-    override val sendWithoutRequest: Boolean = false
+    override val sendWithoutRequest: Boolean = false,
 ) : AuthProvider {
     private val authScheme = "Bearer"
 

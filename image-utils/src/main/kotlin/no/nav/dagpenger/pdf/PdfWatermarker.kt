@@ -56,7 +56,7 @@ object PdfWatermarker {
         val pageWidth: Float = dimensions.getWidth()
         val lineWidth = Math.max(
             findLineWidthForTextWithFontSize(linje1, FONT, FONT_SIZE),
-            findLineWidthForTextWithFontSize(linje2, FONT, FONT_SIZE)
+            findLineWidthForTextWithFontSize(linje2, FONT, FONT_SIZE),
         ) + PADDING_X + PADDING_Y
         val upperRightX = pageWidth - MARGIN
         val upperRightY = pageHeight - MARGIN
@@ -76,7 +76,7 @@ object PdfWatermarker {
                     page,
                     PDPageContentStream.AppendMode.APPEND,
                     true,
-                    true
+                    true,
                 ).use { it: PDPageContentStream ->
                     it.setNonStrokingColor(Color.white)
                     it.addRect(lowerLeftX, lowerLeftY, lineWidth, height)
@@ -98,7 +98,7 @@ object PdfWatermarker {
                     page,
                     PDPageContentStream.AppendMode.APPEND,
                     true,
-                    true
+                    true,
                 ).use { pdPage ->
                     pdPage.setFont(FONT, FONT_SIZE.toFloat())
                     pdPage.setNonStrokingColor(Color.black)

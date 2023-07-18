@@ -70,7 +70,7 @@ class PdfTest {
     fun `merge documents`() {
         val pages: List<ByteArray> = listOf(
             "/pdfs/minimal.pdf".fileAsByteArray(),
-            "/pdfs/minimal.pdf".fileAsByteArray()
+            "/pdfs/minimal.pdf".fileAsByteArray(),
         )
 
         PDFDocument.merge(pages).also {

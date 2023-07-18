@@ -1,3 +1,7 @@
+plugins {
+    `common-kotlin`
+}
+
 dependencies {
     implementation("org.apache.pdfbox:preflight:2.0.26")
     implementation("org.apache.pdfbox:pdfbox:2.0.26")

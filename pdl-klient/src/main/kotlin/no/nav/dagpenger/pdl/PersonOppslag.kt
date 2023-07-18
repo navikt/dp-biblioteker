@@ -23,7 +23,7 @@ interface PersonOppslagBolk {
 @JvmOverloads
 fun createPersonOppslagBolk(
     url: String,
-    httpClient: HttpClient = proxyAwareHttpClient()
+    httpClient: HttpClient = proxyAwareHttpClient(),
 ): PersonOppslagBolk {
     return object : PersonOppslagBolk {
         override suspend fun hentPersoner(fnrs: List<String>, headersMap: Map<String, String>): List<PDLPerson> {
@@ -49,7 +49,9 @@ fun createPersonOppslagBolk(
                     it.relatertPersonsRolle == ForelderBarnRelasjonRolle.BARN
                 }.mapNotNull { it.relatertPersonsIdent }
 
-            return if (barn.isEmpty()) emptyList() else
+            return if (barn.isEmpty()) {
+                emptyList()
+            } else
                 pdlContext.query {
                     hentPersonBolk(barn)
                 }
@@ -75,7 +77,7 @@ fun createPersonOppslagBolk(
 @JvmOverloads
 fun createPersonOppslag(
     url: String,
-    httpClient: HttpClient = proxyAwareHttpClient()
+    httpClient: HttpClient = proxyAwareHttpClient(),
 ): PersonOppslag {
     return object : PersonOppslag {
         override suspend fun hentPerson(fnr: String, headersMap: Map<String, String>): PDLPerson {

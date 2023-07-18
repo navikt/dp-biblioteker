@@ -24,7 +24,6 @@ class DetectTest {
 
     @Test
     fun `detect list of byte arrays representing pdfs`() {
-
         val legalPdf = "/pdfs/minimal.pdf".fileAsByteArray()
         val illegalPdf = "/pdfs/fake_pdf.pdf".fileAsByteArray()
 

@@ -16,7 +16,7 @@ import io.ktor.response.respond
 
 enum class ApiKeyLocation(val location: String) {
     QUERY("query"),
-    HEADER("header")
+    HEADER("header"),
 }
 
 data class ApiKeyCredential(val value: String) : Credential
@@ -50,7 +50,7 @@ class ApiKeyAuthenticationProvider internal constructor(config: Configuration) :
 
 fun Authentication.Configuration.apiKeyAuth(
     name: String? = null,
-    configure: ApiKeyAuthenticationProvider.Configuration.() -> Unit
+    configure: ApiKeyAuthenticationProvider.Configuration.() -> Unit,
 ) {
     val provider = ApiKeyAuthenticationProvider.Configuration(name).apply(configure).build()
     val apiKeyName = provider.apiKeyName
@@ -74,9 +74,9 @@ fun Authentication.Configuration.apiKeyAuth(
                         HttpAuthHeader.Parameterized(
                             "API_KEY",
                             mapOf("key" to apiKeyName),
-                            HeaderValueEncoding.QUOTED_ALWAYS
-                        )
-                    )
+                            HeaderValueEncoding.QUOTED_ALWAYS,
+                        ),
+                    ),
                 )
                 it.complete()
             }
@@ -92,7 +92,7 @@ fun Authentication.Configuration.apiKeyAuth(
 
 fun ApplicationRequest.apiKeyAuthenticationCredentials(
     apiKeyName: String,
-    apiKeyLocation: ApiKeyLocation
+    apiKeyLocation: ApiKeyLocation,
 ): ApiKeyCredential? {
     return when (
         val value: String? = when (apiKeyLocation) {

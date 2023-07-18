@@ -19,7 +19,7 @@ internal fun <T : Any> Cache.create(): com.github.benmanes.caffeine.cache.Cache<
                     key: T,
                     value: AccessToken,
                     currentTime: Long,
-                    currentDuration: Long
+                    currentDuration: Long,
                 ): Long =
                     currentDuration
 
@@ -27,9 +27,9 @@ internal fun <T : Any> Cache.create(): com.github.benmanes.caffeine.cache.Cache<
                     key: T,
                     value: AccessToken,
                     currentTime: Long,
-                    currentDuration: Long
+                    currentDuration: Long,
                 ): Long =
                     currentDuration
-            }
+            },
         )
         .build()

@@ -40,7 +40,7 @@ class StsOidcClient constructor(
     stsBaseUrl: String,
     private val username: String,
     private val password: String,
-    engine: HttpClientEngine = CIO.create()
+    engine: HttpClientEngine = CIO.create(),
 ) : OidcClient {
 
     private val client = HttpClient(engine) {
@@ -99,7 +99,7 @@ data class OidcToken(
     val access_token: String,
     val token_type: String,
     private val expires_in: Long,
-    private val timeToRefresh: Long = 60
+    private val timeToRefresh: Long = 60,
 ) {
     private val valid: Boolean
         get() = LocalDateTime.now() < expireTime

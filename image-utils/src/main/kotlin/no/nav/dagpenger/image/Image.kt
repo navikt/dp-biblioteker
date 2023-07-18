@@ -84,7 +84,7 @@ object ImageConverter {
 object ImageScaler {
     enum class ScaleMode {
         SCALE_TO_FIT_INSIDE_BOX,
-        CROP_TO_FILL_ENTIRE_BOX
+        CROP_TO_FILL_ENTIRE_BOX,
     }
 
     fun scale(input: ByteArray, dimension: Dimension, scaleMode: ScaleMode): BufferedImage {
@@ -111,7 +111,7 @@ object ImageScaler {
         val scaledImage = Scalr.resize(
             input,
             (scalingFactor * input.width).toInt(),
-            (scalingFactor * input.height).toInt()
+            (scalingFactor * input.height).toInt(),
         )
 
         return when (scaleMode) {

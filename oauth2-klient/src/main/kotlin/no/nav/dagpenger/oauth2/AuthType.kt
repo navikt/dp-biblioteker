@@ -18,7 +18,7 @@ sealed class AuthType {
     data class PrivateKey(
         private val clientId: String,
         private val tokenEndpointUrl: String,
-        private val privateKey: RSAKey
+        private val privateKey: RSAKey,
     ) :
         AuthType() {
         override val authParams: Map<String, String>
@@ -27,7 +27,7 @@ sealed class AuthType {
                 return mapOf(
                     OAuth2ParameterNames.CLIENT_ID to clientId,
                     OAuth2ParameterNames.CLIENT_ASSERTION_TYPE to clientAssertion.assertionType(),
-                    OAuth2ParameterNames.CLIENT_ASSERTION to clientAssertion.assertion()
+                    OAuth2ParameterNames.CLIENT_ASSERTION to clientAssertion.assertion(),
                 )
             }
     }

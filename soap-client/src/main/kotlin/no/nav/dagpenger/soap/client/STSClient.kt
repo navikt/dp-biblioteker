@@ -23,7 +23,7 @@ private val ulid = ULID()
 fun stsClient(
     stsUrl: String,
     credentials: Pair<String, String>,
-    callIdGenerator: () -> String = { ulid.nextULID() }
+    callIdGenerator: () -> String = { ulid.nextULID() },
 ): STSClient {
     val bus = BusFactory.getDefaultBus()
     return STSClient(bus).apply {
@@ -35,7 +35,7 @@ fun stsClient(
 
         properties = mapOf(
             SecurityConstants.USERNAME to credentials.first,
-            SecurityConstants.PASSWORD to credentials.second
+            SecurityConstants.PASSWORD to credentials.second,
         )
 
         setPolicy(bus.resolvePolicy(STS_CLIENT_AUTHENTICATION_POLICY))

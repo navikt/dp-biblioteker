@@ -24,7 +24,7 @@ class StsOidcClientTest {
             request.headers[HttpHeaders.Authorization] shouldMatch "Basic\\s[a-zA-Z0-9]*="
             this.respond(
                 content = body(),
-                headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString()),
             )
         }
         val oidcToken: OidcToken = StsOidcClient("https://localhost/", "username", "password", engine).oidcToken()
@@ -38,7 +38,7 @@ class StsOidcClientTest {
             requestCount++
             this.respond(
                 content = body(),
-                headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString()),
             )
         }
 
@@ -60,7 +60,7 @@ class StsOidcClientTest {
             requestCount++
             this.respond(
                 content = body(-10),
-                headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString()),
             )
         }
 
@@ -72,14 +72,13 @@ class StsOidcClientTest {
 
     @Test
     fun `fetch open id token from sts on server error`() {
-
         val engine = MockEngine { respondBadRequest() }
         runCatching {
             StsOidcClient(
                 "https://localhost/",
                 "username",
                 "password",
-                engine
+                engine,
             ).oidcToken()
         }.also { result ->
             result.isFailure shouldBe true

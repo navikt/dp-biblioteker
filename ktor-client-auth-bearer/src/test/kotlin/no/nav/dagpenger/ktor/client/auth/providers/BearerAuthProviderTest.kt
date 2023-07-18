@@ -20,7 +20,7 @@ internal class BearerAuthProviderTest {
     fun testOidcAuthString() {
         assertEquals(
             "Bearer oidc-token",
-            buildAuthString("oidc-token")
+            buildAuthString("oidc-token"),
         )
     }
 
@@ -30,10 +30,10 @@ internal class BearerAuthProviderTest {
         requestHandler = { request ->
             assertEquals(
                 "Bearer static-token",
-                request.headers[HttpHeaders.Authorization]
+                request.headers[HttpHeaders.Authorization],
             )
             respondOk()
-        }
+        },
     )
 
     @Test
@@ -47,11 +47,11 @@ internal class BearerAuthProviderTest {
                 else -> respondError(
                     status = HttpStatusCode.Unauthorized,
                     headers = headersOf(
-                        HttpHeaders.WWWAuthenticate to listOf("Bearer")
-                    )
+                        HttpHeaders.WWWAuthenticate to listOf("Bearer"),
+                    ),
                 )
             }
-        }
+        },
     )
 
     @Test
@@ -66,18 +66,18 @@ internal class BearerAuthProviderTest {
                 else -> respondError(
                     status = HttpStatusCode.Unauthorized,
                     headers = headersOf(
-                        HttpHeaders.WWWAuthenticate to listOf("Bearer realm=secrets")
-                    )
+                        HttpHeaders.WWWAuthenticate to listOf("Bearer realm=secrets"),
+                    ),
                 )
             }
-        }
+        },
     )
 
     private fun testWithClient(
         sendWithoutRequest: Boolean = false,
         realm: String? = null,
         requestHandler: MockRequestHandler,
-        test: HttpResponse.() -> Unit = { assertEquals(HttpStatusCode.OK, this.status) }
+        test: HttpResponse.() -> Unit = { assertEquals(HttpStatusCode.OK, this.status) },
     ) {
         HttpClient(MockEngine) {
             install(Auth) {

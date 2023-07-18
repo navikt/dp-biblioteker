@@ -7,7 +7,7 @@ import no.nav.security.token.support.client.core.OAuth2ParameterNames
 sealed class GrantRequest(
     grantType: OAuth2GrantType,
     params: Map<String, String> = emptyMap(),
-    authType: AuthType
+    authType: AuthType,
 ) {
     val formParams: Map<String, String> =
         mutableMapOf<String, String>(OAuth2ParameterNames.GRANT_TYPE to grantType.value) + params + authType.authParams
@@ -18,9 +18,9 @@ sealed class GrantRequest(
             mapOf(
                 OAuth2ParameterNames.SUBJECT_TOKEN_TYPE to "urn:ietf:params:oauth:token-type:jwt",
                 OAuth2ParameterNames.SUBJECT_TOKEN to token,
-                OAuth2ParameterNames.AUDIENCE to audience
+                OAuth2ParameterNames.AUDIENCE to audience,
             ),
-            authTypeParams
+            authTypeParams,
         )
 
     data class OnBeHalfOf(private val token: String, private val scope: String, private val authType: AuthType) :
@@ -29,7 +29,7 @@ sealed class GrantRequest(
             params = mapOf(
                 OAuth2ParameterNames.SCOPE to scope,
                 OAuth2ParameterNames.REQUESTED_TOKEN_USE to "on_behalf_of",
-                OAuth2ParameterNames.ASSERTION to token
+                OAuth2ParameterNames.ASSERTION to token,
             ),
             authType = authType,
         )
@@ -39,6 +39,6 @@ sealed class GrantRequest(
         mapOf(
             OAuth2ParameterNames.SCOPE to scope,
         ),
-        authType
+        authType,
     )
 }

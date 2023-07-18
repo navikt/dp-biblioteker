@@ -11,7 +11,7 @@ import no.nav.dagpenger.aad.http.AccessTokenRequest
 
 internal abstract class TokenClient<T : TokenClientConfiguration>(
     private val httpClient: HttpClient,
-    private val config: T
+    private val config: T,
 ) {
     private val cache: Cache<AccessTokenRequest, AccessToken> = config.cache.create()
 
@@ -22,7 +22,7 @@ internal abstract class TokenClient<T : TokenClientConfiguration>(
                 tokenRequest.formParameters.forEach {
                     append(it.key, it.value)
                 }
-            }
+            },
         ).body()
     }
 
@@ -32,7 +32,7 @@ internal abstract class TokenClient<T : TokenClientConfiguration>(
         return cache.getIfPresent(accessTokenRequest) ?: doRequest(accessTokenRequest).also {
             cache.put(
                 accessTokenRequest,
-                it
+                it,
             )
         }
     }

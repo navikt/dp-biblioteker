@@ -28,7 +28,7 @@ class OAuth2Client(
                 grantRequest.formParams.forEach {
                     this.append(it.key, it.value)
                 }
-            }
+            },
         ).body()
     }
 }

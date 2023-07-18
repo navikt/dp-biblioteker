@@ -36,7 +36,7 @@ class PrometheusMetricsPlugin private constructor(registry: CollectorRegistry, b
             val conf = Config().apply(block)
             return PrometheusMetricsPlugin(
                 registry = conf.registry,
-                baseName = conf.baseName
+                baseName = conf.baseName,
             )
         }
 

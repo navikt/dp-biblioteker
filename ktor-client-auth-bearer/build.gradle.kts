@@ -1,3 +1,7 @@
+plugins {
+    `common-kotlin`
+}
+
 dependencies {
     implementation(Ktor.library("client-auth-jvm"))
     testImplementation(Ktor.library("client"))

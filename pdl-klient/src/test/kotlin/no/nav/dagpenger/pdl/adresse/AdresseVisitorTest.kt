@@ -22,14 +22,14 @@ internal class AdresseVisitorTest {
                     bostedsAdresser = listOf(
                         TestPersonBuilder.bostedsAdresse(
                             vegadresse = TestPersonBuilder.vegadresse(
-                                postnummer = "2013"
+                                postnummer = "2013",
                             ),
                             matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
-                            utenlandskAdresse = TestPersonBuilder.utenlandskAdresse()
-                        )
-                    )
+                            utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
+                        ),
+                    ),
 
-                ).testPerson
+                ).testPerson,
             ).also {
                 assertEquals(emptyList<PDLAdresse>(), it.adresser, "$gradering")
             }
@@ -44,11 +44,11 @@ internal class AdresseVisitorTest {
                     TestPersonBuilder.bostedsAdresse(
                         gyldigTom = LocalDate.now().minusDays(1),
                         vegadresse = TestPersonBuilder.vegadresse(
-                            postnummer = "2013"
+                            postnummer = "2013",
                         ),
                         matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
-                        utenlandskAdresse = TestPersonBuilder.utenlandskAdresse()
-                    )
+                        utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
+                    ),
                 ),
                 kontaktAdresser = listOf(
                     TestPersonBuilder.kontaktAdresse(
@@ -56,20 +56,20 @@ internal class AdresseVisitorTest {
                         utenlandskAdresseIFrittFormat = TestPersonBuilder.utenlandskAdresseIFrittFormat(),
                         utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
                         postadresseIFrittFormat = TestPersonBuilder.postadresseIFrittFormat(),
-                        postboksadresse = TestPersonBuilder.postboksadresse()
-                    )
+                        postboksadresse = TestPersonBuilder.postboksadresse(),
+                    ),
                 ),
                 oppholdAdresser = listOf(
                     TestPersonBuilder.oppholdsAdresse(
                         gyldigTom = LocalDate.now().minusDays(1),
                         vegadresse = TestPersonBuilder.vegadresse(
-                            postnummer = "2013"
+                            postnummer = "2013",
                         ),
                         matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
-                        utenlandskAdresse = TestPersonBuilder.utenlandskAdresse()
-                    )
-                )
-            ).testPerson
+                        utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
+                    ),
+                ),
+            ).testPerson,
         ).let {
             assertEquals(emptyList<PDLAdresse>(), it.adresser)
         }
@@ -81,16 +81,16 @@ internal class AdresseVisitorTest {
             TestPersonBuilder(
                 bostedsAdresser = listOf(
                     TestPersonBuilder.bostedsAdresse(
-                        vegadresse = TestPersonBuilder.vegadresse()
-                    )
+                        vegadresse = TestPersonBuilder.vegadresse(),
+                    ),
                 ),
                 kontaktAdresser = listOf(
                     TestPersonBuilder.kontaktAdresse(
                         utenlandskAdresseIFrittFormat = TestPersonBuilder.utenlandskAdresseIFrittFormat(),
-                    )
-                )
+                    ),
+                ),
 
-            ).testPerson
+            ).testPerson,
         ).let { visitor ->
             val bostedsadresse = visitor.bostedsadresse
             requireNotNull(bostedsadresse)
@@ -108,8 +108,8 @@ internal class AdresseVisitorTest {
                         gyldigTom = tomorrow,
                         vegadresse = TestPersonBuilder.vegadresse(),
                         matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
-                        utenlandskAdresse = TestPersonBuilder.utenlandskAdresse()
-                    )
+                        utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
+                    ),
                 ),
                 kontaktAdresser = listOf(
                     TestPersonBuilder.kontaktAdresse(
@@ -117,31 +117,31 @@ internal class AdresseVisitorTest {
                         utenlandskAdresseIFrittFormat = TestPersonBuilder.utenlandskAdresseIFrittFormat(),
                         utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
                         postadresseIFrittFormat = TestPersonBuilder.postadresseIFrittFormat(),
-                        postboksadresse = TestPersonBuilder.postboksadresse()
-                    )
+                        postboksadresse = TestPersonBuilder.postboksadresse(),
+                    ),
                 ),
                 oppholdAdresser = listOf(
                     TestPersonBuilder.oppholdsAdresse(
                         gyldigTom = tomorrow,
                         vegadresse = TestPersonBuilder.vegadresse(),
                         matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
-                        utenlandskAdresse = TestPersonBuilder.utenlandskAdresse()
-                    )
-                )
-            ).testPerson
+                        utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
+                    ),
+                ),
+            ).testPerson,
         ).let { visitor ->
             assertEquals(10, visitor.adresser.size)
             assertEquals(
                 3,
-                visitor.adresser.filter { it.adresseMetadata.adresseType == BOSTEDSADRESSE }.size
+                visitor.adresser.filter { it.adresseMetadata.adresseType == BOSTEDSADRESSE }.size,
             )
             assertEquals(
                 4,
-                visitor.adresser.filter { it.adresseMetadata.adresseType == AdresseMetadata.AdresseType.KONTAKTADRESSE }.size
+                visitor.adresser.filter { it.adresseMetadata.adresseType == AdresseMetadata.AdresseType.KONTAKTADRESSE }.size,
             )
             assertEquals(
                 3,
-                visitor.adresser.filter { it.adresseMetadata.adresseType == AdresseMetadata.AdresseType.OPPHOLDSADRESSE }.size
+                visitor.adresser.filter { it.adresseMetadata.adresseType == AdresseMetadata.AdresseType.OPPHOLDSADRESSE }.size,
             )
             assertEquals(2, visitor.adresser.filterIsInstance<PDLAdresse.VegAdresse>().size)
             assertEquals(2, visitor.adresser.filterIsInstance<PDLAdresse.MatrikkelAdresse>().size)

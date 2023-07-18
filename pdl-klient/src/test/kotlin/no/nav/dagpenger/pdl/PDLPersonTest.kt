@@ -32,7 +32,7 @@ class PDLPersonTest {
                 mellomNavn = testPersonBuilder.mellomnavn,
                 etternavn = testPersonBuilder.etternavn,
                 statsborgerskap = testPersonBuilder.statsborgerskap.first(),
-                kjonn = PDLPerson.Kjonn.KVINNE
+                kjonn = PDLPerson.Kjonn.KVINNE,
             )
         }
     }
@@ -47,7 +47,7 @@ class PDLPersonTest {
             angittFlytteDato = null,
             master = AdresseMetadata.MasterType.PDL,
             type = null,
-            coAdresseNavn = null
+            coAdresseNavn = null,
 
         )
 
@@ -61,14 +61,14 @@ class PDLPersonTest {
                 TestPersonBuilder.oppholdsAdresse(
                     gyldigFom = yesterday,
                     gyldigTom = today,
-                    vegadresse = TestPersonBuilder.vegadresse()
+                    vegadresse = TestPersonBuilder.vegadresse(),
                 ),
                 TestPersonBuilder.oppholdsAdresse(
                     gyldigFom = yesterday,
                     gyldigTom = today,
-                    utenlandskAdresse = TestPersonBuilder.utenlandskAdresse()
-                )
-            )
+                    utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
+                ),
+            ),
         ).testPerson
 
         pdlPerson.acceptOppholdsAdressseVisitor(visitor)
@@ -90,7 +90,7 @@ class PDLPersonTest {
             angittFlytteDato = null,
             master = AdresseMetadata.MasterType.PDL,
             type = "Innland",
-            coAdresseNavn = null
+            coAdresseNavn = null,
         )
 
         val pdlPerson = TestPersonBuilder(
@@ -98,30 +98,30 @@ class PDLPersonTest {
                 TestPersonBuilder.kontaktAdresse(
                     gyldigFom = yesterday,
                     gyldigTom = today,
-                    utenlandskAdresseIFrittFormat = TestPersonBuilder.utenlandskAdresseIFrittFormat()
+                    utenlandskAdresseIFrittFormat = TestPersonBuilder.utenlandskAdresseIFrittFormat(),
                 ),
                 TestPersonBuilder.kontaktAdresse(
                     gyldigFom = yesterday,
                     gyldigTom = today,
-                    utenlandskAdresse = TestPersonBuilder.utenlandskAdresse()
+                    utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
                 ),
                 TestPersonBuilder.kontaktAdresse(
                     gyldigFom = yesterday,
                     gyldigTom = today,
-                    vegadresse = TestPersonBuilder.vegadresse()
+                    vegadresse = TestPersonBuilder.vegadresse(),
                 ),
                 TestPersonBuilder.kontaktAdresse(
                     gyldigFom = yesterday,
                     gyldigTom = today,
-                    postadresseIFrittFormat = TestPersonBuilder.postadresseIFrittFormat()
+                    postadresseIFrittFormat = TestPersonBuilder.postadresseIFrittFormat(),
                 ),
                 TestPersonBuilder.kontaktAdresse(
                     gyldigFom = yesterday,
                     gyldigTom = today,
-                    postboksadresse = TestPersonBuilder.postboksadresse()
+                    postboksadresse = TestPersonBuilder.postboksadresse(),
                 ),
 
-            )
+            ),
         ).testPerson
 
         pdlPerson.acceptKontaktAdresseVisitor(visitor)
@@ -135,8 +135,8 @@ class PDLPersonTest {
                     adresseLinje3 = utenlandsAdresseIFrittFormat.adresselinje3,
                     postkode = utenlandsAdresseIFrittFormat.postkode,
                     byEllerStedsnavn = utenlandsAdresseIFrittFormat.byEllerStedsnavn,
-                    landKode = utenlandsAdresseIFrittFormat.landkode
-                )
+                    landKode = utenlandsAdresseIFrittFormat.landkode,
+                ),
             )
             val postboksAdresseIFrittFormat = TestPersonBuilder.postadresseIFrittFormat()
             visitor.visitPostAdresseIFrittFormat(
@@ -145,8 +145,8 @@ class PDLPersonTest {
                     adresseLinje1 = postboksAdresseIFrittFormat.adresselinje1,
                     adresseLinje2 = postboksAdresseIFrittFormat.adresselinje2,
                     adresseLinje3 = postboksAdresseIFrittFormat.adresselinje3,
-                    postnummer = postboksAdresseIFrittFormat.postnummer
-                )
+                    postnummer = postboksAdresseIFrittFormat.postnummer,
+                ),
             )
             val postboksAdresse = TestPersonBuilder.postboksadresse()
             visitor.visitPostboksadresse(
@@ -154,8 +154,8 @@ class PDLPersonTest {
                     adresseMetadata = metadata,
                     postbokseier = postboksAdresse.postbokseier,
                     postboks = postboksAdresse.postboks,
-                    postnummer = postboksAdresse.postnummer
-                )
+                    postnummer = postboksAdresse.postnummer,
+                ),
             )
             utenlandskAdresse(metadata, visitor)
             vegadresse(metadata, visitor)
@@ -173,7 +173,7 @@ class PDLPersonTest {
             angittFlytteDato = yesterday,
             master = AdresseMetadata.MasterType.PDL,
             type = "Innland",
-            coAdresseNavn = null
+            coAdresseNavn = null,
         )
 
         val pdlPerson = TestPersonBuilder(
@@ -189,15 +189,15 @@ class PDLPersonTest {
 
                     gyldigFom = yesterday,
                     gyldigTom = today,
-                    vegadresse = TestPersonBuilder.vegadresse()
+                    vegadresse = TestPersonBuilder.vegadresse(),
                 ),
                 TestPersonBuilder.bostedsAdresse(
                     angittFlyttedato = yesterday,
                     gyldigFom = yesterday,
                     gyldigTom = today,
-                    utenlandskAdresse = TestPersonBuilder.utenlandskAdresse()
-                )
-            )
+                    utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
+                ),
+            ),
         ).testPerson
 
         pdlPerson.acceptBostedsAdresseVisitor(visitor)
@@ -211,7 +211,7 @@ class PDLPersonTest {
 
     private fun utenlandskAdresse(
         metadata: AdresseMetadata,
-        visitor: UtenlandskAdresseVisitor
+        visitor: UtenlandskAdresseVisitor,
     ) {
         val utenlandskAdresse = TestPersonBuilder.utenlandskAdresse()
         visitor.visitUtenlandskAdresse(
@@ -223,8 +223,8 @@ class PDLPersonTest {
                 landKode = utenlandskAdresse.landkode,
                 postboksNummerNavn = utenlandskAdresse.postboksNummerNavn,
                 postkode = utenlandskAdresse.postkode,
-                regionDistriktOmraade = utenlandskAdresse.regionDistriktOmraade
-            )
+                regionDistriktOmraade = utenlandskAdresse.regionDistriktOmraade,
+            ),
         )
     }
 
@@ -243,8 +243,8 @@ class PDLPersonTest {
                 tilleggsnavn = vegadresse.tilleggsnavn,
                 postnummer = vegadresse.postnummer,
                 kommunenummer = vegadresse.kommunenummer,
-                bydelsnummer = vegadresse.bydelsnummer
-            )
+                bydelsnummer = vegadresse.bydelsnummer,
+            ),
         )
     }
 
@@ -256,8 +256,8 @@ class PDLPersonTest {
                 bruksenhetsnummer = matrikkelAdresse.bruksenhetsnummer,
                 kommunenummer = matrikkelAdresse.kommunenummer,
                 postnummer = matrikkelAdresse.postnummer,
-                tilleggsnavn = matrikkelAdresse.tilleggsnavn
-            )
+                tilleggsnavn = matrikkelAdresse.tilleggsnavn,
+            ),
         )
     }
 }

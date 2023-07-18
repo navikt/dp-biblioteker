@@ -8,8 +8,8 @@ sealed class PDLAdresse(open val adresseMetadata: AdresseMetadata) {
             gyldigFom = null,
             gyldigTom = null,
             angittFlytteDato = null,
-            master = AdresseMetadata.MasterType.PDL
-        )
+            master = AdresseMetadata.MasterType.PDL,
+        ),
     )
 
     data class VegAdresse(
@@ -21,7 +21,7 @@ sealed class PDLAdresse(open val adresseMetadata: AdresseMetadata) {
         val husnummer: String? = null,
         val kommunenummer: String? = null,
         val postnummer: String? = null,
-        val tilleggsnavn: String? = null
+        val tilleggsnavn: String? = null,
     ) : PDLAdresse(adresseMetadata)
 
     data class MatrikkelAdresse(
@@ -30,7 +30,7 @@ sealed class PDLAdresse(open val adresseMetadata: AdresseMetadata) {
         val kommunenummer: String? = null,
         val matrikkelId: Long? = null,
         val postnummer: String? = null,
-        val tilleggsnavn: String? = null
+        val tilleggsnavn: String? = null,
     ) : PDLAdresse(adresseMetadata)
 
     data class PostAdresseIFrittFormat(
@@ -55,7 +55,7 @@ sealed class PDLAdresse(open val adresseMetadata: AdresseMetadata) {
         val adresseLinje3: String? = null,
         val postkode: String? = null,
         val byEllerStedsnavn: String? = null,
-        val landKode: String? = null
+        val landKode: String? = null,
     ) : PDLAdresse(adresseMetadata)
 
     data class UtenlandskAdresse(
@@ -66,6 +66,6 @@ sealed class PDLAdresse(open val adresseMetadata: AdresseMetadata) {
         val landKode: String? = null,
         val postboksNummerNavn: String? = null,
         val postkode: String? = null,
-        val regionDistriktOmraade: String? = null
+        val regionDistriktOmraade: String? = null,
     ) : PDLAdresse(adresseMetadata)
 }

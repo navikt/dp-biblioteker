@@ -40,7 +40,7 @@ sealed class OAuth2Config {
 
         private data class WellKnown(
             @JsonProperty("token_endpoint")
-            val tokenEndpointUrl: String
+            val tokenEndpointUrl: String,
         )
     }
 
@@ -59,7 +59,7 @@ sealed class OAuth2Config {
         override fun clientSecret(): AuthType.ClientSecret {
             return AuthType.ClientSecret(
                 clientId = configuration[Key(clientIdKey, stringType)],
-                clientSecret = configuration[Key(clientSecretKey, stringType)]
+                clientSecret = configuration[Key(clientSecretKey, stringType)],
             )
         }
 
@@ -67,7 +67,7 @@ sealed class OAuth2Config {
             return AuthType.PrivateKey(
                 clientId = configuration[Key(clientIdKey, stringType)],
                 tokenEndpointUrl = tokenEndpointUrl,
-                privateKey = fromJson(configuration[Key(privateJWKKey, stringType)])
+                privateKey = fromJson(configuration[Key(privateJWKKey, stringType)]),
             )
         }
 
@@ -103,7 +103,7 @@ sealed class OAuth2Config {
             return AuthType.PrivateKey(
                 clientId = configuration[Key(clientIdKey, stringType)],
                 tokenEndpointUrl = tokenEndpointUrl,
-                privateKey = fromJson(configuration[Key(privateJWKKey, stringType)])
+                privateKey = fromJson(configuration[Key(privateJWKKey, stringType)]),
             )
         }
 

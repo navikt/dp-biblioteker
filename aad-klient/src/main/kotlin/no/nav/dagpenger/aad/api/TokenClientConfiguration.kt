@@ -7,7 +7,7 @@ import com.natpryce.konfig.stringType
 enum class GrantType(val type: String) {
     CLIENT_CREDENTIAL("client_credentials"),
     JWT_BEARER("urn:ietf:params:oauth:grant-type:jwt-bearer"),
-    TOKEN_EXCHANGE("urn:ietf:params:oauth:grant-type:token-exchange")
+    TOKEN_EXCHANGE("urn:ietf:params:oauth:grant-type:token-exchange"),
 }
 
 class Authentication(configure: Authentication.() -> Unit) {
@@ -42,7 +42,7 @@ sealed class TokenClientConfiguration(env: Configuration) {
         mapOf(
             "client_id" to clientId,
             "grant_type" to grantType.type,
-            "client_secret" to auth.secret
+            "client_secret" to auth.secret,
         )
     }
     protected abstract val clientFormparameters: Map<String, String>

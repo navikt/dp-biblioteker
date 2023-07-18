@@ -84,6 +84,6 @@ class PrometheusMetricsPluginTest {
         defaultRegistry.getSampleValue(
             "${name}_bucket",
             listOf("le").toTypedArray(),
-            listOf(Collector.doubleToGoString(bucket)).toTypedArray()
+            listOf(Collector.doubleToGoString(bucket)).toTypedArray(),
         )
 }

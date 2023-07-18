@@ -34,7 +34,7 @@ class PDLPerson(private val person: Person) {
             mellomnavn,
             etternavn,
             statsborgerskap,
-            kjonn
+            kjonn,
         )
     }
 
@@ -51,8 +51,8 @@ class PDLPerson(private val person: Person) {
                             adresseLinje1 = it.adresselinje1,
                             adresseLinje2 = it.adresselinje2,
                             adresseLinje3 = it.adresselinje3,
-                            postnummer = it.postnummer
-                        )
+                            postnummer = it.postnummer,
+                        ),
                     )
                 }
                 postboksadresse?.let {
@@ -61,8 +61,8 @@ class PDLPerson(private val person: Person) {
                             adresseMetadata = adresseMetadata,
                             postbokseier = it.postbokseier,
                             postboks = it.postboks,
-                            postnummer = it.postnummer
-                        )
+                            postnummer = it.postnummer,
+                        ),
                     )
                 }
                 utenlandskAdresseIFrittFormat?.let {
@@ -74,8 +74,8 @@ class PDLPerson(private val person: Person) {
                             adresseLinje3 = it.adresselinje3,
                             postkode = it.postkode,
                             byEllerStedsnavn = it.byEllerStedsnavn,
-                            landKode = it.landkode
-                        )
+                            landKode = it.landkode,
+                        ),
                     )
                 }
             }
@@ -104,7 +104,9 @@ class PDLPerson(private val person: Person) {
                 vegadresse?.let { acceptVegAdresseVisitor(adresseMetadata, visitor, it) }
                 matrikkeladresse?.let {
                     acceptMatrikkelAdresseVisitor(
-                        adresseMetadata, visitor, it
+                        adresseMetadata,
+                        visitor,
+                        it,
                     )
                 }
                 utenlandskAdresse?.let {
@@ -113,7 +115,7 @@ class PDLPerson(private val person: Person) {
                 ukjentBosted?.let {
                     visitor.visitUkjentBosted(
                         adresseMetadata,
-                        it.bostedskommune
+                        it.bostedskommune,
                     )
                 }
             }
@@ -123,7 +125,7 @@ class PDLPerson(private val person: Person) {
     private fun acceptUtenlandskAdresseVisitor(
         adresseMetadata: AdresseMetadata,
         visitor: UtenlandskAdresseVisitor,
-        utenlandskAdresse: UtenlandskAdresse
+        utenlandskAdresse: UtenlandskAdresse,
     ) {
         visitor.visitUtenlandskAdresse(
             PDLAdresse.UtenlandskAdresse(
@@ -134,15 +136,15 @@ class PDLPerson(private val person: Person) {
                 landKode = utenlandskAdresse.landkode,
                 postboksNummerNavn = utenlandskAdresse.postboksNummerNavn,
                 postkode = utenlandskAdresse.postkode,
-                regionDistriktOmraade = utenlandskAdresse.regionDistriktOmraade
-            )
+                regionDistriktOmraade = utenlandskAdresse.regionDistriktOmraade,
+            ),
         )
     }
 
     private fun acceptMatrikkelAdresseVisitor(
         adresseMetadata: AdresseMetadata,
         visitor: MatrikkelAdresseVisitor,
-        matrikkeladresse: Matrikkeladresse
+        matrikkeladresse: Matrikkeladresse,
     ) {
         visitor.visitMatrikkelAdresse(
             PDLAdresse.MatrikkelAdresse(
@@ -151,15 +153,15 @@ class PDLPerson(private val person: Person) {
                 kommunenummer = matrikkeladresse.kommunenummer,
                 matrikkelId = matrikkeladresse.matrikkelId,
                 postnummer = matrikkeladresse.postnummer,
-                tilleggsnavn = matrikkeladresse.tilleggsnavn
-            )
+                tilleggsnavn = matrikkeladresse.tilleggsnavn,
+            ),
         )
     }
 
     private fun acceptVegAdresseVisitor(
         adresseMetadata: AdresseMetadata,
         visitor: VegAdresseVisitor,
-        vegadresse: Vegadresse
+        vegadresse: Vegadresse,
     ) {
         visitor.visitVegAdresse(
             PDLAdresse.VegAdresse(
@@ -171,8 +173,8 @@ class PDLPerson(private val person: Person) {
                 husnummer = vegadresse.husnummer,
                 kommunenummer = vegadresse.kommunenummer,
                 postnummer = vegadresse.postnummer,
-                tilleggsnavn = vegadresse.tilleggsnavn
-            )
+                tilleggsnavn = vegadresse.tilleggsnavn,
+            ),
         )
     }
 

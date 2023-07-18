@@ -26,8 +26,8 @@ class ClientTest {
         mapOf(
             OAuth2Config.AzureAd.clientIdKey to "",
             OAuth2Config.AzureAd.clientSecretKey to "",
-            OAuth2Config.AzureAd.tokenEndpointUrlKey to ""
-        )
+            OAuth2Config.AzureAd.tokenEndpointUrlKey to "",
+        ),
     )
 
     private val tokenX = OAuth2Config.TokenX(
@@ -35,17 +35,17 @@ class ClientTest {
             OAuth2Config.TokenX.clientIdKey to "",
             OAuth2Config.TokenX.privateJWKKey to """ """,
             OAuth2Config.TokenX.wellKnownUrlKey to "",
-        )
+        ),
     )
 
     private val azureAdClient = CachedOauth2Client(
         tokenEndpointUrl = azureAd.tokenEndpointUrl,
-        authType = azureAd.clientSecret()
+        authType = azureAd.clientSecret(),
     )
 
     private val tokenXClient = CachedOauth2Client(
         tokenEndpointUrl = tokenX.tokenEndpointUrl,
-        authType = tokenX.privateKey()
+        authType = tokenX.privateKey(),
     )
 
     val httpClient =
@@ -70,17 +70,17 @@ class ClientTest {
     fun `Bruk token x for å hente ut person`() {
         val accessToken = tokenXClient.tokenExchange(
             token = """""",
-            audience = ""
+            audience = "",
         ).accessToken
 
         val client = createPersonOppslag(
             url = "https://pdl-api.dev.intern.nav.no/graphql",
-            httpClient = httpClient
+            httpClient = httpClient,
         )
         runBlocking {
             client.hentPerson(
                 fnr = "01038401226",
-                headersMap = mapOf(HttpHeaders.Authorization to "Bearer $accessToken")
+                headersMap = mapOf(HttpHeaders.Authorization to "Bearer $accessToken"),
             )
         }
     }
@@ -89,14 +89,14 @@ class ClientTest {
     fun `Bruk azure ad client credentials for å hente ut personer`() {
         val client = createPersonOppslagBolk(
             url = "https://pdl-api.dev.intern.nav.no/graphql",
-            httpClient = httpClient
+            httpClient = httpClient,
         )
         runBlocking {
             client.hentPersoner(
                 listOf("01038401226", "20028418370", "25108621845"), // fake
                 mapOf(
                     HttpHeaders.Authorization to "Bearer ${azureAdClient.clientCredentials("api://dev-fss.pdl.pdl-api/.default").accessToken}",
-                )
+                ),
             ).onEach {
                 println(it)
             }
@@ -107,14 +107,14 @@ class ClientTest {
     fun `Bruk azure ad client credentials for å hente ut person`() {
         val personOppslag = createPersonOppslag(
             url = "https://pdl-api.dev.intern.nav.no/graphql",
-            httpClient = httpClient
+            httpClient = httpClient,
         )
         runBlocking {
             personOppslag.hentPerson(
                 "14108009241",
                 mapOf(
                     HttpHeaders.Authorization to "Bearer ${azureAdClient.clientCredentials("api://dev-fss.pdl.pdl-api/.default").accessToken}",
-                )
+                ),
             ).also { println(it) }
         }
     }

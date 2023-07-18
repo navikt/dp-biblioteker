@@ -35,7 +35,7 @@ fun getAuthEnv(app: String, type: String = "jwker.nais.io"): Map<String, String>
         null,
         null,
         null,
-        null
+        null,
     ).items.also { secrets ->
         secrets.sortByDescending<V1Secret?, OffsetDateTime> { it?.metadata?.creationTimestamp }
     }.first<V1Secret?>()?.data!!.mapValues { e -> String(e.value) }
@@ -43,12 +43,12 @@ fun getAuthEnv(app: String, type: String = "jwker.nais.io"): Map<String, String>
 
 fun getAzureAdToken(app: String, scope: String): String {
     val azureadConfig = OAuth2Config.AzureAd(
-        getAuthEnv(app, "azurerator.nais.io")
+        getAuthEnv(app, "azurerator.nais.io"),
     )
     val tokenAzureAdClient: CachedOauth2Client by lazy {
         CachedOauth2Client(
             tokenEndpointUrl = azureadConfig.tokenEndpointUrl,
-            authType = azureadConfig.clientSecret()
+            authType = azureadConfig.clientSecret(),
         )
     }
 
@@ -64,7 +64,7 @@ class PDLIntegrationTest {
             val token = getAzureAdToken("dp-soknad", "api://dev-fss.pdl.pdl-api/.default")
             createPersonOppslagBolk("https://pdl-api.dev.intern.nav.no/graphql").hentPersoner(
                 listOf("01038401226"),
-                mapOf(HttpHeaders.Authorization to "Bearer $token")
+                mapOf(HttpHeaders.Authorization to "Bearer $token"),
             ).size shouldBe 1
         }
     }

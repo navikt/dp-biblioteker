@@ -40,7 +40,7 @@ class ClientTest {
             null,
             null,
             null,
-            null
+            null,
         ).items.also { secrets ->
             secrets.sortByDescending<V1Secret?, OffsetDateTime> { it?.metadata?.creationTimestamp }
         }.first<V1Secret?>()?.data!!.mapValues { e -> String(e.value) }
@@ -50,18 +50,18 @@ class ClientTest {
     @Disabled("Manual test")
     fun tokenxchange() {
         val config = OAuth2Config.TokenX(
-            getAuthEnv("dp-soknad")
+            getAuthEnv("dp-soknad"),
         )
 
         val oAuth2Client = OAuth2Client(
             config.tokenEndpointUrl,
-            config.privateKey()
+            config.privateKey(),
         )
         runBlocking {
             delay(5000.milliseconds) // Set client assertion to something less than this to recreate
             oAuth2Client.tokenExchange(
                 token = "",
-                audience = "dev-gcp:teamdagpenger:dp-innsyn"
+                audience = "dev-gcp:teamdagpenger:dp-innsyn",
             ).accessToken.let {
                 it shouldNotBe null
             }
@@ -72,12 +72,12 @@ class ClientTest {
     @Disabled("Manual test")
     fun clientCredentialsTest() {
         val config = OAuth2Config.AzureAd(
-            getAuthEnv("dp-soknad", "azurerator.nais.io")
+            getAuthEnv("dp-soknad", "azurerator.nais.io"),
         )
         runBlocking {
             OAuth2Client(
                 config.tokenEndpointUrl,
-                config.clientSecret()
+                config.clientSecret(),
             ).clientCredentials("api://dev-fss.pdl.pdl-api/.default").also {
                 println(it)
             }

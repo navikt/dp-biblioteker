@@ -13,7 +13,7 @@ class AdresseMetadata(
     gyldigTom: LocalDate? = null,
     angittFlytteDato: LocalDate? = null,
     val master: MasterType,
-    val coAdresseNavn: String? = null
+    val coAdresseNavn: String? = null,
 ) {
     enum class AdresseType {
         BOSTEDSADRESSE, KONTAKTADRESSE, OPPHOLDSADRESSE
@@ -26,7 +26,7 @@ class AdresseMetadata(
     val gyldighetsPeriode: ClosedRange<LocalDate> by lazy {
         val lower: LocalDate = maxOf(
             gyldigFom ?: LocalDate.MIN,
-            angittFlytteDato ?: LocalDate.MIN
+            angittFlytteDato ?: LocalDate.MIN,
         )
         val upper = gyldigTom ?: LocalDate.MAX
         lower..upper
@@ -47,7 +47,7 @@ class AdresseMetadata(
                 bostedsadresse.gyldigTilOgMed?.toLocalDate(),
                 bostedsadresse.angittFlyttedato,
                 MasterType.valueOf(bostedsadresse.metadata.master.uppercase()),
-                bostedsadresse.coAdressenavn
+                bostedsadresse.coAdressenavn,
             )
         }
 
@@ -59,7 +59,7 @@ class AdresseMetadata(
                 kontaktadresse.gyldigTilOgMed?.toLocalDate(),
                 null,
                 MasterType.valueOf(kontaktadresse.metadata.master.uppercase()),
-                coAdresseNavn = kontaktadresse.coAdressenavn
+                coAdresseNavn = kontaktadresse.coAdressenavn,
             )
         }
 
@@ -71,7 +71,7 @@ class AdresseMetadata(
                 oppholdsadresse.gyldigTilOgMed?.toLocalDate(),
                 null,
                 MasterType.valueOf(oppholdsadresse.metadata.master.uppercase()),
-                coAdresseNavn = oppholdsadresse.coAdressenavn
+                coAdresseNavn = oppholdsadresse.coAdressenavn,
             )
         }
     }

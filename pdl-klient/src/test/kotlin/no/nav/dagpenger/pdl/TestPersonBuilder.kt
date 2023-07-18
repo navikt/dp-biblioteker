@@ -76,7 +76,7 @@ internal data class TestPersonBuilder(
     val bostedsAdresser: List<Bostedsadresse> = ArrayList(),
     val kontaktAdresser: List<Kontaktadresse> = ArrayList(),
     val oppholdAdresser: List<Oppholdsadresse> = ArrayList(),
-    val kjonn: String = "KVINNE"
+    val kjonn: String = "KVINNE",
 
 ) {
 
@@ -127,7 +127,7 @@ internal data class TestPersonBuilder(
         fun postboksadresse(
             postboks: String = "postboks",
             postbokseier: String? = null,
-            postnummer: String? = null
+            postnummer: String? = null,
         ): Postboksadresse =
             object : Postboksadresse {
                 override val postboks: String = postboks
@@ -140,7 +140,7 @@ internal data class TestPersonBuilder(
             adresselinje1: String? = null,
             adresselinje2: String? = null,
             adresselinje3: String? = null,
-            postnummer: String? = null
+            postnummer: String? = null,
 
         ): PostadresseIFrittFormat =
             object : PostadresseIFrittFormat {
@@ -158,7 +158,7 @@ internal data class TestPersonBuilder(
             landkode: String = "NOR",
             postboksNummerNavn: String? = null,
             postkode: String? = null,
-            regionDistriktOmraade: String? = null
+            regionDistriktOmraade: String? = null,
         ): UtenlandskAdresse =
             object : UtenlandskAdresse {
                 override val adressenavnNummer: String? = adressenavnNummer
@@ -176,7 +176,7 @@ internal data class TestPersonBuilder(
             kommunenummer: String? = null,
             matrikkelId: Long? = null,
             postnummer: String? = null,
-            tillegsnavn: String? = null
+            tillegsnavn: String? = null,
         ): Matrikkeladresse =
             object : Matrikkeladresse {
                 override val bruksenhetsnummer: String? = bruksenhetsnummer
@@ -194,7 +194,7 @@ internal data class TestPersonBuilder(
             adresselinje3: String? = null,
             byEllerStedsnavn: String? = null,
             landkode: String = "NOR",
-            postkode: String? = null
+            postkode: String? = null,
 
         ): UtenlandskAdresseIFrittFormat =
 
@@ -252,7 +252,7 @@ internal data class TestPersonBuilder(
         fun folkeregisteridentifikator(
             id: String,
             status: String = "I_BRUK",
-            type: String = "FNR"
+            type: String = "FNR",
         ): Folkeregisteridentifikator =
             object : Folkeregisteridentifikator {
                 override val folkeregistermetadata: Folkeregistermetadata = folkeregistermetadata()
@@ -281,7 +281,7 @@ internal data class TestPersonBuilder(
             gyldigTom: LocalDate? = null,
             vegadresse: Vegadresse? = null,
             matrikkeladresse: Matrikkeladresse? = null,
-            utenlandskAdresse: UtenlandskAdresse? = null
+            utenlandskAdresse: UtenlandskAdresse? = null,
         ): Oppholdsadresse {
             return object : Oppholdsadresse {
                 override val coAdressenavn: String? = null
@@ -305,7 +305,7 @@ internal data class TestPersonBuilder(
             utenlandskAdresse: UtenlandskAdresse? = null,
             postadresseIFrittFormat: PostadresseIFrittFormat? = null,
             postboksadresse: Postboksadresse? = null,
-            vegadresse: Vegadresse? = null
+            vegadresse: Vegadresse? = null,
         ): Kontaktadresse {
             return object : Kontaktadresse {
                 override val coAdressenavn: String? = null
@@ -339,7 +339,7 @@ internal data class TestPersonBuilder(
             angittFlyttedato: LocalDate? = null,
             vegadresse: Vegadresse? = null,
             matrikkeladresse: Matrikkeladresse? = null,
-            utenlandskAdresse: UtenlandskAdresse? = null
+            utenlandskAdresse: UtenlandskAdresse? = null,
         ): Bostedsadresse {
             return object : Bostedsadresse {
                 override val angittFlyttedato: LocalDate? = angittFlyttedato

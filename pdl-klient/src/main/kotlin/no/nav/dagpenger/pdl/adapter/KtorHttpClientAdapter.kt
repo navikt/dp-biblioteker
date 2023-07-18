@@ -29,7 +29,7 @@ import kotlin.time.Duration.Companion.seconds
 class KtorHttpClientAdapter(
     private val urlString: String,
     private val headersMap: Map<String, String>,
-    private val httpClient: HttpClient = proxyAwareHttpClient()
+    private val httpClient: HttpClient = proxyAwareHttpClient(),
 ) : PdlAdapter {
     override suspend fun executeQuery(query: String, variables: Map<String, Any?>): QueryDto {
         return httpClient.post {
@@ -58,7 +58,7 @@ class KtorHttpClientAdapter(
 fun proxyAwareHttpClient(
     engine: HttpClientEngine = CIO.create() {
         requestTimeout = 0
-    }
+    },
 ): HttpClient {
     return HttpClient(engine) {
         install(ContentNegotiation) {

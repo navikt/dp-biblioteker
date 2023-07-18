@@ -1,3 +1,7 @@
+plugins {
+    `common-kotlin`
+}
+
 dependencies {
     constraints {
         implementation("org.jetbrains.kotlin:kotlin-reflect:${Kotlin.version}") {
