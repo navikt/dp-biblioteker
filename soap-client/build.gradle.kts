@@ -6,7 +6,7 @@ dependencies {
     implementation(Ulid.ulid)
 
     implementation("javax.xml.ws:jaxws-api:2.3.1")
-    implementation("com.sun.xml.ws:jaxws-tools:2.3.0.2")
+    implementation("com.sun.xml.ws:jaxws-tools:4.0.1")
 
     implementation("org.apache.cxf:cxf-rt-features-logging:$cxfVersion")
     implementation("org.apache.cxf:cxf-rt-frontend-jaxws:$cxfVersion")
