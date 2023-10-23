@@ -21,6 +21,9 @@ jobs:
   release:
     name: Create Release
     needs: build
+    permissions:
+      contents: write
+      packages: write
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' && !contains(github.event.head_commit.message, 'ci skip')
     steps:
