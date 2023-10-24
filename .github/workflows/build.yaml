@@ -21,7 +21,10 @@ jobs:
       - uses: gradle/gradle-build-action@v2
         name: Build and publish
         with:
-          arguments: build publish -Pversion="$(echo ${{ env.RELEASE_TAG }})" -PgithubUser=x-access-token -PgithubPassword=${{ secrets.GITHUB_TOKEN }}
+          arguments: build -Pversion="$(echo ${{ env.RELEASE_TAG }})" publish
+        env:
+          ORG_GRADLE_PROJECT_githubUser: x-access-token
+          ORG_GRADLE_PROJECT_githubPassword: ${{ secrets.GITHUB_TOKEN }}
       - uses: ncipollo/release-action@6c75be85e571768fa31b40abf38de58ba0397db5 # ratchet:ncipollo/release-action@v1
         name: Create release
         with:

@@ -42,7 +42,6 @@ tasks.withType<Test> {
 
 
 group = "no.nav.dagpenger"
-version = "1.0-SNAPSHOT"
 
 val sourcesJar by tasks.registering(Jar::class) {
     archiveClassifier.set("sources")
