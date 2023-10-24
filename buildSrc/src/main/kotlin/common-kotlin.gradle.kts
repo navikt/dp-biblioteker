@@ -1,6 +1,7 @@
 import com.diffplug.spotless.LineEnding
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import java.net.URI
 
 plugins {
     kotlin("jvm")
@@ -52,9 +53,28 @@ val sourcesJar by tasks.registering(Jar::class) {
     from(sourceSets["main"].allSource)
 }
 
-artifacts {
-    add("archives", sourcesJar)
+publishing {
+    publications {
+        create<MavenPublication>("name") {
+            from(components["java"])
+            artifact(sourcesJar)
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = URI("https://maven.pkg.github.com/navikt/dp-aktivitetslogg")
+            credentials {
+                val githubUser: String? by project
+                val githubPassword: String? by project
+                username = githubUser
+                password = githubPassword
+            }
+        }
+    }
 }
+
+
 
 
 configure<com.diffplug.gradle.spotless.SpotlessExtension> {
