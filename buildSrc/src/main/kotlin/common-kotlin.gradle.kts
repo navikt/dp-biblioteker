@@ -41,12 +41,8 @@ tasks.withType<Test> {
 }
 
 
-group = "com.github.navikt"
+group = "no.nav.dagpenger"
 version = "1.0-SNAPSHOT"
-
-val artifactDescription = "Bibliotek som holder nåværende og historiske grunnbeløp for Dagpenger domenet"
-val repoUrl = "https://github.com/navikt/dp-grunnbelop.git"
-val scmUrl = "scm:git:https://github.com/navikt/dp-grunnbelop.git"
 
 val sourcesJar by tasks.registering(Jar::class) {
     archiveClassifier.set("sources")
@@ -63,7 +59,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = URI("https://maven.pkg.github.com/navikt/dp-aktivitetslogg")
+            url = URI("https://maven.pkg.github.com/navikt/dp-biblioteker")
             credentials {
                 val githubUser: String? by project
                 val githubPassword: String? by project
