@@ -45,7 +45,7 @@ class AdresseVisitor(pdlPerson: PDLPerson) :
         fornavn: String,
         mellomNavn: String?,
         etternavn: String,
-        statsborgerskap: String,
+        statsborgerskap: String?,
         kjonn: PDLPerson.Kjonn,
     ) {
         this.adressebeskyttelseGradering = adressebeskyttelseGradering

@@ -14,7 +14,7 @@ interface PersonaliaVisitor {
         fornavn: String,
         mellomNavn: String?,
         etternavn: String,
-        statsborgerskap: String,
+        statsborgerskap: String?,
         kjonn: Kjonn,
     ) {
     }

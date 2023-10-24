@@ -194,8 +194,8 @@ class PDLPerson(private val person: Person) {
     val fornavn: String = navn.fornavn
     val mellomnavn: String? = navn.mellomnavn
     val etternavn: String = navn.etternavn
-    val statsborgerskap: String = person.statsborgerskap.firstOrNull { it.land == "NOR" }?.land
-        ?: person.statsborgerskap.firstOrNull()?.land ?: throw PDLException("Ingen statsborgerskap funnet")
+    val statsborgerskap: String? = person.statsborgerskap.firstOrNull { it.land == "NOR" }?.land
+        ?: person.statsborgerskap.firstOrNull()?.land
 
     val kjonn: Kjonn = person.kjoenn.firstOrNull()?.kjoenn?.let { Kjonn.valueOf(it.toString()) }
         ?: Kjonn.UKJENT
