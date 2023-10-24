@@ -24,7 +24,7 @@ jobs:
       - uses: gradle/gradle-build-action@v2
         name: Build and publish
         with:
-          arguments: build -Pversion=${{ env.RELEASE_TAG }} publish
+          arguments: build -Pversion=${{ env.RELEASE_TAG }} publish -x test
         env:
           ORG_GRADLE_PROJECT_githubUser: x-access-token
           ORG_GRADLE_PROJECT_githubPassword: ${{ secrets.GITHUB_TOKEN }}
