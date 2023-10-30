@@ -16,4 +16,7 @@ dependencies {
 
     testImplementation("ch.qos.logback:logback-classic:1.2.3")
     testImplementation(Ktor2.Client.library("mock"))
+    testImplementation(libs.kotest.assertions.core)
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${libs.versions.junit.get()}")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${libs.versions.junit.get()}")
 }

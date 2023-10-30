@@ -12,4 +12,5 @@ dependencies {
     testImplementation(Junit5.api)
     testImplementation("org.slf4j:slf4j-simple:2.0.9")
     testRuntimeOnly(Junit5.engine)
+    testImplementation(libs.kotest.assertions.core)
 }

@@ -1,6 +1,5 @@
 package no.nav.dagpenger.pdl.integration
 
-import io.kotest.common.runBlocking
 import io.kotest.matchers.shouldBe
 import io.ktor.http.HttpHeaders
 import io.kubernetes.client.openapi.ApiClient
@@ -9,6 +8,7 @@ import io.kubernetes.client.openapi.apis.CoreV1Api
 import io.kubernetes.client.openapi.models.V1Secret
 import io.kubernetes.client.util.ClientBuilder
 import io.kubernetes.client.util.KubeConfig
+import kotlinx.coroutines.runBlocking
 import no.nav.dagpenger.oauth2.CachedOauth2Client
 import no.nav.dagpenger.oauth2.OAuth2Config
 import no.nav.dagpenger.pdl.createPersonOppslagBolk

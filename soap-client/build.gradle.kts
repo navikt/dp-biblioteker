@@ -23,4 +23,6 @@ dependencies {
     testImplementation("org.apache.cxf:cxf-rt-transports-http:$cxfVersion")
     testImplementation(tjenestespesifikasjon("ytelseskontrakt-v3-tjenestespesifikasjon"))
     testImplementation(Mockk.mockk)
+    testImplementation(libs.kotest.assertions.core)
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${libs.versions.junit.get()}")
 }

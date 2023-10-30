@@ -23,6 +23,7 @@ dependencies {
     testImplementation("io.kubernetes:client-java:18.0.0")
     testRuntimeOnly(Junit5.engine)
     testRuntimeOnly("ch.qos.logback:logback-classic:1.4.5")
+    testImplementation(libs.kotest.assertions.core)
 }
 
 tasks.withType<org.gradle.jvm.tasks.Jar> { duplicatesStrategy = DuplicatesStrategy.INCLUDE }
