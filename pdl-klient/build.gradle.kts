@@ -3,25 +3,17 @@ plugins {
 }
 
 dependencies {
-    constraints {
-        implementation("org.jetbrains.kotlin:kotlin-reflect:${Kotlin.version}") {
-            because("To avoid version conflict as reported by gradle")
-        }
-    }
-}
-
-dependencies {
     implementation(project(":oauth2-klient"))
     implementation(project(":pdl-klient-kobby"))
-    implementation(Ktor2.Client.library("logging"))
-    implementation(Ktor2.Client.library("content-negotiation"))
-    implementation(Ktor2.Client.library("cio"))
-    implementation("io.ktor:ktor-serialization-jackson:${Ktor2.version}")
-    implementation(Jackson.jsr310)
-    testImplementation(Junit5.api)
-    testImplementation(Mockk.mockk)
+    implementation(libs.ktor.client.logging.jvm)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.client.cio)
+    implementation(libs.ktor.serialization.jackson)
+    implementation(libs.jackson.datatype.jsr310)
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${libs.versions.junit.get()}")
+    testImplementation(libs.mockk)
     testImplementation("io.kubernetes:client-java:18.0.0")
-    testRuntimeOnly(Junit5.engine)
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${libs.versions.junit.get()}")
     testRuntimeOnly("ch.qos.logback:logback-classic:1.4.5")
     testImplementation(libs.kotest.assertions.core)
 }

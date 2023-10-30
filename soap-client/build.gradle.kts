@@ -7,7 +7,7 @@ fun tjenestespesifikasjon(name: String) = "no.nav.tjenestespesifikasjoner:$name:
 val cxfVersion = "3.3.4"
 
 dependencies {
-    implementation(Ulid.ulid)
+    implementation("de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.3.0")
 
     implementation("javax.xml.ws:jaxws-api:2.3.1")
     implementation("com.sun.xml.ws:jaxws-tools:2.3.0.2")
@@ -22,7 +22,7 @@ dependencies {
 
     testImplementation("org.apache.cxf:cxf-rt-transports-http:$cxfVersion")
     testImplementation(tjenestespesifikasjon("ytelseskontrakt-v3-tjenestespesifikasjon"))
-    testImplementation(Mockk.mockk)
+    testImplementation(libs.mockk)
     testImplementation(libs.kotest.assertions.core)
     testImplementation("org.junit.jupiter:junit-jupiter-api:${libs.versions.junit.get()}")
 }

@@ -2,20 +2,15 @@ plugins {
     `common-kotlin`
 }
 dependencies {
-    constraints {
-        implementation("org.jetbrains.kotlin:kotlin-reflect:1.4.32") {
-            because("To align with ktor version")
-        }
-    }
-    implementation(Ktor2.Client.library("cio"))
-    implementation(Ktor2.Client.library("content-negotiation"))
-    implementation(Ktor2.Client.library("logging"))
-    implementation(Ktor2.Client.library("auth"))
-    implementation("io.ktor:ktor-serialization-jackson:${Ktor2.version}")
-    implementation(Prometheus.common)
+    implementation(libs.ktor.client.cio)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.client.logging.jvm)
+    implementation(libs.ktor.client.auth.jvm)
+    implementation(libs.ktor.serialization.jackson)
+    implementation("io.prometheus:simpleclient_common:0.16.0")
 
     testImplementation("ch.qos.logback:logback-classic:1.2.3")
-    testImplementation(Ktor2.Client.library("mock"))
+    testImplementation(libs.ktor.client.mock)
     testImplementation(libs.kotest.assertions.core)
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${libs.versions.junit.get()}")
     testImplementation("org.junit.jupiter:junit-jupiter-api:${libs.versions.junit.get()}")

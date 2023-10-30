@@ -1,24 +1,18 @@
-
 plugins {
     `common-kotlin`
 }
 
 dependencies {
-    constraints {
-        implementation("org.jetbrains.kotlin:kotlin-reflect:${Kotlin.version}") {
-            because("To avoid version conflict as reported by gradle")
-        }
-    }
 
-    api(Konfig.konfig)
-    api("no.nav.security:token-client-core:3.0.3")
-    implementation(Ktor2.Client.library("logging"))
-    implementation(Ktor2.Client.library("cio-jvm"))
-    implementation(Ktor2.Client.library("content-negotiation"))
-    implementation("io.ktor:ktor-serialization-jackson:${Ktor2.version}")
+    api(libs.konfig)
+    api("no.nav.security:token-client-core:3.1.7")
+    implementation(libs.ktor.client.logging.jvm)
+    implementation(libs.ktor.client.cio)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.jackson)
 
-    testImplementation(Ktor2.Client.library("mock"))
-    testImplementation(KoTest.assertions)
+    testImplementation(libs.ktor.client.mock)
+    testImplementation(libs.kotest.assertions.core)
     testImplementation("io.kotest:kotest-assertions-ktor:4.4.3")
     testImplementation("org.junit.jupiter:junit-jupiter-api:${libs.versions.junit.get()}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${libs.versions.junit.get()}")
