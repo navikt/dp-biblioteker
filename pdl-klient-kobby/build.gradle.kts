@@ -1,6 +1,6 @@
 plugins {
     `common-kotlin`
-    id("io.github.ermadmi78.kobby") version "2.1.1"
+    id("io.github.ermadmi78.kobby") version "3.1.0"
 }
 
 dependencies {
