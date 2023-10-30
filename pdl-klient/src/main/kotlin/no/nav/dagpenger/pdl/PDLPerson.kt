@@ -15,11 +15,16 @@ import java.time.temporal.ChronoUnit
 
 class PDLPerson(private val person: Person) {
     enum class Kjonn {
-        MANN, KVINNE, UKJENT
+        MANN,
+        KVINNE,
+        UKJENT,
     }
 
     enum class AdressebeskyttelseGradering {
-        FORTROLIG, STRENGT_FORTROLIG, STRENGT_FORTROLIG_UTLAND, UGRADERT
+        FORTROLIG,
+        STRENGT_FORTROLIG,
+        STRENGT_FORTROLIG_UTLAND,
+        UGRADERT,
     }
 
     class PDLException(msg: String?) : RuntimeException(msg)
@@ -178,25 +183,29 @@ class PDLPerson(private val person: Person) {
         )
     }
 
-    val fodselnummer: String = person.folkeregisteridentifikator.firstOrNull()?.identifikasjonsnummer
-        ?: throw PDLException("Ingen fodselsnummer funnet")
+    val fodselnummer: String =
+        person.folkeregisteridentifikator.firstOrNull()?.identifikasjonsnummer
+            ?: throw PDLException("Ingen fodselsnummer funnet")
 
     val fodselsdato: LocalDate =
         person.foedsel.firstOrNull()?.foedselsdato ?: throw PDLException("Ingen fodselsdato funnet")
 
     val alder: Long = ChronoUnit.YEARS.between(fodselsdato, LocalDate.now())
 
-    val adresseBeskyttelse: AdressebeskyttelseGradering = person.adressebeskyttelse.firstOrNull()?.let {
-        AdressebeskyttelseGradering.valueOf(it.gradering.name)
-    } ?: AdressebeskyttelseGradering.UGRADERT
+    val adresseBeskyttelse: AdressebeskyttelseGradering =
+        person.adressebeskyttelse.firstOrNull()?.let {
+            AdressebeskyttelseGradering.valueOf(it.gradering.name)
+        } ?: AdressebeskyttelseGradering.UGRADERT
 
     val navn: Navn = person.navn.firstOrNull() ?: throw PDLException("Ingen navn funnet")
     val fornavn: String = navn.fornavn
     val mellomnavn: String? = navn.mellomnavn
     val etternavn: String = navn.etternavn
-    val statsborgerskap: String? = person.statsborgerskap.firstOrNull { it.land == "NOR" }?.land
-        ?: person.statsborgerskap.firstOrNull()?.land
+    val statsborgerskap: String? =
+        person.statsborgerskap.firstOrNull { it.land == "NOR" }?.land
+            ?: person.statsborgerskap.firstOrNull()?.land
 
-    val kjonn: Kjonn = person.kjoenn.firstOrNull()?.kjoenn?.let { Kjonn.valueOf(it.toString()) }
-        ?: Kjonn.UKJENT
+    val kjonn: Kjonn =
+        person.kjoenn.firstOrNull()?.kjoenn?.let { Kjonn.valueOf(it.toString()) }
+            ?: Kjonn.UKJENT
 }

@@ -6,10 +6,12 @@ import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
 class ApiKeyVerifier(private val secret: String) {
-
     private val algorithm = "HmacSHA256"
 
-    fun verify(apiKey: String, expectedApiKey: String): Boolean {
+    fun verify(
+        apiKey: String,
+        expectedApiKey: String,
+    ): Boolean {
         return apiKey == generate(expectedApiKey)
     }
 

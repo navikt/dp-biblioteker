@@ -25,53 +25,60 @@ internal class BearerAuthProviderTest {
     }
 
     @Test
-    fun testWithoutAuthorizationNegotiation() = testWithClient(
-        sendWithoutRequest = true,
-        requestHandler = { request ->
-            assertEquals(
-                "Bearer static-token",
-                request.headers[HttpHeaders.Authorization],
-            )
-            respondOk()
-        },
-    )
+    fun testWithoutAuthorizationNegotiation() =
+        testWithClient(
+            sendWithoutRequest = true,
+            requestHandler = { request ->
+                assertEquals(
+                    "Bearer static-token",
+                    request.headers[HttpHeaders.Authorization],
+                )
+                respondOk()
+            },
+        )
 
     @Test
-    fun testWithAuthorizationNegotiation() = testWithClient(
-        requestHandler = { request ->
-            when (val auth = request.headers[HttpHeaders.Authorization]) {
-                is String -> {
-                    assertEquals("Bearer static-token", auth)
-                    respondOk()
+    fun testWithAuthorizationNegotiation() =
+        testWithClient(
+            requestHandler = { request ->
+                when (val auth = request.headers[HttpHeaders.Authorization]) {
+                    is String -> {
+                        assertEquals("Bearer static-token", auth)
+                        respondOk()
+                    }
+                    else ->
+                        respondError(
+                            status = HttpStatusCode.Unauthorized,
+                            headers =
+                                headersOf(
+                                    HttpHeaders.WWWAuthenticate to listOf("Bearer"),
+                                ),
+                        )
                 }
-                else -> respondError(
-                    status = HttpStatusCode.Unauthorized,
-                    headers = headersOf(
-                        HttpHeaders.WWWAuthenticate to listOf("Bearer"),
-                    ),
-                )
-            }
-        },
-    )
+            },
+        )
 
     @Test
-    fun testWithAuthorizationNegotiationAndRealm() = testWithClient(
-        realm = "secrets",
-        requestHandler = { request ->
-            when (val auth = request.headers[HttpHeaders.Authorization]) {
-                is String -> {
-                    assertEquals("Bearer static-token", auth)
-                    respondOk()
+    fun testWithAuthorizationNegotiationAndRealm() =
+        testWithClient(
+            realm = "secrets",
+            requestHandler = { request ->
+                when (val auth = request.headers[HttpHeaders.Authorization]) {
+                    is String -> {
+                        assertEquals("Bearer static-token", auth)
+                        respondOk()
+                    }
+                    else ->
+                        respondError(
+                            status = HttpStatusCode.Unauthorized,
+                            headers =
+                                headersOf(
+                                    HttpHeaders.WWWAuthenticate to listOf("Bearer realm=secrets"),
+                                ),
+                        )
                 }
-                else -> respondError(
-                    status = HttpStatusCode.Unauthorized,
-                    headers = headersOf(
-                        HttpHeaders.WWWAuthenticate to listOf("Bearer realm=secrets"),
-                    ),
-                )
-            }
-        },
-    )
+            },
+        )
 
     private fun testWithClient(
         sendWithoutRequest: Boolean = false,
@@ -100,6 +107,5 @@ internal class BearerAuthProviderTest {
         }
     }
 
-    private fun buildAuthString(token: String): String =
-        BearerAuthProvider({ token }).constructTokenAuthValue()
+    private fun buildAuthString(token: String): String = BearerAuthProvider({ token }).constructTokenAuthValue()
 }

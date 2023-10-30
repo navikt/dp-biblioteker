@@ -11,24 +11,27 @@ class OAuth2Client(
     private val authType: AuthType,
     private val httpClient: HttpClient = defaultHttpClient(),
 ) {
+    suspend fun onBehalfOf(
+        token: String,
+        scope: String,
+    ) = accessToken(GrantRequest.OnBeHalfOf(token, scope, authType))
 
-    suspend fun onBehalfOf(token: String, scope: String) =
-        accessToken(GrantRequest.OnBeHalfOf(token, scope, authType))
+    suspend fun tokenExchange(
+        token: String,
+        audience: String,
+    ) = accessToken(GrantRequest.TokenX(token, audience, authType))
 
-    suspend fun tokenExchange(token: String, audience: String) =
-        accessToken(GrantRequest.TokenX(token, audience, authType))
-
-    suspend fun clientCredentials(scope: String) =
-        accessToken(GrantRequest.ClientCredentials(scope, authType))
+    suspend fun clientCredentials(scope: String) = accessToken(GrantRequest.ClientCredentials(scope, authType))
 
     suspend fun accessToken(grantRequest: GrantRequest): OAuth2AccessTokenResponse {
         return httpClient.submitForm(
             url = tokenEndpointUrl,
-            formParameters = Parameters.build {
-                grantRequest.formParams.forEach {
-                    this.append(it.key, it.value)
-                }
-            },
+            formParameters =
+                Parameters.build {
+                    grantRequest.formParams.forEach {
+                        this.append(it.key, it.value)
+                    }
+                },
         ).body()
     }
 }
@@ -40,18 +43,22 @@ class CachedOauth2Client(
     loadingCacheBuilder: LoadingCacheBuilder = LoadingCacheBuilder(),
 ) {
     private val client = OAuth2Client(tokenEndpointUrl, authType, httpClient)
-    private val cache = loadingCacheBuilder.cache {
-        client.accessToken(it)
-    }
+    private val cache =
+        loadingCacheBuilder.cache {
+            client.accessToken(it)
+        }
 
-    fun onBehalfOf(token: String, scope: String) =
-        accessToken(GrantRequest.OnBeHalfOf(token, scope, authType))
+    fun onBehalfOf(
+        token: String,
+        scope: String,
+    ) = accessToken(GrantRequest.OnBeHalfOf(token, scope, authType))
 
-    fun tokenExchange(token: String, audience: String) =
-        accessToken(GrantRequest.TokenX(token, audience, authType))
+    fun tokenExchange(
+        token: String,
+        audience: String,
+    ) = accessToken(GrantRequest.TokenX(token, audience, authType))
 
-    fun clientCredentials(scope: String) =
-        accessToken(GrantRequest.ClientCredentials(scope, authType))
+    fun clientCredentials(scope: String) = accessToken(GrantRequest.ClientCredentials(scope, authType))
 
     private fun accessToken(grantRequest: GrantRequest): OAuth2AccessTokenResponse {
         return cache.get(grantRequest)

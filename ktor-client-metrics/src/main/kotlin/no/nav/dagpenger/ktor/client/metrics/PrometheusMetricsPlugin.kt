@@ -13,16 +13,18 @@ import io.prometheus.client.Counter
 import io.prometheus.client.Histogram
 
 class PrometheusMetricsPlugin private constructor(registry: CollectorRegistry, baseName: String) {
-    private val duration = Histogram
-        .build("duration", "Time spent in requests")
-        .namespace(baseName)
-        .register(registry)
+    private val duration =
+        Histogram
+            .build("duration", "Time spent in requests")
+            .namespace(baseName)
+            .register(registry)
 
-    private val httpStatus = Counter
-        .build("status_total", "Count status codes for responses")
-        .namespace(baseName)
-        .labelNames("status")
-        .register(registry)
+    private val httpStatus =
+        Counter
+            .build("status_total", "Count status codes for responses")
+            .namespace(baseName)
+            .labelNames("status")
+            .register(registry)
 
     class Config {
         var baseName: String = "ktor_client_metrics"
@@ -40,7 +42,10 @@ class PrometheusMetricsPlugin private constructor(registry: CollectorRegistry, b
             )
         }
 
-        override fun install(plugin: PrometheusMetricsPlugin, scope: HttpClient) {
+        override fun install(
+            plugin: PrometheusMetricsPlugin,
+            scope: HttpClient,
+        ) {
             val phase = PipelinePhase("PrometheusMetrics")
 
             scope.sendPipeline.insertPhaseBefore(HttpSendPipeline.Monitoring, phase)

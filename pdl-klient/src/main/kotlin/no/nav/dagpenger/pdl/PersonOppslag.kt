@@ -9,15 +9,37 @@ import no.nav.dagpenger.pdl.queries.hentPerson
 import no.nav.dagpenger.pdl.queries.hentPersonBolk
 
 interface PersonOppslag {
-    suspend fun hentPerson(fnr: String, headersMap: Map<String, String> = emptyMap()): PDLPerson
-    fun hentPersonBlocking(fnr: String, headersMap: Map<String, String>): PDLPerson
+    suspend fun hentPerson(
+        fnr: String,
+        headersMap: Map<String, String> = emptyMap(),
+    ): PDLPerson
+
+    fun hentPersonBlocking(
+        fnr: String,
+        headersMap: Map<String, String>,
+    ): PDLPerson
 }
 
 interface PersonOppslagBolk {
-    suspend fun hentPersoner(fnrs: List<String>, headersMap: Map<String, String> = emptyMap()): List<PDLPerson>
-    suspend fun hentBarn(fnr: String, headersMap: Map<String, String> = emptyMap()): List<PDLPerson>
-    fun hentPersonerBlocking(fnrs: List<String>, headersMap: Map<String, String>): List<PDLPerson>
-    fun hentBarnBlocking(fnr: String, headersMap: Map<String, String>): List<PDLPerson>
+    suspend fun hentPersoner(
+        fnrs: List<String>,
+        headersMap: Map<String, String> = emptyMap(),
+    ): List<PDLPerson>
+
+    suspend fun hentBarn(
+        fnr: String,
+        headersMap: Map<String, String> = emptyMap(),
+    ): List<PDLPerson>
+
+    fun hentPersonerBlocking(
+        fnrs: List<String>,
+        headersMap: Map<String, String>,
+    ): List<PDLPerson>
+
+    fun hentBarnBlocking(
+        fnr: String,
+        headersMap: Map<String, String>,
+    ): List<PDLPerson>
 }
 
 @JvmOverloads
@@ -26,7 +48,10 @@ fun createPersonOppslagBolk(
     httpClient: HttpClient = proxyAwareHttpClient(),
 ): PersonOppslagBolk {
     return object : PersonOppslagBolk {
-        override suspend fun hentPersoner(fnrs: List<String>, headersMap: Map<String, String>): List<PDLPerson> {
+        override suspend fun hentPersoner(
+            fnrs: List<String>,
+            headersMap: Map<String, String>,
+        ): List<PDLPerson> {
             val pdlContext = pdlContextOf(KtorHttpClientAdapter(url, headersMap, httpClient))
             return pdlContext.query {
                 hentPersonBolk(fnrs)
@@ -36,22 +61,26 @@ fun createPersonOppslagBolk(
                 .map(::PDLPerson)
         }
 
-        override suspend fun hentBarn(fnr: String, headersMap: Map<String, String>): List<PDLPerson> {
+        override suspend fun hentBarn(
+            fnr: String,
+            headersMap: Map<String, String>,
+        ): List<PDLPerson> {
             val pdlContext = pdlContextOf(KtorHttpClientAdapter(url, headersMap, httpClient))
-            val barn = pdlContext.query {
-                hentPersonBolk(listOf(fnr))
-            }
-                .hentPersonBolk
-                .mapNotNull { it.person }
-                .single()
-                .forelderBarnRelasjon
-                .filter {
-                    it.relatertPersonsRolle == ForelderBarnRelasjonRolle.BARN
-                }.mapNotNull { it.relatertPersonsIdent }
+            val barn =
+                pdlContext.query {
+                    hentPersonBolk(listOf(fnr))
+                }
+                    .hentPersonBolk
+                    .mapNotNull { it.person }
+                    .single()
+                    .forelderBarnRelasjon
+                    .filter {
+                        it.relatertPersonsRolle == ForelderBarnRelasjonRolle.BARN
+                    }.mapNotNull { it.relatertPersonsIdent }
 
             return if (barn.isEmpty()) {
                 emptyList()
-            } else
+            } else {
                 pdlContext.query {
                     hentPersonBolk(barn)
                 }
@@ -63,12 +92,18 @@ fun createPersonOppslagBolk(
                         it.doedsfall.isEmpty()
                     }
                     .map(::PDLPerson)
+            }
         }
 
-        override fun hentPersonerBlocking(fnrs: List<String>, headersMap: Map<String, String>): List<PDLPerson> =
-            runBlocking { hentPersoner(fnrs, headersMap) }
+        override fun hentPersonerBlocking(
+            fnrs: List<String>,
+            headersMap: Map<String, String>,
+        ): List<PDLPerson> = runBlocking { hentPersoner(fnrs, headersMap) }
 
-        override fun hentBarnBlocking(fnr: String, headersMap: Map<String, String>): List<PDLPerson> {
+        override fun hentBarnBlocking(
+            fnr: String,
+            headersMap: Map<String, String>,
+        ): List<PDLPerson> {
             return runBlocking { hentBarn(fnr, headersMap) }
         }
     }
@@ -80,7 +115,10 @@ fun createPersonOppslag(
     httpClient: HttpClient = proxyAwareHttpClient(),
 ): PersonOppslag {
     return object : PersonOppslag {
-        override suspend fun hentPerson(fnr: String, headersMap: Map<String, String>): PDLPerson {
+        override suspend fun hentPerson(
+            fnr: String,
+            headersMap: Map<String, String>,
+        ): PDLPerson {
             val pdlContext = pdlContextOf(KtorHttpClientAdapter(url, headersMap, httpClient))
 
             return pdlContext.query { hentPerson(fnr) }
@@ -89,7 +127,10 @@ fun createPersonOppslag(
                 ?: throw PDLPerson.PDLException("Ukjent feil")
         }
 
-        override fun hentPersonBlocking(fnr: String, headersMap: Map<String, String>): PDLPerson {
+        override fun hentPersonBlocking(
+            fnr: String,
+            headersMap: Map<String, String>,
+        ): PDLPerson {
             return runBlocking { hentPerson(fnr, headersMap) }
         }
     }

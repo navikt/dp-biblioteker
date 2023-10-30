@@ -24,25 +24,26 @@ class PrometheusMetricsPluginTest {
 
     @BeforeEach
     fun setUp() {
-        client = HttpClient(MockEngine) {
-            install(PrometheusMetricsPlugin) {
-                baseName = ""
-                this.registry = defaultRegistry
-            }
-            engine {
-                addHandler { request ->
-                    when (request.url.encodedPath) {
-                        "/measured" -> {
-                            delay(100L)
-                            respondOk("Hello, world")
+        client =
+            HttpClient(MockEngine) {
+                install(PrometheusMetricsPlugin) {
+                    baseName = ""
+                    this.registry = defaultRegistry
+                }
+                engine {
+                    addHandler { request ->
+                        when (request.url.encodedPath) {
+                            "/measured" -> {
+                                delay(100L)
+                                respondOk("Hello, world")
+                            }
+                            "/ok" -> respondOk("Hello, world")
+                            "/not-found" -> respondError(HttpStatusCode.NotFound)
+                            else -> error("Unhandled URL ${request.url.encodedPath}")
                         }
-                        "/ok" -> respondOk("Hello, world")
-                        "/not-found" -> respondError(HttpStatusCode.NotFound)
-                        else -> error("Unhandled URL ${request.url.encodedPath}")
                     }
                 }
             }
-        }
     }
 
     @AfterEach
@@ -79,8 +80,13 @@ class PrometheusMetricsPluginTest {
         defaultRegistry.getSampleValue("status_total", listOf("status").toTypedArray(), listOf(statusCode).toTypedArray())
 
     private fun getCount(name: String): Double = defaultRegistry.getSampleValue("${name}_count").toDouble()
+
     private fun getSum(name: String): Double = defaultRegistry.getSampleValue("${name}_sum").toDouble()
-    private fun getBucket(name: String, bucket: Double): Double =
+
+    private fun getBucket(
+        name: String,
+        bucket: Double,
+    ): Double =
         defaultRegistry.getSampleValue(
             "${name}_bucket",
             listOf("le").toTypedArray(),

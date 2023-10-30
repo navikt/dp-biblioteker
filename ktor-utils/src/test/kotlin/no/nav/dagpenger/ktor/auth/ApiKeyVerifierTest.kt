@@ -5,7 +5,6 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 internal class ApiKeyVerifierTest {
-
     @Test
     fun `Should be able to verify api key with same secret`() {
         val verifier = ApiKeyVerifier("secret")

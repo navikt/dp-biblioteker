@@ -19,10 +19,12 @@ import java.time.OffsetDateTime
 import kotlin.time.Duration.Companion.milliseconds
 
 class ClientTest {
-
     // Hente azuread eller tokenx secret for  app
 // jwker.nais.io -> tokenx,  azurerator.nais.io -> azuread
-    fun getAuthEnv(app: String, type: String = "jwker.nais.io"): Map<String, String> {
+    fun getAuthEnv(
+        app: String,
+        type: String = "jwker.nais.io",
+    ): Map<String, String> {
         // file path to your KubeConfig
         val kubeConfigPath = System.getenv("KUBECONFIG")
 
@@ -49,14 +51,16 @@ class ClientTest {
     @Test
     @Disabled("Manual test")
     fun tokenxchange() {
-        val config = OAuth2Config.TokenX(
-            getAuthEnv("dp-soknad"),
-        )
+        val config =
+            OAuth2Config.TokenX(
+                getAuthEnv("dp-soknad"),
+            )
 
-        val oAuth2Client = OAuth2Client(
-            config.tokenEndpointUrl,
-            config.privateKey(),
-        )
+        val oAuth2Client =
+            OAuth2Client(
+                config.tokenEndpointUrl,
+                config.privateKey(),
+            )
         runBlocking {
             delay(5000.milliseconds) // Set client assertion to something less than this to recreate
             oAuth2Client.tokenExchange(
@@ -71,9 +75,10 @@ class ClientTest {
     @Test
     @Disabled("Manual test")
     fun clientCredentialsTest() {
-        val config = OAuth2Config.AzureAd(
-            getAuthEnv("dp-soknad", "azurerator.nais.io"),
-        )
+        val config =
+            OAuth2Config.AzureAd(
+                getAuthEnv("dp-soknad", "azurerator.nais.io"),
+            )
         runBlocking {
             OAuth2Client(
                 config.tokenEndpointUrl,
@@ -82,10 +87,11 @@ class ClientTest {
                 println(it)
             }
 
-            val cachedOauth2Client = CachedOauth2Client(
-                tokenEndpointUrl = config.tokenEndpointUrl,
-                authType = config.privateKey(),
-            )
+            val cachedOauth2Client =
+                CachedOauth2Client(
+                    tokenEndpointUrl = config.tokenEndpointUrl,
+                    authType = config.privateKey(),
+                )
 
             (1..10).forEach {
                 cachedOauth2Client.clientCredentials("api://dev-fss.pdl.pdl-api/.default").also {

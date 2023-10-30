@@ -18,7 +18,6 @@ import javax.imageio.stream.FileImageOutputStream
 import kotlin.math.abs
 
 internal class ImageScalerTest {
-
     @Test
     fun `Detect images`() {
         shouldThrow<IllegalArgumentException> {

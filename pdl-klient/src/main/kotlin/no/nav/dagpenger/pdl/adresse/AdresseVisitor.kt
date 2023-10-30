@@ -25,10 +25,11 @@ class AdresseVisitor(pdlPerson: PDLPerson) :
             .filter { this.harIkkeHemmeligAdresse() }
     }
 
-    val adresser: List<PDLAdresse> = mutableAdresseList
-        .filter { it.adresseMetadata.erGyldig }
-        .filter { this.harIkkeHemmeligAdresse() }
-        .toList()
+    val adresser: List<PDLAdresse> =
+        mutableAdresseList
+            .filter { it.adresseMetadata.erGyldig }
+            .filter { this.harIkkeHemmeligAdresse() }
+            .toList()
 
     val bostedsadresse: PDLAdresse? =
         adresser.singleOrNull { it.adresseMetadata.adresseType == AdresseMetadata.AdresseType.BOSTEDSADRESSE }
@@ -51,9 +52,7 @@ class AdresseVisitor(pdlPerson: PDLPerson) :
         this.adressebeskyttelseGradering = adressebeskyttelseGradering
     }
 
-    override fun visitMatrikkelAdresse(
-        adresse: PDLAdresse.MatrikkelAdresse,
-    ) {
+    override fun visitMatrikkelAdresse(adresse: PDLAdresse.MatrikkelAdresse) {
         mutableAdresseList.add(adresse)
     }
 
@@ -61,27 +60,19 @@ class AdresseVisitor(pdlPerson: PDLPerson) :
         mutableAdresseList.add(adresse)
     }
 
-    override fun visitPostAdresseIFrittFormat(
-        adresse: PDLAdresse.PostAdresseIFrittFormat,
-    ) {
+    override fun visitPostAdresseIFrittFormat(adresse: PDLAdresse.PostAdresseIFrittFormat) {
         mutableAdresseList.add(adresse)
     }
 
-    override fun visitPostboksadresse(
-        adresse: PDLAdresse.PostboksAdresse,
-    ) {
+    override fun visitPostboksadresse(adresse: PDLAdresse.PostboksAdresse) {
         mutableAdresseList.add(adresse)
     }
 
-    override fun visitUtenlandskAdresseIFrittFormat(
-        adresse: PDLAdresse.UtenlandsAdresseIFrittFormat,
-    ) {
+    override fun visitUtenlandskAdresseIFrittFormat(adresse: PDLAdresse.UtenlandsAdresseIFrittFormat) {
         mutableAdresseList.add(adresse)
     }
 
-    override fun visitUtenlandskAdresse(
-        adresse: PDLAdresse.UtenlandskAdresse,
-    ) {
+    override fun visitUtenlandskAdresse(adresse: PDLAdresse.UtenlandskAdresse) {
         mutableAdresseList.add(adresse)
     }
 }

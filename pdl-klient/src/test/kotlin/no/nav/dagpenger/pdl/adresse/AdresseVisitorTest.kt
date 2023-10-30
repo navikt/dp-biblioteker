@@ -19,16 +19,17 @@ internal class AdresseVisitorTest {
             AdresseVisitor(
                 TestPersonBuilder(
                     adressebeskyttelseGradering = gradering.name,
-                    bostedsAdresser = listOf(
-                        TestPersonBuilder.bostedsAdresse(
-                            vegadresse = TestPersonBuilder.vegadresse(
-                                postnummer = "2013",
+                    bostedsAdresser =
+                        listOf(
+                            TestPersonBuilder.bostedsAdresse(
+                                vegadresse =
+                                    TestPersonBuilder.vegadresse(
+                                        postnummer = "2013",
+                                    ),
+                                matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
+                                utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
                             ),
-                            matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
-                            utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
                         ),
-                    ),
-
                 ).testPerson,
             ).also {
                 assertEquals(emptyList<PDLAdresse>(), it.adresser, "$gradering")
@@ -40,35 +41,40 @@ internal class AdresseVisitorTest {
     fun `tom adresse dersom ingen adresse er gyldige`() {
         AdresseVisitor(
             TestPersonBuilder(
-                bostedsAdresser = listOf(
-                    TestPersonBuilder.bostedsAdresse(
-                        gyldigTom = LocalDate.now().minusDays(1),
-                        vegadresse = TestPersonBuilder.vegadresse(
-                            postnummer = "2013",
+                bostedsAdresser =
+                    listOf(
+                        TestPersonBuilder.bostedsAdresse(
+                            gyldigTom = LocalDate.now().minusDays(1),
+                            vegadresse =
+                                TestPersonBuilder.vegadresse(
+                                    postnummer = "2013",
+                                ),
+                            matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
+                            utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
                         ),
-                        matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
-                        utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
                     ),
-                ),
-                kontaktAdresser = listOf(
-                    TestPersonBuilder.kontaktAdresse(
-                        gyldigTom = LocalDate.now().minusDays(1),
-                        utenlandskAdresseIFrittFormat = TestPersonBuilder.utenlandskAdresseIFrittFormat(),
-                        utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
-                        postadresseIFrittFormat = TestPersonBuilder.postadresseIFrittFormat(),
-                        postboksadresse = TestPersonBuilder.postboksadresse(),
-                    ),
-                ),
-                oppholdAdresser = listOf(
-                    TestPersonBuilder.oppholdsAdresse(
-                        gyldigTom = LocalDate.now().minusDays(1),
-                        vegadresse = TestPersonBuilder.vegadresse(
-                            postnummer = "2013",
+                kontaktAdresser =
+                    listOf(
+                        TestPersonBuilder.kontaktAdresse(
+                            gyldigTom = LocalDate.now().minusDays(1),
+                            utenlandskAdresseIFrittFormat = TestPersonBuilder.utenlandskAdresseIFrittFormat(),
+                            utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
+                            postadresseIFrittFormat = TestPersonBuilder.postadresseIFrittFormat(),
+                            postboksadresse = TestPersonBuilder.postboksadresse(),
                         ),
-                        matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
-                        utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
                     ),
-                ),
+                oppholdAdresser =
+                    listOf(
+                        TestPersonBuilder.oppholdsAdresse(
+                            gyldigTom = LocalDate.now().minusDays(1),
+                            vegadresse =
+                                TestPersonBuilder.vegadresse(
+                                    postnummer = "2013",
+                                ),
+                            matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
+                            utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
+                        ),
+                    ),
             ).testPerson,
         ).let {
             assertEquals(emptyList<PDLAdresse>(), it.adresser)
@@ -79,17 +85,18 @@ internal class AdresseVisitorTest {
     fun `Henter ut bostedsadresse`() {
         AdresseVisitor(
             TestPersonBuilder(
-                bostedsAdresser = listOf(
-                    TestPersonBuilder.bostedsAdresse(
-                        vegadresse = TestPersonBuilder.vegadresse(),
+                bostedsAdresser =
+                    listOf(
+                        TestPersonBuilder.bostedsAdresse(
+                            vegadresse = TestPersonBuilder.vegadresse(),
+                        ),
                     ),
-                ),
-                kontaktAdresser = listOf(
-                    TestPersonBuilder.kontaktAdresse(
-                        utenlandskAdresseIFrittFormat = TestPersonBuilder.utenlandskAdresseIFrittFormat(),
+                kontaktAdresser =
+                    listOf(
+                        TestPersonBuilder.kontaktAdresse(
+                            utenlandskAdresseIFrittFormat = TestPersonBuilder.utenlandskAdresseIFrittFormat(),
+                        ),
                     ),
-                ),
-
             ).testPerson,
         ).let { visitor ->
             val bostedsadresse = visitor.bostedsadresse
@@ -103,31 +110,34 @@ internal class AdresseVisitorTest {
         val tomorrow = LocalDate.now().plusDays(1)
         AdresseVisitor(
             TestPersonBuilder(
-                bostedsAdresser = listOf(
-                    TestPersonBuilder.bostedsAdresse(
-                        gyldigTom = tomorrow,
-                        vegadresse = TestPersonBuilder.vegadresse(),
-                        matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
-                        utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
+                bostedsAdresser =
+                    listOf(
+                        TestPersonBuilder.bostedsAdresse(
+                            gyldigTom = tomorrow,
+                            vegadresse = TestPersonBuilder.vegadresse(),
+                            matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
+                            utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
+                        ),
                     ),
-                ),
-                kontaktAdresser = listOf(
-                    TestPersonBuilder.kontaktAdresse(
-                        gyldigTom = tomorrow,
-                        utenlandskAdresseIFrittFormat = TestPersonBuilder.utenlandskAdresseIFrittFormat(),
-                        utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
-                        postadresseIFrittFormat = TestPersonBuilder.postadresseIFrittFormat(),
-                        postboksadresse = TestPersonBuilder.postboksadresse(),
+                kontaktAdresser =
+                    listOf(
+                        TestPersonBuilder.kontaktAdresse(
+                            gyldigTom = tomorrow,
+                            utenlandskAdresseIFrittFormat = TestPersonBuilder.utenlandskAdresseIFrittFormat(),
+                            utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
+                            postadresseIFrittFormat = TestPersonBuilder.postadresseIFrittFormat(),
+                            postboksadresse = TestPersonBuilder.postboksadresse(),
+                        ),
                     ),
-                ),
-                oppholdAdresser = listOf(
-                    TestPersonBuilder.oppholdsAdresse(
-                        gyldigTom = tomorrow,
-                        vegadresse = TestPersonBuilder.vegadresse(),
-                        matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
-                        utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
+                oppholdAdresser =
+                    listOf(
+                        TestPersonBuilder.oppholdsAdresse(
+                            gyldigTom = tomorrow,
+                            vegadresse = TestPersonBuilder.vegadresse(),
+                            matrikkeladresse = TestPersonBuilder.matrikkelAdresse(),
+                            utenlandskAdresse = TestPersonBuilder.utenlandskAdresse(),
+                        ),
                     ),
-                ),
             ).testPerson,
         ).let { visitor ->
             assertEquals(10, visitor.adresser.size)

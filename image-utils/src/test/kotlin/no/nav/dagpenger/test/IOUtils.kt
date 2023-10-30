@@ -22,6 +22,7 @@ internal fun ByteArray.extractText(): String {
         PDFTextStripper().getText(it)
     }
 }
+
 internal fun ByteArray.writeToFile(filename: String) {
     BufferedOutputStream(FileOutputStream(filename)).use {
         it.write(this)

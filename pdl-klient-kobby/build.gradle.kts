@@ -45,11 +45,12 @@ kobby {
         enabled = true
 
         // Mapping GraphQL scalars to Kotlin classes
-        scalars = mapOf(
-            "Date" to typeOf("java.time", "LocalDate"),
-            "DateTime" to typeOf("java.time", "LocalDateTime"),
-            "ID" to typeOf("kotlin", "String"),
-        )
+        scalars =
+            mapOf(
+                "Date" to typeOf("java.time", "LocalDate"),
+                "DateTime" to typeOf("java.time", "LocalDateTime"),
+                "ID" to typeOf("kotlin", "String"),
+            )
 
         // Is root package name for generated DSL
         // should be relative to GraphQL schema directory
@@ -60,8 +61,9 @@ kobby {
 
         // Output directory for generated DSL
         // org.gradle.api.file.Directory
-        outputDirectory = project.layout.buildDirectory
-            .dir("generated/sources/kobby/main/kotlin").get()
+        outputDirectory =
+            project.layout.buildDirectory
+                .dir("generated/sources/kobby/main/kotlin").get()
 
         // Configuration of DSL context generation (entry point to DSL)
         context {

@@ -29,6 +29,7 @@ sealed class OAuth2Config {
     abstract val tokenEndpointUrl: String
 
     protected val configuration: Configuration
+
     protected fun fromJson(jsonKey: String): RSAKey = JwkFactory.fromJson(jsonKey)
 
     companion object {
@@ -46,11 +47,11 @@ sealed class OAuth2Config {
 
     class AzureAd : OAuth2Config {
         companion object {
-            const val clientIdKey = "AZURE_APP_CLIENT_ID"
-            const val clientSecretKey = "AZURE_APP_CLIENT_SECRET"
-            const val privateJWKKey = "AZURE_APP_JWK"
-            const val wellKnownUrlKey = "AZURE_APP_WELL_KNOWN_URL"
-            const val tokenEndpointUrlKey = "AZURE_OPENID_CONFIG_TOKEN_ENDPOINT"
+            const val CLIENT_ID_KEY = "AZURE_APP_CLIENT_ID"
+            const val CLIENT_SECRET_KEY = "AZURE_APP_CLIENT_SECRET"
+            const val PRIVATE_JWK_KEY = "AZURE_APP_JWK"
+            const val WELLKNOWN_URL_KEY = "AZURE_APP_WELL_KNOWN_URL"
+            const val TOKEN_ENDPOINT_KEY = "AZURE_OPENID_CONFIG_TOKEN_ENDPOINT"
         }
 
         constructor(config: Configuration) : super(config)
@@ -58,34 +59,35 @@ sealed class OAuth2Config {
 
         override fun clientSecret(): AuthType.ClientSecret {
             return AuthType.ClientSecret(
-                clientId = configuration[Key(clientIdKey, stringType)],
-                clientSecret = configuration[Key(clientSecretKey, stringType)],
+                clientId = configuration[Key(CLIENT_ID_KEY, stringType)],
+                clientSecret = configuration[Key(CLIENT_SECRET_KEY, stringType)],
             )
         }
 
         override fun privateKey(): AuthType.PrivateKey {
             return AuthType.PrivateKey(
-                clientId = configuration[Key(clientIdKey, stringType)],
+                clientId = configuration[Key(CLIENT_ID_KEY, stringType)],
                 tokenEndpointUrl = tokenEndpointUrl,
-                privateKey = fromJson(configuration[Key(privateJWKKey, stringType)]),
+                privateKey = fromJson(configuration[Key(PRIVATE_JWK_KEY, stringType)]),
             )
         }
 
         override fun wellKnowUrl(): String {
-            return configuration[Key(wellKnownUrlKey, stringType)]
+            return configuration[Key(WELLKNOWN_URL_KEY, stringType)]
         }
 
         override val tokenEndpointUrl: String
-            get() = configuration.getOrElse(Key(tokenEndpointUrlKey, stringType)) {
-                getTokenUrl(wellKnownUrlKey)
-            }
+            get() =
+                configuration.getOrElse(Key(TOKEN_ENDPOINT_KEY, stringType)) {
+                    getTokenUrl(WELLKNOWN_URL_KEY)
+                }
     }
 
     class TokenX : OAuth2Config {
         companion object {
-            const val clientIdKey = "TOKEN_X_CLIENT_ID"
-            const val privateJWKKey = "TOKEN_X_PRIVATE_JWK"
-            const val wellKnownUrlKey = "TOKEN_X_WELL_KNOWN_URL"
+            const val CLIENT_ID_KEY = "TOKEN_X_CLIENT_ID"
+            const val PRIVATE_JWK_KEY = "TOKEN_X_PRIVATE_JWK"
+            const val WELLKNOWN_URL_KEY = "TOKEN_X_WELL_KNOWN_URL"
         }
 
         constructor(config: Configuration) : super(config)
@@ -101,14 +103,14 @@ sealed class OAuth2Config {
 
         override fun privateKey(): AuthType.PrivateKey {
             return AuthType.PrivateKey(
-                clientId = configuration[Key(clientIdKey, stringType)],
+                clientId = configuration[Key(CLIENT_ID_KEY, stringType)],
                 tokenEndpointUrl = tokenEndpointUrl,
-                privateKey = fromJson(configuration[Key(privateJWKKey, stringType)]),
+                privateKey = fromJson(configuration[Key(PRIVATE_JWK_KEY, stringType)]),
             )
         }
 
         override fun wellKnowUrl(): String {
-            return configuration[Key(wellKnownUrlKey, stringType)]
+            return configuration[Key(WELLKNOWN_URL_KEY, stringType)]
         }
     }
 }

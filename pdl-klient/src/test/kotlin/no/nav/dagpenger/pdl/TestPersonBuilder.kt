@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:function-naming")
+
 package no.nav.dagpenger.pdl
 
 import no.nav.dagpenger.pdl.dto.AdressebeskyttelseGradering
@@ -77,51 +79,55 @@ internal data class TestPersonBuilder(
     val kontaktAdresser: List<Kontaktadresse> = ArrayList(),
     val oppholdAdresser: List<Oppholdsadresse> = ArrayList(),
     val kjonn: String = "KVINNE",
-
 ) {
+    val testPerson =
+        PDLPerson(
+            object : Person {
+                override val adressebeskyttelse: List<Adressebeskyttelse> =
+                    listOf(
+                        object : Adressebeskyttelse {
+                            override val folkeregistermetadata: Folkeregistermetadata? = null
+                            override val gradering: AdressebeskyttelseGradering =
+                                AdressebeskyttelseGradering.valueOf(adressebeskyttelseGradering)
+                            override val metadata: Metadata = metadata("PDL")
 
-    val testPerson = PDLPerson(object : Person {
-        override val adressebeskyttelse: List<Adressebeskyttelse> =
-            listOf(object : Adressebeskyttelse {
-                override val folkeregistermetadata: Folkeregistermetadata? = null
-                override val gradering: AdressebeskyttelseGradering =
-                    AdressebeskyttelseGradering.valueOf(adressebeskyttelseGradering)
-                override val metadata: Metadata = metadata("PDL")
-                override fun AdressebeskyttelseProjection.__withCurrentProjection() {}
-            })
-        override val bostedsadresse: List<Bostedsadresse> = bostedsAdresser
-        override val deltBosted: List<DeltBosted> = emptyList()
-        override val doedfoedtBarn: List<DoedfoedtBarn> = emptyList()
-        override val doedsfall: List<Doedsfall> = emptyList()
-        override val falskIdentitet: FalskIdentitet? = null
-        override val foedsel: List<Foedsel> = listOf(foedsel(fodselsdato))
-        override val folkeregisteridentifikator: List<Folkeregisteridentifikator> =
-            listOf(folkeregisteridentifikator(id = fnr))
-        override val folkeregisterpersonstatus: List<Folkeregisterpersonstatus> = emptyList()
-        override val forelderBarnRelasjon: List<ForelderBarnRelasjon> = emptyList()
-        override val foreldreansvar: List<Foreldreansvar> = emptyList()
-        override val fullmakt: List<Fullmakt> = emptyList()
-        override val identitetsgrunnlag: List<Identitetsgrunnlag> = emptyList()
-        override val innflyttingTilNorge: List<InnflyttingTilNorge> = emptyList()
-        override val kjoenn: List<Kjoenn> = listOf(kjonn(kjonn))
-        override val kontaktadresse: List<Kontaktadresse> = kontaktAdresser
-        override val kontaktinformasjonForDoedsbo: List<KontaktinformasjonForDoedsbo> = emptyList()
-        override val navn: List<Navn> = listOf(navn(fornavn, mellomnavn, etternavn))
-        override val opphold: List<Opphold> = emptyList()
-        override val oppholdsadresse: List<Oppholdsadresse> = oppholdAdresser
-        override val sikkerhetstiltak: List<Sikkerhetstiltak> = emptyList()
-        override val sivilstand: List<Sivilstand> = emptyList()
-        override val statsborgerskap: List<Statsborgerskap> = listOf(statsborgerskap("NOR"))
-        override val telefonnummer: List<Telefonnummer> = emptyList()
-        override val tilrettelagtKommunikasjon: List<TilrettelagtKommunikasjon> = emptyList()
-        override val utenlandskIdentifikasjonsnummer: List<UtenlandskIdentifikasjonsnummer> = emptyList()
-        override val utflyttingFraNorge: List<UtflyttingFraNorge> = emptyList()
-        override val vergemaalEllerFremtidsfullmakt: List<VergemaalEllerFremtidsfullmakt> = emptyList()
+                            override fun AdressebeskyttelseProjection.__withCurrentProjection() {}
+                        },
+                    )
+                override val bostedsadresse: List<Bostedsadresse> = bostedsAdresser
+                override val deltBosted: List<DeltBosted> = emptyList()
+                override val doedfoedtBarn: List<DoedfoedtBarn> = emptyList()
+                override val doedsfall: List<Doedsfall> = emptyList()
+                override val falskIdentitet: FalskIdentitet? = null
+                override val foedsel: List<Foedsel> = listOf(foedsel(fodselsdato))
+                override val folkeregisteridentifikator: List<Folkeregisteridentifikator> =
+                    listOf(folkeregisteridentifikator(id = fnr))
+                override val folkeregisterpersonstatus: List<Folkeregisterpersonstatus> = emptyList()
+                override val forelderBarnRelasjon: List<ForelderBarnRelasjon> = emptyList()
+                override val foreldreansvar: List<Foreldreansvar> = emptyList()
+                override val fullmakt: List<Fullmakt> = emptyList()
+                override val identitetsgrunnlag: List<Identitetsgrunnlag> = emptyList()
+                override val innflyttingTilNorge: List<InnflyttingTilNorge> = emptyList()
+                override val kjoenn: List<Kjoenn> = listOf(kjonn(kjonn))
+                override val kontaktadresse: List<Kontaktadresse> = kontaktAdresser
+                override val kontaktinformasjonForDoedsbo: List<KontaktinformasjonForDoedsbo> = emptyList()
+                override val navn: List<Navn> = listOf(navn(fornavn, mellomnavn, etternavn))
+                override val opphold: List<Opphold> = emptyList()
+                override val oppholdsadresse: List<Oppholdsadresse> = oppholdAdresser
+                override val sikkerhetstiltak: List<Sikkerhetstiltak> = emptyList()
+                override val sivilstand: List<Sivilstand> = emptyList()
+                override val statsborgerskap: List<Statsborgerskap> = listOf(statsborgerskap("NOR"))
+                override val telefonnummer: List<Telefonnummer> = emptyList()
+                override val tilrettelagtKommunikasjon: List<TilrettelagtKommunikasjon> = emptyList()
+                override val utenlandskIdentifikasjonsnummer: List<UtenlandskIdentifikasjonsnummer> = emptyList()
+                override val utflyttingFraNorge: List<UtflyttingFraNorge> = emptyList()
+                override val vergemaalEllerFremtidsfullmakt: List<VergemaalEllerFremtidsfullmakt> = emptyList()
 
-        override fun PersonProjection.__withCurrentProjection() {
-            TODO("Not yet implemented")
-        }
-    })
+                override fun PersonProjection.__withCurrentProjection() {
+                    TODO("Not yet implemented")
+                }
+            },
+        )
 
     companion object {
         fun postboksadresse(
@@ -133,6 +139,7 @@ internal data class TestPersonBuilder(
                 override val postboks: String = postboks
                 override val postbokseier: String? = postbokseier
                 override val postnummer: String? = postnummer
+
                 override fun PostboksadresseProjection.__withCurrentProjection() {}
             }
 
@@ -141,13 +148,13 @@ internal data class TestPersonBuilder(
             adresselinje2: String? = null,
             adresselinje3: String? = null,
             postnummer: String? = null,
-
         ): PostadresseIFrittFormat =
             object : PostadresseIFrittFormat {
                 override val adresselinje1: String? = adresselinje1
                 override val adresselinje2: String? = adresselinje2
                 override val adresselinje3: String? = adresselinje3
                 override val postnummer: String? = postnummer
+
                 override fun PostadresseIFrittFormatProjection.__withCurrentProjection() {}
             }
 
@@ -168,6 +175,7 @@ internal data class TestPersonBuilder(
                 override val postboksNummerNavn: String? = postboksNummerNavn
                 override val postkode: String? = postkode
                 override val regionDistriktOmraade: String? = regionDistriktOmraade
+
                 override fun UtenlandskAdresseProjection.__withCurrentProjection() {}
             }
 
@@ -185,6 +193,7 @@ internal data class TestPersonBuilder(
                 override val matrikkelId: Long? = matrikkelId
                 override val postnummer: String? = postnummer
                 override val tilleggsnavn: String? = tillegsnavn
+
                 override fun MatrikkeladresseProjection.__withCurrentProjection() {}
             }
 
@@ -195,7 +204,6 @@ internal data class TestPersonBuilder(
             byEllerStedsnavn: String? = null,
             landkode: String = "NOR",
             postkode: String? = null,
-
         ): UtenlandskAdresseIFrittFormat =
 
             object : UtenlandskAdresseIFrittFormat {
@@ -205,31 +213,40 @@ internal data class TestPersonBuilder(
                 override val byEllerStedsnavn: String? = byEllerStedsnavn
                 override val landkode: String = landkode
                 override val postkode: String? = postkode
+
                 override fun UtenlandskAdresseIFrittFormatProjection.__withCurrentProjection() {}
             }
 
-        fun foedsel(dato: LocalDate): Foedsel = object : Foedsel {
-            override val foedekommune: String? = null
-            override val foedeland: String? = null
-            override val foedested: String? = null
-            override val foedselsaar: Int? = null
-            override val foedselsdato: LocalDate? = dato
-            override val folkeregistermetadata: Folkeregistermetadata? = null
-            override val metadata: Metadata = metadata()
-            override fun FoedselProjection.__withCurrentProjection() {}
-        }
+        fun foedsel(dato: LocalDate): Foedsel =
+            object : Foedsel {
+                override val foedekommune: String? = null
+                override val foedeland: String? = null
+                override val foedested: String? = null
+                override val foedselsaar: Int? = null
+                override val foedselsdato: LocalDate? = dato
+                override val folkeregistermetadata: Folkeregistermetadata? = null
+                override val metadata: Metadata = metadata()
 
-        fun statsborgerskap(landKode: String): Statsborgerskap = object : Statsborgerskap {
-            override val bekreftelsesdato: LocalDate? = null
-            override val folkeregistermetadata: Folkeregistermetadata? = null
-            override val gyldigFraOgMed: LocalDate? = null
-            override val gyldigTilOgMed: LocalDate? = null
-            override val land: String = landKode
-            override val metadata: Metadata = metadata()
-            override fun StatsborgerskapProjection.__withCurrentProjection() {}
-        }
+                override fun FoedselProjection.__withCurrentProjection() {}
+            }
 
-        fun navn(fornavn: String, mellomnavn: String? = null, etternavn: String): Navn =
+        fun statsborgerskap(landKode: String): Statsborgerskap =
+            object : Statsborgerskap {
+                override val bekreftelsesdato: LocalDate? = null
+                override val folkeregistermetadata: Folkeregistermetadata? = null
+                override val gyldigFraOgMed: LocalDate? = null
+                override val gyldigTilOgMed: LocalDate? = null
+                override val land: String = landKode
+                override val metadata: Metadata = metadata()
+
+                override fun StatsborgerskapProjection.__withCurrentProjection() {}
+            }
+
+        fun navn(
+            fornavn: String,
+            mellomnavn: String? = null,
+            etternavn: String,
+        ): Navn =
             object : Navn {
                 override val etternavn: String = etternavn
                 override val folkeregistermetadata: Folkeregistermetadata? = null
@@ -239,15 +256,18 @@ internal data class TestPersonBuilder(
                 override val mellomnavn: String? = mellomnavn
                 override val metadata: Metadata = metadata()
                 override val originaltNavn: OriginaltNavn? = null
+
                 override fun NavnProjection.__withCurrentProjection() {}
             }
 
-        fun kjonn(kjonn: String): Kjoenn = object : Kjoenn {
-            override val folkeregistermetadata: Folkeregistermetadata? = null
-            override val kjoenn: KjoennType? = KjoennType.valueOf(kjonn)
-            override val metadata: Metadata = metadata()
-            override fun KjoennProjection.__withCurrentProjection() {}
-        }
+        fun kjonn(kjonn: String): Kjoenn =
+            object : Kjoenn {
+                override val folkeregistermetadata: Folkeregistermetadata? = null
+                override val kjoenn: KjoennType? = KjoennType.valueOf(kjonn)
+                override val metadata: Metadata = metadata()
+
+                override fun KjoennProjection.__withCurrentProjection() {}
+            }
 
         fun folkeregisteridentifikator(
             id: String,
@@ -260,6 +280,7 @@ internal data class TestPersonBuilder(
                 override val metadata: Metadata = metadata()
                 override val status: String = status
                 override val type: String = type
+
                 override fun FolkeregisteridentifikatorProjection.__withCurrentProjection() {}
             }
 
@@ -271,6 +292,7 @@ internal data class TestPersonBuilder(
                 override val kilde: String? = null
                 override val opphoerstidspunkt: LocalDateTime? = null
                 override val sekvens: Int? = null
+
                 override fun FolkeregistermetadataProjection.__withCurrentProjection() {}
             }
         }
@@ -293,6 +315,7 @@ internal data class TestPersonBuilder(
                 override val oppholdAnnetSted: String? = null
                 override val utenlandskAdresse: UtenlandskAdresse? = utenlandskAdresse
                 override val vegadresse: Vegadresse? = vegadresse
+
                 override fun OppholdsadresseProjection.__withCurrentProjection() {}
             }
         }
@@ -320,17 +343,20 @@ internal data class TestPersonBuilder(
                 override val utenlandskAdresseIFrittFormat: UtenlandskAdresseIFrittFormat? =
                     utenlandskAdresseIFrittFormat
                 override val vegadresse: Vegadresse? = vegadresse
+
                 override fun KontaktadresseProjection.__withCurrentProjection() {}
             }
         }
 
-        fun metadata(master: String = "PDL"): Metadata = object : Metadata {
-            override val endringer: List<Endring> = emptyList()
-            override val historisk: Boolean = false
-            override val master: String = master
-            override val opplysningsId: String? = null
-            override fun MetadataProjection.__withCurrentProjection() {}
-        }
+        fun metadata(master: String = "PDL"): Metadata =
+            object : Metadata {
+                override val endringer: List<Endring> = emptyList()
+                override val historisk: Boolean = false
+                override val master: String = master
+                override val opplysningsId: String? = null
+
+                override fun MetadataProjection.__withCurrentProjection() {}
+            }
 
         fun bostedsAdresse(
             master: String = "PDL",
@@ -368,18 +394,20 @@ internal data class TestPersonBuilder(
             kommunenummer: String? = null,
             postnummer: String? = null,
             tillegsnavn: String? = null,
-        ): Vegadresse = object : Vegadresse {
-            override val adressenavn: String? = adressenavn
-            override val bruksenhetsnummer: String? = bruksenhetsnummer
-            override val bydelsnummer: String? = bydelsnummer
-            override val husbokstav: String? = husbokstav
-            override val husnummer: String? = husnummer
-            override val kommunenummer: String? = kommunenummer
-            override val koordinater: Koordinater? = null
-            override val matrikkelId: Long? = null
-            override val postnummer: String? = postnummer
-            override val tilleggsnavn: String? = tillegsnavn
-            override fun VegadresseProjection.__withCurrentProjection() {}
-        }
+        ): Vegadresse =
+            object : Vegadresse {
+                override val adressenavn: String? = adressenavn
+                override val bruksenhetsnummer: String? = bruksenhetsnummer
+                override val bydelsnummer: String? = bydelsnummer
+                override val husbokstav: String? = husbokstav
+                override val husnummer: String? = husnummer
+                override val kommunenummer: String? = kommunenummer
+                override val koordinater: Koordinater? = null
+                override val matrikkelId: Long? = null
+                override val postnummer: String? = postnummer
+                override val tilleggsnavn: String? = tillegsnavn
+
+                override fun VegadresseProjection.__withCurrentProjection() {}
+            }
     }
 }

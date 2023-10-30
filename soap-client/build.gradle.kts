@@ -2,6 +2,7 @@ plugins {
     `common-kotlin`
 }
 val tjenestespesifikasjonerVersion = "1.2019.09.25-00.21-49b69f0625e0"
+
 fun tjenestespesifikasjon(name: String) = "no.nav.tjenestespesifikasjoner:$name:$tjenestespesifikasjonerVersion"
 val cxfVersion = "3.3.4"
 

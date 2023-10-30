@@ -17,7 +17,6 @@ import java.io.BufferedOutputStream
 import java.io.FileOutputStream
 
 internal class ImageConverterTest {
-
     @Test
     fun `konverter ikke pdf`() {
         "/pdfs/minimal.pdf".fileAsByteArray().let {

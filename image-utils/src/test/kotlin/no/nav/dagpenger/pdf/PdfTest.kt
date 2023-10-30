@@ -10,7 +10,6 @@ import java.io.OutputStream
 import java.time.LocalDateTime
 
 class PdfTest {
-
     @Test
     fun `is not pdf`() {
         PDFDocument.load("sfasf".toByteArray()).use { invalidPdf ->
@@ -68,10 +67,11 @@ class PdfTest {
 
     @Test
     fun `merge documents`() {
-        val pages: List<ByteArray> = listOf(
-            "/pdfs/minimal.pdf".fileAsByteArray(),
-            "/pdfs/minimal.pdf".fileAsByteArray(),
-        )
+        val pages: List<ByteArray> =
+            listOf(
+                "/pdfs/minimal.pdf".fileAsByteArray(),
+                "/pdfs/minimal.pdf".fileAsByteArray(),
+            )
 
         PDFDocument.merge(pages).also {
             it.shouldBeTypeOf<ValidPDFDocument>()

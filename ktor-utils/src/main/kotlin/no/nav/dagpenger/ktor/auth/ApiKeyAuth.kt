@@ -20,6 +20,7 @@ enum class ApiKeyLocation(val location: String) {
 }
 
 data class ApiKeyCredential(val value: String) : Credential
+
 data class ApiPrincipal(val apiKeyCredential: ApiKeyCredential?) : Principal
 
 /**
@@ -28,7 +29,6 @@ data class ApiPrincipal(val apiKeyCredential: ApiKeyCredential?) : Principal
  */
 
 class ApiKeyAuthenticationProvider internal constructor(config: Configuration) : AuthenticationProvider(config) {
-
     internal var apiKeyName: String = config.apiKeyName
     internal var apiKeyLocation: ApiKeyLocation = config.apiKeyLocation
     internal val authenticationFunction = config.authenticationFunction
@@ -61,11 +61,12 @@ fun Authentication.Configuration.apiKeyAuth(
         val credentials = call.request.apiKeyAuthenticationCredentials(apiKeyName, apiKeyLocation)
         val principal = credentials?.let { authenticate(call, it) }
 
-        val cause = when {
-            credentials == null -> AuthenticationFailedCause.NoCredentials
-            principal == null -> AuthenticationFailedCause.InvalidCredentials
-            else -> null
-        }
+        val cause =
+            when {
+                credentials == null -> AuthenticationFailedCause.NoCredentials
+                principal == null -> AuthenticationFailedCause.InvalidCredentials
+                else -> null
+            }
 
         if (cause != null) {
             context.challenge(apiKeyName, cause) {
@@ -95,10 +96,11 @@ fun ApplicationRequest.apiKeyAuthenticationCredentials(
     apiKeyLocation: ApiKeyLocation,
 ): ApiKeyCredential? {
     return when (
-        val value: String? = when (apiKeyLocation) {
-            ApiKeyLocation.QUERY -> this.queryParameters[apiKeyName]
-            ApiKeyLocation.HEADER -> this.headers[apiKeyName]
-        }
+        val value: String? =
+            when (apiKeyLocation) {
+                ApiKeyLocation.QUERY -> this.queryParameters[apiKeyName]
+                ApiKeyLocation.HEADER -> this.headers[apiKeyName]
+            }
     ) {
         null -> null
         else -> ApiKeyCredential(value)

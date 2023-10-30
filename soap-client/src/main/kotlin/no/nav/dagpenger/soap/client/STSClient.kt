@@ -33,10 +33,11 @@ fun stsClient(
         location = stsUrl
         outInterceptors = listOf(CallIdInterceptor(callIdGenerator))
 
-        properties = mapOf(
-            SecurityConstants.USERNAME to credentials.first,
-            SecurityConstants.PASSWORD to credentials.second,
-        )
+        properties =
+            mapOf(
+                SecurityConstants.USERNAME to credentials.first,
+                SecurityConstants.PASSWORD to credentials.second,
+            )
 
         setPolicy(bus.resolvePolicy(STS_CLIENT_AUTHENTICATION_POLICY))
     }
@@ -46,12 +47,18 @@ fun <T> STSClient.configureFor(servicePort: T) {
     configureFor(servicePort, STS_SAML_POLICY)
 }
 
-fun <T> STSClient.configureFor(servicePort: T, policyUri: String) {
+fun <T> STSClient.configureFor(
+    servicePort: T,
+    policyUri: String,
+) {
     val client = ClientProxy.getClient(servicePort)
     client.configureSTS(this, policyUri)
 }
 
-fun Client.configureSTS(stsClient: STSClient, policyUri: String = STS_SAML_POLICY) {
+fun Client.configureSTS(
+    stsClient: STSClient,
+    policyUri: String = STS_SAML_POLICY,
+) {
     requestContext[SecurityConstants.STS_CLIENT] = stsClient
     requestContext[SecurityConstants.CACHE_ISSUED_TOKEN_IN_ENDPOINT] = true
 

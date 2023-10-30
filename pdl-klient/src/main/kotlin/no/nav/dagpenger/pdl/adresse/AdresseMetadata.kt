@@ -16,18 +16,22 @@ class AdresseMetadata(
     val coAdresseNavn: String? = null,
 ) {
     enum class AdresseType {
-        BOSTEDSADRESSE, KONTAKTADRESSE, OPPHOLDSADRESSE
+        BOSTEDSADRESSE,
+        KONTAKTADRESSE,
+        OPPHOLDSADRESSE,
     }
 
     enum class MasterType {
-        FREG, PDL
+        FREG,
+        PDL,
     }
 
     val gyldighetsPeriode: ClosedRange<LocalDate> by lazy {
-        val lower: LocalDate = maxOf(
-            gyldigFom ?: LocalDate.MIN,
-            angittFlytteDato ?: LocalDate.MIN,
-        )
+        val lower: LocalDate =
+            maxOf(
+                gyldigFom ?: LocalDate.MIN,
+                angittFlytteDato ?: LocalDate.MIN,
+            )
         val upper = gyldigTom ?: LocalDate.MAX
         lower..upper
     }

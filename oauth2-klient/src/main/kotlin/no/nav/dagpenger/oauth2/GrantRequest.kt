@@ -26,11 +26,12 @@ sealed class GrantRequest(
     data class OnBeHalfOf(private val token: String, private val scope: String, private val authType: AuthType) :
         GrantRequest(
             grantType = JWT_BEARER,
-            params = mapOf(
-                OAuth2ParameterNames.SCOPE to scope,
-                OAuth2ParameterNames.REQUESTED_TOKEN_USE to "on_behalf_of",
-                OAuth2ParameterNames.ASSERTION to token,
-            ),
+            params =
+                mapOf(
+                    OAuth2ParameterNames.SCOPE to scope,
+                    OAuth2ParameterNames.REQUESTED_TOKEN_USE to "on_behalf_of",
+                    OAuth2ParameterNames.ASSERTION to token,
+                ),
             authType = authType,
         )
 

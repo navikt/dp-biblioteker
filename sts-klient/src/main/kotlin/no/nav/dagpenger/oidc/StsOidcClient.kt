@@ -28,13 +28,14 @@ import java.time.LocalDateTime
  * henter jwt token fra STS
  */
 
-private val requestLatency = Summary.build()
-    .quantile(0.5, 0.05) // Add 50th percentile (= median) with 5% tolerated error
-    .quantile(0.9, 0.01) // Add 90th percentile with 1% tolerated error
-    .quantile(0.99, 0.001) // Add 99th percentile with 0.1% tolerated error
-    .name("oidc_requests_latency_seconds")
-    .help("Request latency in seconds for Oidc client")
-    .register()
+private val requestLatency =
+    Summary.build()
+        .quantile(0.5, 0.05) // Add 50th percentile (= median) with 5% tolerated error
+        .quantile(0.9, 0.01) // Add 90th percentile with 1% tolerated error
+        .quantile(0.99, 0.001) // Add 99th percentile with 0.1% tolerated error
+        .name("oidc_requests_latency_seconds")
+        .help("Request latency in seconds for Oidc client")
+        .register()
 
 class StsOidcClient constructor(
     stsBaseUrl: String,
@@ -42,22 +43,22 @@ class StsOidcClient constructor(
     private val password: String,
     engine: HttpClientEngine = CIO.create(),
 ) : OidcClient {
-
-    private val client = HttpClient(engine) {
-        install(ContentNegotiation) {
-            jackson { }
-        }
-        install(Auth) {
-            basic {
-                sendWithoutRequest { true }
-                credentials { BasicAuthCredentials(this@StsOidcClient.username, this@StsOidcClient.password) }
+    private val client =
+        HttpClient(engine) {
+            install(ContentNegotiation) {
+                jackson { }
+            }
+            install(Auth) {
+                basic {
+                    sendWithoutRequest { true }
+                    credentials { BasicAuthCredentials(this@StsOidcClient.username, this@StsOidcClient.password) }
+                }
+            }
+            install(Logging) {
+                logger = Logger.DEFAULT
+                level = LogLevel.INFO
             }
         }
-        install(Logging) {
-            logger = Logger.DEFAULT
-            level = LogLevel.INFO
-        }
-    }
 
     private var oidcToken: OidcToken? = null
     private val mutex = Mutex()
@@ -107,9 +108,10 @@ data class OidcToken(
         LocalDateTime.now().plus(Duration.ofSeconds(this.expires_in - timeToRefresh))
 
     companion object {
-        fun isValid(token: OidcToken?) = when (token) {
-            null -> false
-            else -> token.valid
-        }
+        fun isValid(token: OidcToken?) =
+            when (token) {
+                null -> false
+                else -> token.valid
+            }
     }
 }

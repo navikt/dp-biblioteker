@@ -8,11 +8,12 @@ import io.ktor.http.auth.HttpAuthHeader
 
 fun Auth.bearer(block: BearerAuthConfig.() -> Unit) {
     with(BearerAuthConfig().apply(block)) {
-        providers += BearerAuthProvider(
-            tokenProvider,
-            realm,
-            sendWithoutRequest,
-        )
+        providers +=
+            BearerAuthProvider(
+                tokenProvider,
+                realm,
+                sendWithoutRequest,
+            )
     }
 }
 

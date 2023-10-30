@@ -17,16 +17,17 @@ class StsOidcClientTest {
 
     @Test
     fun `fetch open id token from sts server `() {
-        val engine = MockEngine { request ->
-            request.method shouldBe HttpMethod.Get
-            request.url.toString() shouldBe "https://localhost/rest/v1/sts/token/?grant_type=client_credentials&scope=openid"
-            request.headers[HttpHeaders.Accept] shouldBe ContentType.Application.Json.toString()
-            request.headers[HttpHeaders.Authorization] shouldMatch "Basic\\s[a-zA-Z0-9]*="
-            this.respond(
-                content = body(),
-                headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString()),
-            )
-        }
+        val engine =
+            MockEngine { request ->
+                request.method shouldBe HttpMethod.Get
+                request.url.toString() shouldBe "https://localhost/rest/v1/sts/token/?grant_type=client_credentials&scope=openid"
+                request.headers[HttpHeaders.Accept] shouldBe ContentType.Application.Json.toString()
+                request.headers[HttpHeaders.Authorization] shouldMatch "Basic\\s[a-zA-Z0-9]*="
+                this.respond(
+                    content = body(),
+                    headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString()),
+                )
+            }
         val oidcToken: OidcToken = StsOidcClient("https://localhost/", "username", "password", engine).oidcToken()
         oidcToken shouldBe OidcToken("token", "openid", expires)
     }
@@ -34,13 +35,14 @@ class StsOidcClientTest {
     @Test
     fun `fetch open id token from sts server and token is cached `() {
         var requestCount = 0
-        val engine = MockEngine {
-            requestCount++
-            this.respond(
-                content = body(),
-                headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString()),
-            )
-        }
+        val engine =
+            MockEngine {
+                requestCount++
+                this.respond(
+                    content = body(),
+                    headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString()),
+                )
+            }
 
         val stsOidcClient = StsOidcClient("https://localhost/", "username", "password", engine)
 
@@ -56,13 +58,14 @@ class StsOidcClientTest {
     @Test
     fun `Fetch new token if token has expired`() {
         var requestCount = 0
-        val engine = MockEngine {
-            requestCount++
-            this.respond(
-                content = body(-10),
-                headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString()),
-            )
-        }
+        val engine =
+            MockEngine {
+                requestCount++
+                this.respond(
+                    content = body(-10),
+                    headers = headersOf(HttpHeaders.ContentType, ContentType.Application.Json.toString()),
+                )
+            }
 
         val stsOidcClient = StsOidcClient("https://localhost/", "username", "password", engine)
 
@@ -88,11 +91,11 @@ class StsOidcClientTest {
 
     private fun body(expireTime: Long = expires) =
         """
-                {
-                    "access_token": "token",
-                    "token_type" : "openid",
-                    "expires_in" : $expireTime
-                }
+        {
+            "access_token": "token",
+            "token_type" : "openid",
+            "expires_in" : $expireTime
+        }
 
         """.trimIndent()
 }

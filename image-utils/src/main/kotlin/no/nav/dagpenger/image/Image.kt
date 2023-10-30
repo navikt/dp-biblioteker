@@ -20,7 +20,6 @@ import kotlin.math.max
 import kotlin.math.min
 
 object ImageConverter {
-
     internal fun requireImage(input: ByteArray) {
         require(input.isImage()) { "Only jpg and png is supported" }
     }
@@ -47,7 +46,10 @@ object ImageConverter {
         }
     }
 
-    fun toPDF(input: InputStream, dimension: Dimension): ByteArray {
+    fun toPDF(
+        input: InputStream,
+        dimension: Dimension,
+    ): ByteArray {
         requireImage(input)
         return ImageScaler.scale(input, dimension, SCALE_TO_FIT_INSIDE_BOX).toPNG().let { toPDF(it) }
     }
@@ -60,7 +62,10 @@ object ImageConverter {
         }
     }
 
-    fun toPNG(input: ByteArray, dimension: Dimension): ByteArray {
+    fun toPNG(
+        input: ByteArray,
+        dimension: Dimension,
+    ): ByteArray {
         require(input.isImage() || input.isPdf()) {
             "Kan kun konvertere PDF, JPG og PNG til PNG."
         }
@@ -87,32 +92,46 @@ object ImageScaler {
         CROP_TO_FILL_ENTIRE_BOX,
     }
 
-    fun scale(input: ByteArray, dimension: Dimension, scaleMode: ScaleMode): BufferedImage {
+    fun scale(
+        input: ByteArray,
+        dimension: Dimension,
+        scaleMode: ScaleMode,
+    ): BufferedImage {
         requireImage(input)
         return ByteArrayInputStream(input).use { stream ->
             scale(ImageIO.read(stream), dimension, scaleMode)
         }
     }
 
-    fun scale(input: InputStream, dimension: Dimension, scaleMode: ScaleMode): BufferedImage {
+    fun scale(
+        input: InputStream,
+        dimension: Dimension,
+        scaleMode: ScaleMode,
+    ): BufferedImage {
         requireImage(input)
         return scale(ImageIO.read(input), dimension, scaleMode)
     }
 
-    fun scale(input: BufferedImage, dimension: Dimension, scaleMode: ScaleMode): BufferedImage {
+    fun scale(
+        input: BufferedImage,
+        dimension: Dimension,
+        scaleMode: ScaleMode,
+    ): BufferedImage {
         val scaleFactorWidth: Double = dimension.getWidth() / input.width
         val scaleFactorHeight: Double = dimension.getHeight() / input.height
 
-        val scalingFactor = when (scaleMode) {
-            SCALE_TO_FIT_INSIDE_BOX -> min(scaleFactorWidth, scaleFactorHeight)
-            ScaleMode.CROP_TO_FILL_ENTIRE_BOX -> max(scaleFactorWidth, scaleFactorHeight)
-        }
+        val scalingFactor =
+            when (scaleMode) {
+                SCALE_TO_FIT_INSIDE_BOX -> min(scaleFactorWidth, scaleFactorHeight)
+                ScaleMode.CROP_TO_FILL_ENTIRE_BOX -> max(scaleFactorWidth, scaleFactorHeight)
+            }
 
-        val scaledImage = Scalr.resize(
-            input,
-            (scalingFactor * input.width).toInt(),
-            (scalingFactor * input.height).toInt(),
-        )
+        val scaledImage =
+            Scalr.resize(
+                input,
+                (scalingFactor * input.width).toInt(),
+                (scalingFactor * input.height).toInt(),
+            )
 
         return when (scaleMode) {
             SCALE_TO_FIT_INSIDE_BOX -> scaledImage
@@ -120,7 +139,10 @@ object ImageScaler {
         }
     }
 
-    fun crop(image: BufferedImage, dimension: Dimension): BufferedImage {
+    fun crop(
+        image: BufferedImage,
+        dimension: Dimension,
+    ): BufferedImage {
         require(image.width >= dimension.width && image.height >= dimension.height) {
             "Image must be at least as big as dimension"
         }

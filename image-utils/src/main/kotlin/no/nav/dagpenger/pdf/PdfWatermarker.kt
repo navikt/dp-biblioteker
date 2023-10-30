@@ -50,14 +50,19 @@ object PdfWatermarker {
 
     private data class Placement(val x: Float, val y: Float, val width: Float, val height: Float)
 
-    private fun calculateWaterMarkPlacement(page: PDPage, linje1: String, linje2: String): Placement {
+    private fun calculateWaterMarkPlacement(
+        page: PDPage,
+        linje1: String,
+        linje2: String,
+    ): Placement {
         val dimensions: PDRectangle = page.mediaBox ?: page.trimBox
         val pageHeight: Float = dimensions.getHeight()
         val pageWidth: Float = dimensions.getWidth()
-        val lineWidth = Math.max(
-            findLineWidthForTextWithFontSize(linje1, FONT, FONT_SIZE),
-            findLineWidthForTextWithFontSize(linje2, FONT, FONT_SIZE),
-        ) + PADDING_X + PADDING_Y
+        val lineWidth =
+            Math.max(
+                findLineWidthForTextWithFontSize(linje1, FONT, FONT_SIZE),
+                findLineWidthForTextWithFontSize(linje2, FONT, FONT_SIZE),
+            ) + PADDING_X + PADDING_Y
         val upperRightX = pageWidth - MARGIN
         val upperRightY = pageHeight - MARGIN
         val lowerLeftX = upperRightX - lineWidth - 2 * PADDING_X
@@ -66,7 +71,11 @@ object PdfWatermarker {
         return Placement(lowerLeftX, lowerLeftY, lineWidth, HEIGHT)
     }
 
-    private fun stampRectangleOnPdf(pdfDocument: PDDocument, linje1: String, linje2: String) {
+    private fun stampRectangleOnPdf(
+        pdfDocument: PDDocument,
+        linje1: String,
+        linje2: String,
+    ) {
         for (page: PDPage in pdfDocument.documentCatalog.pages) {
             val (lowerLeftX, lowerLeftY, lineWidth, height) = calculateWaterMarkPlacement(page, linje1, linje2)
             setOpacity(page.resources, BACKGROUND_OPACITY)
@@ -88,7 +97,11 @@ object PdfWatermarker {
         }
     }
 
-    private fun stampTextOnPdf(pdfDocument: PDDocument, linje1: String, linje2: String) {
+    private fun stampTextOnPdf(
+        pdfDocument: PDDocument,
+        linje1: String,
+        linje2: String,
+    ) {
         for (page in pdfDocument.documentCatalog.pages) {
             val (lowerLeftX, lowerLeftY, lineWidth, height) = calculateWaterMarkPlacement(page, linje1, linje2)
             setOpacity(page.getResources(), DEFAULT_BACKGROUND_OPACITY)
@@ -127,7 +140,10 @@ object PdfWatermarker {
         }
     }
 
-    private fun setOpacity(resources: PDResources, opacity: Float) {
+    private fun setOpacity(
+        resources: PDResources,
+        opacity: Float,
+    ) {
         val graphicsState = PDExtendedGraphicsState()
         graphicsState.setNonStrokingAlphaConstant(opacity)
         resources.add(graphicsState)
@@ -138,11 +154,19 @@ object PdfWatermarker {
         return date.format(dateTimeFormatter)
     }
 
-    private fun findLineWidthForTextWithFontSize(text: String, font: PDFont, fontSize: Int): Float {
+    private fun findLineWidthForTextWithFontSize(
+        text: String,
+        font: PDFont,
+        fontSize: Int,
+    ): Float {
         return font.getStringWidth(text) / 1000 * fontSize
     }
 
-    fun applyOn(bytes: ByteArray, ident: String, includeDate: LocalDateTime?): ByteArray {
+    fun applyOn(
+        bytes: ByteArray,
+        ident: String,
+        includeDate: LocalDateTime?,
+    ): ByteArray {
         require(bytes.isPdf()) { "Kan kun vannmerke PDF-filer." }
 
         return PDDocument.load(ByteArrayInputStream(bytes)).use { pdfDocument ->
@@ -150,7 +174,11 @@ object PdfWatermarker {
         }
     }
 
-    fun applyOn(pdfDocument: PDDocument, ident: String, includeDate: LocalDateTime?): ByteArray {
+    fun applyOn(
+        pdfDocument: PDDocument,
+        ident: String,
+        includeDate: LocalDateTime?,
+    ): ByteArray {
         val linje1 = if (includeDate == null) LINE_1_HEADER else LINE_1_HEADER + ": ${formatertDato(includeDate)}"
         val linje2 = LINE_2_HEADER + ident
 

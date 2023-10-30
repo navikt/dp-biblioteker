@@ -75,7 +75,10 @@ sealed class PDFDocument constructor(val document: PDDocument) : Closeable {
     }
 
     @JvmOverloads
-    fun waterMark(ident: String, includeDate: LocalDateTime? = null) {
+    fun waterMark(
+        ident: String,
+        includeDate: LocalDateTime? = null,
+    ) {
         require(numberOfPages() > 0) {
             "Document must have a least one page."
         }

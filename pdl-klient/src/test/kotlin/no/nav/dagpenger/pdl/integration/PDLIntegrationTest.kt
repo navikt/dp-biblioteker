@@ -17,7 +17,10 @@ import org.junit.jupiter.api.Test
 import java.io.FileReader
 import java.time.OffsetDateTime
 
-fun getAuthEnv(app: String, type: String = "jwker.nais.io"): Map<String, String> {
+fun getAuthEnv(
+    app: String,
+    type: String = "jwker.nais.io",
+): Map<String, String> {
     // file path to your KubeConfig
     val kubeConfigPath = System.getenv("KUBECONFIG")
 
@@ -41,10 +44,14 @@ fun getAuthEnv(app: String, type: String = "jwker.nais.io"): Map<String, String>
     }.first<V1Secret?>()?.data!!.mapValues { e -> String(e.value) }
 }
 
-fun getAzureAdToken(app: String, scope: String): String {
-    val azureadConfig = OAuth2Config.AzureAd(
-        getAuthEnv(app, "azurerator.nais.io"),
-    )
+fun getAzureAdToken(
+    app: String,
+    scope: String,
+): String {
+    val azureadConfig =
+        OAuth2Config.AzureAd(
+            getAuthEnv(app, "azurerator.nais.io"),
+        )
     val tokenAzureAdClient: CachedOauth2Client by lazy {
         CachedOauth2Client(
             tokenEndpointUrl = azureadConfig.tokenEndpointUrl,

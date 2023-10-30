@@ -17,7 +17,6 @@ import io.ktor.server.testing.withTestApplication
 import org.junit.jupiter.api.Test
 
 class ApiKeyAuthTest {
-
     @Test
     fun `Request with api key in header ok`() {
         withTestApplication({

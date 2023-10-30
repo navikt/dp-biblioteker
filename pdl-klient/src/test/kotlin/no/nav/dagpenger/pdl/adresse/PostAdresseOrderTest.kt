@@ -17,21 +17,22 @@ class PostAdresseOrderTest {
 
     @Test
     fun `Sorter etter adresseType, master og registreringsdato deretter nyeste norsk bostedsadresse`() {
-        val expected = listOf(
-            pdlAdresse(adresseType = AdresseType.KONTAKTADRESSE, master = PDL, gyldigFom = yesterday),
-            pdlAdresse(adresseType = AdresseType.KONTAKTADRESSE, master = PDL, gyldigFom = beforeYesterday),
-            pdlAdresse(adresseType = AdresseType.KONTAKTADRESSE, master = FREG, gyldigFom = yesterday),
-            pdlAdresse(adresseType = AdresseType.KONTAKTADRESSE, master = FREG, gyldigFom = beforeYesterday),
-            pdlAdresse(adresseType = AdresseType.OPPHOLDSADRESSE, master = PDL, gyldigFom = yesterday),
-            pdlAdresse(adresseType = AdresseType.OPPHOLDSADRESSE, master = PDL, gyldigFom = beforeYesterday),
-            pdlAdresse(adresseType = AdresseType.OPPHOLDSADRESSE, master = FREG, gyldigFom = yesterday),
-            pdlAdresse(adresseType = AdresseType.OPPHOLDSADRESSE, master = FREG, gyldigFom = beforeYesterday),
-            pdlAdresse(adresseType = AdresseType.BOSTEDSADRESSE, master = PDL, gyldigFom = yesterday),
-            pdlAdresse(adresseType = AdresseType.BOSTEDSADRESSE, master = PDL, gyldigFom = beforeYesterday),
-            pdlAdresse(adresseType = AdresseType.BOSTEDSADRESSE, master = FREG, gyldigFom = today),
-            pdlAdresse(adresseType = AdresseType.BOSTEDSADRESSE, master = FREG, gyldigFom = yesterday),
-            pdlAdresse(adresseType = AdresseType.BOSTEDSADRESSE, master = FREG, gyldigFom = beforeYesterday),
-        )
+        val expected =
+            listOf(
+                pdlAdresse(adresseType = AdresseType.KONTAKTADRESSE, master = PDL, gyldigFom = yesterday),
+                pdlAdresse(adresseType = AdresseType.KONTAKTADRESSE, master = PDL, gyldigFom = beforeYesterday),
+                pdlAdresse(adresseType = AdresseType.KONTAKTADRESSE, master = FREG, gyldigFom = yesterday),
+                pdlAdresse(adresseType = AdresseType.KONTAKTADRESSE, master = FREG, gyldigFom = beforeYesterday),
+                pdlAdresse(adresseType = AdresseType.OPPHOLDSADRESSE, master = PDL, gyldigFom = yesterday),
+                pdlAdresse(adresseType = AdresseType.OPPHOLDSADRESSE, master = PDL, gyldigFom = beforeYesterday),
+                pdlAdresse(adresseType = AdresseType.OPPHOLDSADRESSE, master = FREG, gyldigFom = yesterday),
+                pdlAdresse(adresseType = AdresseType.OPPHOLDSADRESSE, master = FREG, gyldigFom = beforeYesterday),
+                pdlAdresse(adresseType = AdresseType.BOSTEDSADRESSE, master = PDL, gyldigFom = yesterday),
+                pdlAdresse(adresseType = AdresseType.BOSTEDSADRESSE, master = PDL, gyldigFom = beforeYesterday),
+                pdlAdresse(adresseType = AdresseType.BOSTEDSADRESSE, master = FREG, gyldigFom = today),
+                pdlAdresse(adresseType = AdresseType.BOSTEDSADRESSE, master = FREG, gyldigFom = yesterday),
+                pdlAdresse(adresseType = AdresseType.BOSTEDSADRESSE, master = FREG, gyldigFom = beforeYesterday),
+            )
 
         (1..10).forEach {
             val sorted: List<PDLAdresse> = expected.shuffled(Random(it)).postAdresser()

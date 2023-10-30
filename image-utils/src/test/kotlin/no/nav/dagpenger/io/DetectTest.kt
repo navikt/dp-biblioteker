@@ -10,7 +10,6 @@ import no.nav.dagpenger.pdf.fileAsByteArray
 import org.junit.jupiter.api.Test
 
 class DetectTest {
-
     @Test
     fun `detect pdf`() {
         "/pdfs/minimal.pdf".fileAsBufferedInputStream().use {

@@ -9,10 +9,11 @@ sealed class AuthType {
     abstract val authParams: Map<String, String>
 
     data class ClientSecret(private val clientId: String, private val clientSecret: String) : AuthType() {
-        override val authParams: Map<String, String> = mapOf(
-            OAuth2ParameterNames.CLIENT_ID to clientId,
-            OAuth2ParameterNames.CLIENT_SECRET to clientSecret,
-        )
+        override val authParams: Map<String, String> =
+            mapOf(
+                OAuth2ParameterNames.CLIENT_ID to clientId,
+                OAuth2ParameterNames.CLIENT_SECRET to clientSecret,
+            )
     }
 
     data class PrivateKey(

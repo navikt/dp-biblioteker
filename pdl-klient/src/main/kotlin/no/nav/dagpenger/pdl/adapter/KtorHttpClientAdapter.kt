@@ -31,7 +31,10 @@ class KtorHttpClientAdapter(
     private val headersMap: Map<String, String>,
     private val httpClient: HttpClient = proxyAwareHttpClient(),
 ) : PdlAdapter {
-    override suspend fun executeQuery(query: String, variables: Map<String, Any?>): QueryDto {
+    override suspend fun executeQuery(
+        query: String,
+        variables: Map<String, Any?>,
+    ): QueryDto {
         return httpClient.post {
             setBody(PdlRequest(query, variables))
             contentType(ContentType.Application.Json)
@@ -56,9 +59,10 @@ class KtorHttpClientAdapter(
 }
 
 fun proxyAwareHttpClient(
-    engine: HttpClientEngine = CIO.create() {
-        requestTimeout = 0
-    },
+    engine: HttpClientEngine =
+        CIO.create {
+            requestTimeout = 0
+        },
 ): HttpClient {
     return HttpClient(engine) {
         install(ContentNegotiation) {
