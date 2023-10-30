@@ -1,6 +1,5 @@
 rootProject.name = "dp-biblioteker"
 
-include("aad-klient")
 include("soap-client")
 include("ktor-client-auth-bearer")
 include("ktor-client-metrics")
