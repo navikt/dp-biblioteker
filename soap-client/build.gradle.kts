@@ -10,7 +10,7 @@ dependencies {
     implementation("de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.3.0")
 
     implementation("javax.xml.ws:jaxws-api:2.3.1")
-    implementation("com.sun.xml.ws:jaxws-tools:2.3.0.2")
+    implementation("com.sun.xml.ws:jaxws-tools:4.0.2")
 
     implementation("org.apache.cxf:cxf-rt-features-logging:$cxfVersion")
     implementation("org.apache.cxf:cxf-rt-frontend-jaxws:$cxfVersion")
