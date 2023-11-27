@@ -64,7 +64,7 @@ class StsOidcClient constructor(
     private val mutex = Mutex()
 
     private val stsTokenUrl: String =
-        if (stsBaseUrl.endsWith("/")) "${stsBaseUrl}rest/v1/sts/token/" else "$stsBaseUrl/rest/v1/sts/token/"
+        if (stsBaseUrl.endsWith("/")) "${stsBaseUrl}rest/v1/sts/token" else "$stsBaseUrl/rest/v1/sts/token"
 
     override fun oidcToken(): OidcToken = runBlocking { return@runBlocking getOidcToken() }
 
