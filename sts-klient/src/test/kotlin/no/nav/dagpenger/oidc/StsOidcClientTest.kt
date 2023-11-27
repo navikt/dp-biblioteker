@@ -20,7 +20,7 @@ class StsOidcClientTest {
         val engine =
             MockEngine { request ->
                 request.method shouldBe HttpMethod.Get
-                request.url.toString() shouldBe "https://localhost/rest/v1/sts/token/?grant_type=client_credentials&scope=openid"
+                request.url.toString() shouldBe "https://localhost/rest/v1/sts/token?grant_type=client_credentials&scope=openid"
                 request.headers[HttpHeaders.Accept] shouldBe ContentType.Application.Json.toString()
                 request.headers[HttpHeaders.Authorization] shouldMatch "Basic\\s[a-zA-Z0-9]*="
                 this.respond(
