@@ -9,7 +9,7 @@ dependencies {
     implementation(libs.ktor.serialization.jackson)
     implementation("io.prometheus:simpleclient_common:0.16.0")
 
-    testImplementation("ch.qos.logback:logback-classic:1.2.3")
+    testImplementation("ch.qos.logback:logback-classic:1.4.13")
     testImplementation(libs.ktor.client.mock)
     testImplementation(libs.kotest.assertions.core)
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${libs.versions.junit.get()}")
