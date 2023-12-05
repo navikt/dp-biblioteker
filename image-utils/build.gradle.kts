@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation("org.apache.pdfbox:preflight:3.0.0")
+    implementation("org.apache.pdfbox:preflight:3.0.1")
     implementation("org.apache.pdfbox:pdfbox:2.0.26")
     implementation("org.apache.tika:tika-core:2.9.1")
     implementation("org.imgscalr:imgscalr-lib:4.2")
