@@ -5,7 +5,7 @@ plugins {
 dependencies {
 
     api(libs.konfig)
-    api("no.nav.security:token-client-core:3.1.7")
+    api("no.nav.security:token-client-core:4.0.5")
     implementation(libs.ktor.client.logging.jvm)
     implementation(libs.ktor.client.cio)
     implementation(libs.ktor.client.content.negotiation)
