@@ -79,7 +79,7 @@ sealed class OAuth2Config {
         override val tokenEndpointUrl: String
             get() =
                 configuration.getOrElse(Key(TOKEN_ENDPOINT_KEY, stringType)) {
-                    getTokenUrl(WELLKNOWN_URL_KEY)
+                    getTokenUrl(wellKnowUrl())
                 }
     }
 
