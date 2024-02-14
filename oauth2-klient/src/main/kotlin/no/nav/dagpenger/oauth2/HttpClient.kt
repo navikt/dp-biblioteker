@@ -11,18 +11,19 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.jackson.jackson
 
 @JvmOverloads
-fun defaultHttpClient(httpClientEngine: HttpClientEngine = CIO.create()) =
-    HttpClient(httpClientEngine) {
-        expectSuccess = true
-        install(ContentNegotiation) {
-            jackson {
-                configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                setSerializationInclusion(JsonInclude.Include.NON_NULL)
-            }
-        }
-        engine {
+fun defaultHttpClient(
+    httpClientEngine: HttpClientEngine =
+        CIO.create {
             System.getenv("HTTP_PROXY")?.let {
                 this.proxy = ProxyBuilder.http(it)
             }
+        },
+) = HttpClient(httpClientEngine) {
+    expectSuccess = true
+    install(ContentNegotiation) {
+        jackson {
+            configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            setSerializationInclusion(JsonInclude.Include.NON_NULL)
         }
     }
+}
