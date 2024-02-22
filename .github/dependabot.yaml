@@ -6,6 +6,8 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "gradle"
+    ignore:
+      - dependency-name: "org.apache.pdfbox:pdfbox"
     directory: "/"
     schedule:
       interval: "daily"
