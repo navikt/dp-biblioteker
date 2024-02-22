@@ -1,6 +1,6 @@
 package no.nav.dagpenger.pdf
 
-import org.apache.pdfbox.Loader
+import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.text.PDFTextStripper
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
@@ -18,7 +18,7 @@ internal fun String.fileAsBufferedInputStream(): BufferedInputStream = this.file
 internal fun String.fileAsByteArray(): ByteArray = this.fileAsInputStream().use { it.readAllBytes() }
 
 internal fun ByteArray.extractText(): String {
-    return Loader.loadPDF(this).use {
+    return PDDocument.load(this).use {
         PDFTextStripper().getText(it)
     }
 }

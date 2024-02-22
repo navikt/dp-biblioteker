@@ -1,14 +1,13 @@
 package no.nav.dagpenger.pdf
 
 import no.nav.dagpenger.io.Detect.isPdf
-import org.apache.pdfbox.Loader
-import org.apache.pdfbox.io.IOUtils
-import org.apache.pdfbox.io.RandomAccessReadBuffer
+import org.apache.pdfbox.io.MemoryUsageSetting
 import org.apache.pdfbox.multipdf.PDFMergerUtility
 import org.apache.pdfbox.multipdf.Splitter
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.rendering.PDFRenderer
 import java.awt.image.BufferedImage
+import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.Closeable
 import java.io.InputStream
@@ -19,7 +18,7 @@ sealed class PDFDocument constructor(val document: PDDocument) : Closeable {
     companion object {
         fun load(bytes: ByteArray): PDFDocument {
             return try {
-                ValidPDFDocument(Loader.loadPDF(bytes))
+                ValidPDFDocument(PDDocument.load(bytes))
             } catch (e: Exception) {
                 InvalidPDFDocument(e)
             }
@@ -28,7 +27,7 @@ sealed class PDFDocument constructor(val document: PDDocument) : Closeable {
         fun load(inputStream: InputStream): PDFDocument {
             return try {
                 inputStream.buffered().use { buffered ->
-                    ValidPDFDocument(Loader.loadPDF(RandomAccessReadBuffer(buffered)))
+                    ValidPDFDocument(PDDocument.load(buffered))
                 }
             } catch (e: Exception) {
                 InvalidPDFDocument(e)
@@ -41,8 +40,8 @@ sealed class PDFDocument constructor(val document: PDDocument) : Closeable {
             return ByteArrayOutputStream().use { os ->
                 PDFMergerUtility().also {
                     it.destinationStream = os
-                    it.addSources(pages.map { page -> RandomAccessReadBuffer(page) })
-                    it.mergeDocuments(IOUtils.createMemoryOnlyStreamCache())
+                    it.addSources(pages.map { page -> ByteArrayInputStream(page) })
+                    it.mergeDocuments(MemoryUsageSetting.setupMainMemoryOnly())
                 }
                 load(os.toByteArray())
             }

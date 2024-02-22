@@ -1,3 +1,4 @@
+import com.diffplug.spotless.LineEnding
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import java.net.URI
@@ -34,6 +35,7 @@ tasks.withType<Test> {
     }
 }
 
+
 group = "no.nav.dagpenger"
 
 val sourcesJar by tasks.registering(Jar::class) {
@@ -62,6 +64,9 @@ publishing {
     }
 }
 
+
+
+
 configure<com.diffplug.gradle.spotless.SpotlessExtension> {
     kotlin {
         ktlint()
@@ -72,3 +77,4 @@ configure<com.diffplug.gradle.spotless.SpotlessExtension> {
         ktlint()
     }
 }
+

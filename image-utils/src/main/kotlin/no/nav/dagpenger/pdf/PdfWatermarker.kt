@@ -1,7 +1,6 @@
 package no.nav.dagpenger.pdf
 
 import no.nav.dagpenger.io.Detect.isPdf
-import org.apache.pdfbox.Loader
 import org.apache.pdfbox.cos.COSDictionary
 import org.apache.pdfbox.cos.COSName
 import org.apache.pdfbox.pdmodel.PDDocument
@@ -11,9 +10,9 @@ import org.apache.pdfbox.pdmodel.PDResources
 import org.apache.pdfbox.pdmodel.common.PDRectangle
 import org.apache.pdfbox.pdmodel.font.PDFont
 import org.apache.pdfbox.pdmodel.font.PDType1Font
-import org.apache.pdfbox.pdmodel.font.Standard14Fonts
 import org.apache.pdfbox.pdmodel.graphics.state.PDExtendedGraphicsState
 import java.awt.Color
+import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.time.LocalDateTime
@@ -38,7 +37,7 @@ object PdfWatermarker {
     private const val DEFAULT_BACKGROUND_OPACITY = 1.0f
     private const val BORDER_WIDTH = 1f
     private const val HEIGHT = 22f
-    private val FONT: PDFont = PDType1Font(Standard14Fonts.FontName.HELVETICA)
+    private val FONT: PDFont = PDType1Font.HELVETICA
     private const val FONT_SIZE = 6
 
     private fun removePermissions(pdfDocument: PDDocument) {
@@ -170,7 +169,7 @@ object PdfWatermarker {
     ): ByteArray {
         require(bytes.isPdf()) { "Kan kun vannmerke PDF-filer." }
 
-        return Loader.loadPDF(bytes).use { pdfDocument ->
+        return PDDocument.load(ByteArrayInputStream(bytes)).use { pdfDocument ->
             applyOn(pdfDocument, ident, includeDate)
         }
     }
