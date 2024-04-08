@@ -73,7 +73,7 @@ class ClientTest {
         }
     }
 
-    //    @Disabled("Manual test")
+    @Disabled("Manual test")
     @Test
     fun clientCredentialsTest() {
         val config =
