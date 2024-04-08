@@ -1,5 +1,6 @@
 package no.nav.dagpenger.oauth2
 
+import com.github.benmanes.caffeine.cache.AsyncLoadingCache
 import com.github.benmanes.caffeine.cache.Caffeine
 import com.github.benmanes.caffeine.cache.Expiry
 import com.github.benmanes.caffeine.cache.LoadingCache
@@ -11,11 +12,11 @@ data class LoadingCacheBuilder(
     val maximumSize: Long = 1000,
     val evictSkew: Long = 5,
 ) {
-    fun cache(loader: suspend (GrantRequest) -> OAuth2AccessTokenResponse): LoadingCache<GrantRequest, OAuth2AccessTokenResponse> =
+    fun cache(loader: suspend (GrantRequest) -> OAuth2AccessTokenResponse): AsyncLoadingCache<GrantRequest, OAuth2AccessTokenResponse> =
         Caffeine.newBuilder()
             .expireAfter(evictOnResponseExpiresIn(evictSkew))
             .maximumSize(maximumSize)
-            .build { key ->
+            .buildAsync { key ->
                 runBlocking { loader(key) }
             }
 

@@ -27,11 +27,11 @@ class OAuth2Client(
         return httpClient.submitForm(
             url = tokenEndpointUrl,
             formParameters =
-                Parameters.build {
-                    grantRequest.formParams.forEach {
-                        this.append(it.key, it.value)
-                    }
-                },
+            Parameters.build {
+                grantRequest.formParams.forEach {
+                    this.append(it.key, it.value)
+                }
+            },
         ).body()
     }
 }
@@ -61,6 +61,6 @@ class CachedOauth2Client(
     fun clientCredentials(scope: String) = accessToken(GrantRequest.ClientCredentials(scope, authType))
 
     private fun accessToken(grantRequest: GrantRequest): OAuth2AccessTokenResponse {
-        return cache.get(grantRequest)
+        return cache.get(grantRequest).get()
     }
 }

@@ -7,6 +7,7 @@ import io.kubernetes.client.openapi.apis.CoreV1Api
 import io.kubernetes.client.openapi.models.V1Secret
 import io.kubernetes.client.util.ClientBuilder
 import io.kubernetes.client.util.KubeConfig
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import no.nav.dagpenger.oauth2.CachedOauth2Client
@@ -73,7 +74,7 @@ class ClientTest {
     }
 
     @Test
-    @Disabled("Manual test")
+//    @Disabled("Manual test")
     fun clientCredentialsTest() {
         val config =
             OAuth2Config.AzureAd(
@@ -98,6 +99,30 @@ class ClientTest {
                     println(it)
                 }
             }
+        }
+    }
+
+    @Test
+    @Disabled("Manual test")
+    fun paralellTest() {
+        "api://dev-gcp.nom.skjermede-personer-pip/.default"
+        val config =
+            OAuth2Config.AzureAd(
+                getAuthEnv("dp-saksbehandling", "azurerator.nais.io"),
+            )
+
+        val cachedOauth2Client =
+            CachedOauth2Client(tokenEndpointUrl = config.tokenEndpointUrl, authType = config.privateKey())
+
+        runBlocking {
+            val t1 = async {
+                cachedOauth2Client.clientCredentials("api://dev-gcp.nom.skjermede-personer-pip/.default")
+            }
+            val t2 = async {
+                cachedOauth2Client.clientCredentials("api://dev-fss.pdl.pdl-api/.default")
+            }
+
+            println("t1 = ${t1.await().accessToken} t2 = ${t2.await().accessToken}")
         }
     }
 }
