@@ -27,11 +27,11 @@ class OAuth2Client(
         return httpClient.submitForm(
             url = tokenEndpointUrl,
             formParameters =
-            Parameters.build {
-                grantRequest.formParams.forEach {
-                    this.append(it.key, it.value)
-                }
-            },
+                Parameters.build {
+                    grantRequest.formParams.forEach {
+                        this.append(it.key, it.value)
+                    }
+                },
         ).body()
     }
 }

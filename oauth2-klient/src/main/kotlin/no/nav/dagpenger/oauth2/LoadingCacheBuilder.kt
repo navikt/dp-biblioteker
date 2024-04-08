@@ -3,7 +3,6 @@ package no.nav.dagpenger.oauth2
 import com.github.benmanes.caffeine.cache.AsyncLoadingCache
 import com.github.benmanes.caffeine.cache.Caffeine
 import com.github.benmanes.caffeine.cache.Expiry
-import com.github.benmanes.caffeine.cache.LoadingCache
 import kotlinx.coroutines.runBlocking
 import no.nav.security.token.support.client.core.oauth2.OAuth2AccessTokenResponse
 import java.util.concurrent.TimeUnit

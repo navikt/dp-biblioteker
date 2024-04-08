@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 public class JavaClientTest {
 
     @Test
-    @Disabled
+//    @Disabled
     public void test() {
         final Map<String, String> env = Stream.of(new String[][]{
             {"AZURE_APP_CLIENT_ID", ""},

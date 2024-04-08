@@ -73,8 +73,8 @@ class ClientTest {
         }
     }
 
+    //    @Disabled("Manual test")
     @Test
-//    @Disabled("Manual test")
     fun clientCredentialsTest() {
         val config =
             OAuth2Config.AzureAd(
@@ -115,12 +115,14 @@ class ClientTest {
             CachedOauth2Client(tokenEndpointUrl = config.tokenEndpointUrl, authType = config.privateKey())
 
         runBlocking {
-            val t1 = async {
-                cachedOauth2Client.clientCredentials("api://dev-gcp.nom.skjermede-personer-pip/.default")
-            }
-            val t2 = async {
-                cachedOauth2Client.clientCredentials("api://dev-fss.pdl.pdl-api/.default")
-            }
+            val t1 =
+                async {
+                    cachedOauth2Client.clientCredentials("api://dev-gcp.nom.skjermede-personer-pip/.default")
+                }
+            val t2 =
+                async {
+                    cachedOauth2Client.clientCredentials("api://dev-fss.pdl.pdl-api/.default")
+                }
 
             println("t1 = ${t1.await().accessToken} t2 = ${t2.await().accessToken}")
         }
