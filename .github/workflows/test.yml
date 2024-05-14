@@ -4,6 +4,7 @@ on:
   push:
     branches-ignore:
       - 'main'
+
 jobs:
   test:
     name: test
@@ -14,7 +15,6 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-
-      - uses: gradle/gradle-build-action@v2.6.0
-        with:
-          arguments: --configuration-cache test
+      - uses: gradle/actions/wrapper-validation@v3
+      - uses: gradle/actions/setup-gradle@v3
+      - run: ./gradlew test
