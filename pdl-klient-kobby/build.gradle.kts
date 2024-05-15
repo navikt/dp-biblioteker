@@ -317,37 +317,5 @@ kobby {
                 postfix = "KtorAdapter"
             }
         }
-
-        // Configuration of resolver interfaces generation
-        resolver {
-            // Is resolver interfaces generation enabled
-            // By default `true` if `com.graphql-java-kickstart:graphql-java-tools`
-            // artifact is in the project dependencies
-            enabled = null // Boolean
-
-            // Is wrap subscription resolver functions result in `org.reactivestreams.Publisher`
-            // By default `true` if `org.reactivestreams:reactive-streams`
-            // artifact is in the project dependencies
-            publisherEnabled = null // Boolean
-
-            // Package name for resolver interfaces relative to root package name
-            packageName = "resolver"
-
-            // Prefix for resolver interfaces
-            // By default is capitalized context name
-            prefix = null // String
-
-            // Postfix for resolver interfaces
-            postfix = "Resolver"
-
-            // Name for parent object argument
-            // By default is de-capitalized name of parent object type
-            argument = null // String
-
-            // If not null, Kobby will generate default implementation for
-            // functions in resolver interfaces that looks like:
-            // TODO("$toDoMessage")
-            toDoMessage = null // String
-        }
     }
 }
