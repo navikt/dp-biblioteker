@@ -59,20 +59,33 @@ internal class SoapPortTest {
     fun `kan overstyre svcName og PortName for å lage klient`() {
         val stsClient = mockk<STSClient>()
 
-        val e: ServiceConstructionException =
-            assertThrows<ServiceConstructionException> {
-                createSoapClient<YtelseskontraktV3> {
-                    sts = stsClient
-                    stsAllowInsecure = true
-                    endpoint = "foo"
-                    wsdl = "wsdl/tjenestespesifikasjon/no/nav/tjeneste/virksomhet/ytelseskontrakt/v3/Binding.wsdl"
-                    svcName = "Blupr"
-                    portName = "Blarp"
-                }
+        assertThrows<ServiceConstructionException> {
+            createSoapClient<YtelseskontraktV3> {
+                sts = stsClient
+                stsAllowInsecure = true
+                endpoint = "foo"
+                wsdl = "wsdl/tjenestespesifikasjon/no/nav/tjeneste/virksomhet/ytelseskontrakt/v3/Binding.wsdl"
+                svcName = "Blupr"
             }
-        assertEquals(
-            "Could not find definition for service {http://nav.no/tjeneste/virksomhet/ytelseskontrakt/v3/Binding}Blupr.",
-            e.message,
-        )
+        }.also {
+            assertEquals(
+                "Could not find definition for service {http://nav.no/tjeneste/virksomhet/ytelseskontrakt/v3/Binding}Blupr.",
+                it.message,
+            )
+        }
+        assertThrows<ServiceConstructionException> {
+            createSoapClient<YtelseskontraktV3> {
+                sts = stsClient
+                stsAllowInsecure = true
+                endpoint = "foo"
+                wsdl = "wsdl/tjenestespesifikasjon/no/nav/tjeneste/virksomhet/ytelseskontrakt/v3/Binding.wsdl"
+                portName = "Blarp"
+            }
+        }.also {
+            assertEquals(
+                "Could not find definition for port {http://nav.no/tjeneste/virksomhet/ytelseskontrakt/v3/Binding}BlarpPort.",
+                it.message,
+            )
+        }
     }
 }

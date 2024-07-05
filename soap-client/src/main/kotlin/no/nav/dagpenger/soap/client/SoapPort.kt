@@ -25,7 +25,7 @@ inline fun <reified T> createSoapClient(block: Config.() -> Unit): T =
         val annotations = T::class.java.getAnnotation(WebService::class.java)
         val namespace = annotations.targetNamespace + "/Binding"
         val svcName = svcName ?: annotations.name
-        val portName = portName ?: svcName + "Port"
+        val portName = (portName ?: svcName) + "Port"
 
         JaxWsProxyFactoryBean()
             .apply {
