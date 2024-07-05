@@ -16,29 +16,32 @@ class Config {
     lateinit var wsdl: String
     var stsAllowInsecure: Boolean = false
     var callIdGenerator: () -> String = { ulid.nextULID() }
+    var portName: String? = null
+    var svcName: String? = null
 }
 
-inline fun <reified T> createSoapClient(block: Config.() -> Unit): T {
-    return with(Config().apply(block)) {
+inline fun <reified T> createSoapClient(block: Config.() -> Unit): T =
+    with(Config().apply(block)) {
         val annotations = T::class.java.getAnnotation(WebService::class.java)
         val namespace = annotations.targetNamespace + "/Binding"
-        val svcName = annotations.name
-        val portName = svcName + "Port"
+        val svcName = svcName ?: annotations.name
+        val portName = portName ?: svcName + "Port"
 
-        JaxWsProxyFactoryBean().apply {
-            address = endpoint
-            wsdlURL = wsdl
-            serviceName = QName(namespace, svcName)
-            endpointName = QName(namespace, portName)
-            serviceClass = T::class.java
-            features = listOf(WSAddressingFeature(), MetricFeature())
-            outInterceptors.add(CallIdInterceptor(callIdGenerator))
-        }.create(T::class.java).also {
-            if (stsAllowInsecure) {
-                sts.configureFor(it, STS_SAML_POLICY_NO_TRANSPORT_BINDING)
-            } else {
-                sts.configureFor(it)
+        JaxWsProxyFactoryBean()
+            .apply {
+                address = endpoint
+                wsdlURL = wsdl
+                serviceName = QName(namespace, svcName)
+                endpointName = QName(namespace, portName)
+                serviceClass = T::class.java
+                features = listOf(WSAddressingFeature(), MetricFeature())
+                outInterceptors.add(CallIdInterceptor(callIdGenerator))
+            }.create(T::class.java)
+            .also {
+                if (stsAllowInsecure) {
+                    sts.configureFor(it, STS_SAML_POLICY_NO_TRANSPORT_BINDING)
+                } else {
+                    sts.configureFor(it)
+                }
             }
-        }
     }
-}
