@@ -1,4 +1,3 @@
-import com.diffplug.spotless.LineEnding
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import java.net.URI
@@ -18,10 +17,11 @@ dependencies {
     implementation(kotlin("stdlib"))
 }
 
-java {
-    toolchain {
-        this.languageVersion.set(JavaLanguageVersion.of(17))
-    }
+kotlin {
+    /*jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }*/
+    jvmToolchain(21)
 }
 
 tasks.withType<Test> {
@@ -34,7 +34,6 @@ tasks.withType<Test> {
         showStandardStreams = true
     }
 }
-
 
 group = "no.nav.dagpenger"
 
@@ -64,9 +63,6 @@ publishing {
     }
 }
 
-
-
-
 configure<com.diffplug.gradle.spotless.SpotlessExtension> {
     kotlin {
         ktlint()
@@ -77,4 +73,3 @@ configure<com.diffplug.gradle.spotless.SpotlessExtension> {
         ktlint()
     }
 }
-
