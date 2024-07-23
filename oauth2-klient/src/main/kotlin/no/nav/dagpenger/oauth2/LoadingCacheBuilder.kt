@@ -12,7 +12,8 @@ data class LoadingCacheBuilder(
     val evictSkew: Long = 5,
 ) {
     fun cache(loader: suspend (GrantRequest) -> OAuth2AccessTokenResponse): AsyncLoadingCache<GrantRequest, OAuth2AccessTokenResponse> =
-        Caffeine.newBuilder()
+        Caffeine
+            .newBuilder()
             .expireAfter(evictOnResponseExpiresIn(evictSkew))
             .maximumSize(maximumSize)
             .buildAsync { key ->
@@ -26,12 +27,13 @@ data class LoadingCacheBuilder(
                 response: OAuth2AccessTokenResponse,
                 currentTime: Long,
             ): Long {
+                if (response.expiresIn == null) return 0
+
                 val seconds =
-                    if (response.expiresIn > skewInSeconds) {
-                        response.expiresIn - skewInSeconds
+                    if (response.expiresIn!! > skewInSeconds) {
+                        response.expiresIn!! - skewInSeconds
                     } else {
-                        response.expiresIn
-                            .toLong()
+                        response.expiresIn!!.toLong()
                     }
                 return TimeUnit.SECONDS.toNanos(seconds)
             }
