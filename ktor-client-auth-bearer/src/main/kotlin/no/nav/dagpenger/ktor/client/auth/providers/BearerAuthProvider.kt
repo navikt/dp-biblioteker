@@ -26,6 +26,7 @@ data class BearerAuthConfig(
 class BearerAuthProvider(
     private val tokenProvider: () -> String,
     private val realm: String? = null,
+    @Deprecated("Please use sendWithoutRequest function instead")
     override val sendWithoutRequest: Boolean = false,
 ) : AuthProvider {
     private val authScheme = "Bearer"

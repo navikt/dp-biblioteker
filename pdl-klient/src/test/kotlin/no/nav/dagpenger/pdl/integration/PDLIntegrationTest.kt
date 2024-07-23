@@ -27,21 +27,25 @@ fun getAuthEnv(
     // IF this fails do kubectl get pod to aquire credentials
     val client: ApiClient = ClientBuilder.kubeconfig(KubeConfig.loadKubeConfig(FileReader(kubeConfigPath))).build()
     Configuration.setDefaultApiClient(client)
-    return CoreV1Api().listNamespacedSecret(
-        "teamdagpenger",
-        null,
-        null,
-        null,
-        null,
-        "app=$app,type=$type",
-        null,
-        null,
-        null,
-        null,
-        null,
-    ).items.also { secrets ->
-        secrets.sortByDescending<V1Secret?, OffsetDateTime> { it?.metadata?.creationTimestamp }
-    }.first<V1Secret?>()?.data!!.mapValues { e -> String(e.value) }
+    return CoreV1Api()
+        .listNamespacedSecret(
+            "teamdagpenger",
+            null,
+            null,
+            null,
+            null,
+            "app=$app,type=$type",
+            null,
+            null,
+            null,
+            null,
+            null,
+        ).items
+        .also { secrets ->
+            secrets.sortByDescending<V1Secret?, OffsetDateTime> { it?.metadata?.creationTimestamp }
+        }.first<V1Secret?>()
+        ?.data!!
+        .mapValues { e -> String(e.value) }
 }
 
 fun getAzureAdToken(
@@ -60,7 +64,7 @@ fun getAzureAdToken(
     }
 
 //    val scope = "api://dev-gcp.teamdagpenger.dp-mellomlagring/.default"
-    return tokenAzureAdClient.clientCredentials(scope).accessToken
+    return tokenAzureAdClient.clientCredentials(scope).accessToken!!
 }
 
 @Disabled
@@ -69,10 +73,11 @@ class PDLIntegrationTest {
     fun `kan hente personer fra pdl`() {
         runBlocking {
             val token = getAzureAdToken("dp-soknad", "api://dev-fss.pdl.pdl-api/.default")
-            createPersonOppslagBolk("https://pdl-api.dev.intern.nav.no/graphql").hentPersoner(
-                listOf("01038401226"),
-                mapOf(HttpHeaders.Authorization to "Bearer $token"),
-            ).size shouldBe 1
+            createPersonOppslagBolk("https://pdl-api.dev.intern.nav.no/graphql")
+                .hentPersoner(
+                    listOf("01038401226"),
+                    mapOf(HttpHeaders.Authorization to "Bearer $token"),
+                ).size shouldBe 1
         }
     }
 }

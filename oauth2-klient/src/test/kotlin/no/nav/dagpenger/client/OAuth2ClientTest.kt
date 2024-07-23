@@ -18,7 +18,7 @@ import org.intellij.lang.annotations.Language
 import org.junit.jupiter.api.Test
 
 class OAuth2ClientTest {
-    val azureAdEnv =
+    private val azureAdEnv =
         ConfigurationMap(
             OAuth2Config.AzureAd.CLIENT_ID_KEY to "clientId",
             OAuth2Config.AzureAd.CLIENT_SECRET_KEY to "clientSecret",
@@ -27,7 +27,7 @@ class OAuth2ClientTest {
             OAuth2Config.AzureAd.PRIVATE_JWK_KEY to jwk,
         )
 
-    val accessTokenResponse =
+    private val accessTokenResponse =
         OAuth2AccessTokenResponse(
             "accessToken",
             100,
@@ -35,7 +35,7 @@ class OAuth2ClientTest {
             emptyMap(),
         )
 
-    val tokenJsonString: String = jacksonObjectMapper().writeValueAsString(accessTokenResponse)
+    private val tokenJsonString: String = jacksonObjectMapper().writeValueAsString(accessTokenResponse)
 
     @Test
     fun `AzureAD ClientCredentials client should call correct service with formparameters from configuration`() {
