@@ -3,7 +3,7 @@ plugins {
 }
 dependencies {
     api(libs.ktor.client.cio)
-    implementation("io.prometheus:simpleclient_common:0.16.0")
+    implementation("io.prometheus:prometheus-metrics-core:1.3.1")
     testImplementation(libs.ktor.client.mock)
     testImplementation(libs.kotest.assertions.core)
     testImplementation("org.junit.jupiter:junit-jupiter-api:${libs.versions.junit.get()}")

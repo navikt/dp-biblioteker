@@ -10,24 +10,26 @@ import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.request.get
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.path
-import io.prometheus.client.Collector
-import io.prometheus.client.CollectorRegistry
+import io.prometheus.metrics.model.registry.PrometheusRegistry
+import io.prometheus.metrics.model.snapshots.CounterSnapshot
+import io.prometheus.metrics.model.snapshots.HistogramSnapshot
+import io.prometheus.metrics.model.snapshots.MetricSnapshot
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 class PrometheusMetricsPluginTest {
-    private val defaultRegistry: CollectorRegistry = CollectorRegistry.defaultRegistry
+    private lateinit var defaultRegistry: PrometheusRegistry
     private lateinit var client: HttpClient
 
     @BeforeEach
     fun setUp() {
+        defaultRegistry = PrometheusRegistry()
         client =
             HttpClient(MockEngine) {
                 install(PrometheusMetricsPlugin) {
-                    baseName = ""
+                    baseName = "basename"
                     this.registry = defaultRegistry
                 }
                 engine {
@@ -37,6 +39,7 @@ class PrometheusMetricsPluginTest {
                                 delay(100L)
                                 respondOk("Hello, world")
                             }
+
                             "/ok" -> respondOk("Hello, world")
                             "/not-found" -> respondError(HttpStatusCode.NotFound)
                             else -> error("Unhandled URL ${request.url.encodedPath}")
@@ -46,19 +49,19 @@ class PrometheusMetricsPluginTest {
             }
     }
 
-    @AfterEach
-    fun tearDown() {
-        defaultRegistry.clear()
-    }
+    private inline fun <reified T : MetricSnapshot> MetricSnapshot.getSnapShot(): T = this as T
 
     @Test
     fun `calls are timed`() {
         runBlocking {
             client.get { url { path("/measured") } }
         }
-
-        getCount("duration") shouldBe 1
-        getSum("duration").shouldBeGreaterThan(0.1)
+        defaultRegistry.scrape { it.contains("duration") }.single().getSnapShot<HistogramSnapshot>().let {
+            it.dataPoints.single().let { data ->
+                data.count shouldBe 1
+                data.sum shouldBeGreaterThan 0.1
+            }
+        }
     }
 
     @Test
@@ -71,25 +74,14 @@ class PrometheusMetricsPluginTest {
             }
         }
 
-        getStatus("201") shouldBe null
-        getStatus("200") shouldBe 1
-        getStatus("404") shouldBe 1
+        defaultRegistry.scrape { it.contains("status") }.single().getSnapShot<CounterSnapshot>().let {
+            it.getStatusValue("200") shouldBe 1.0
+            it.getStatusValue("404") shouldBe 1.0
+            it.getStatusValue("201") shouldBe null
+        }
     }
 
-    private fun getStatus(statusCode: String) =
-        defaultRegistry.getSampleValue("status_total", listOf("status").toTypedArray(), listOf(statusCode).toTypedArray())
-
-    private fun getCount(name: String): Double = defaultRegistry.getSampleValue("${name}_count").toDouble()
-
-    private fun getSum(name: String): Double = defaultRegistry.getSampleValue("${name}_sum").toDouble()
-
-    private fun getBucket(
-        name: String,
-        bucket: Double,
-    ): Double =
-        defaultRegistry.getSampleValue(
-            "${name}_bucket",
-            listOf("le").toTypedArray(),
-            listOf(Collector.doubleToGoString(bucket)).toTypedArray(),
-        )
+    private fun CounterSnapshot.getStatusValue(status: String): Double? {
+        return this.dataPoints.singleOrNull { it.labels["status"] == status }?.value
+    }
 }

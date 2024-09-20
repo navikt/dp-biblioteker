@@ -8,27 +8,33 @@ import io.ktor.client.request.HttpSendPipeline
 import io.ktor.client.statement.HttpReceivePipeline
 import io.ktor.util.AttributeKey
 import io.ktor.util.pipeline.PipelinePhase
-import io.prometheus.client.CollectorRegistry
-import io.prometheus.client.Counter
-import io.prometheus.client.Histogram
+import io.prometheus.metrics.core.datapoints.Timer
+import io.prometheus.metrics.core.metrics.Counter
+import io.prometheus.metrics.core.metrics.Histogram
+import io.prometheus.metrics.model.registry.PrometheusRegistry
 
-class PrometheusMetricsPlugin private constructor(registry: CollectorRegistry, baseName: String) {
+class PrometheusMetricsPlugin private constructor(
+    registry: PrometheusRegistry = PrometheusRegistry.defaultRegistry,
+    baseName: String,
+) {
     private val duration =
         Histogram
-            .build("duration", "Time spent in requests")
-            .namespace(baseName)
+            .builder()
+            .name("${baseName}_duration")
+            .help("Time spent in requests")
             .register(registry)
 
     private val httpStatus =
         Counter
-            .build("status_total", "Count status codes for responses")
-            .namespace(baseName)
+            .builder()
+            .name("${baseName}_status")
+            .help("Count status codes for responses")
             .labelNames("status")
             .register(registry)
 
     class Config {
         var baseName: String = "ktor_client_metrics"
-        var registry: CollectorRegistry = CollectorRegistry.defaultRegistry
+        var registry: PrometheusRegistry = PrometheusRegistry.defaultRegistry
     }
 
     companion object Feature : HttpClientPlugin<Config, PrometheusMetricsPlugin> {
@@ -60,7 +66,7 @@ class PrometheusMetricsPlugin private constructor(registry: CollectorRegistry, b
         }
     }
 
-    private data class CallMeasure(val timer: Histogram.Timer)
+    private data class CallMeasure(val timer: Timer)
 
     private val metricKey = AttributeKey<CallMeasure>("metrics")
 
@@ -70,7 +76,7 @@ class PrometheusMetricsPlugin private constructor(registry: CollectorRegistry, b
 
     private fun after(call: HttpClientCall) {
         httpStatus
-            .labels(call.response.status.value.toString())
+            .labelValues(call.response.status.value.toString())
             .inc()
 
         call.attributes.getOrNull(metricKey)?.apply {
