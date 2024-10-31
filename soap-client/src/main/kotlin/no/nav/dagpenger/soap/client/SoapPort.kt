@@ -1,7 +1,6 @@
 package no.nav.dagpenger.soap.client
 
 import de.huxhorn.sulky.ulid.ULID
-import no.nav.cxf.metrics.MetricFeature
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean
 import org.apache.cxf.ws.addressing.WSAddressingFeature
 import org.apache.cxf.ws.security.trust.STSClient
@@ -34,7 +33,7 @@ inline fun <reified T> createSoapClient(block: Config.() -> Unit): T =
                 serviceName = QName(namespace, svcName)
                 endpointName = QName(namespace, portName)
                 serviceClass = T::class.java
-                features = listOf(WSAddressingFeature(), MetricFeature())
+                features = listOf(WSAddressingFeature())
                 outInterceptors.add(CallIdInterceptor(callIdGenerator))
             }.create(T::class.java)
             .also {

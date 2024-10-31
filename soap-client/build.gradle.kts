@@ -4,7 +4,7 @@ plugins {
 val tjenestespesifikasjonerVersion = "1.2019.09.25-00.21-49b69f0625e0"
 
 fun tjenestespesifikasjon(name: String) = "no.nav.tjenestespesifikasjoner:$name:$tjenestespesifikasjonerVersion"
-val cxfVersion = "3.5.5"
+val cxfVersion = "3.6.4"
 
 dependencies {
     implementation("de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.3.0")
@@ -18,7 +18,6 @@ dependencies {
     api("org.apache.cxf:cxf-rt-ws-security:$cxfVersion")
     implementation("org.apache.cxf:cxf-rt-transports-http:$cxfVersion")
     implementation("javax.activation:activation:1.1.1")
-    implementation("no.nav.helse:cxf-prometheus-metrics:dd7d125")
 
     testImplementation("org.apache.cxf:cxf-rt-transports-http:$cxfVersion")
     testImplementation(tjenestespesifikasjon("ytelseskontrakt-v3-tjenestespesifikasjon"))
