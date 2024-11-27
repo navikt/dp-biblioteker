@@ -67,7 +67,7 @@ class ClientTest {
             oAuth2Client.tokenExchange(
                 token = "",
                 audience = "dev-gcp:teamdagpenger:dp-innsyn",
-            ).accessToken.let {
+            ).access_token.let {
                 it shouldNotBe null
             }
         }
@@ -124,7 +124,7 @@ class ClientTest {
                     cachedOauth2Client.clientCredentials("api://dev-fss.pdl.pdl-api/.default")
                 }
 
-            println("t1 = ${t1.await().accessToken} t2 = ${t2.await().accessToken}")
+            println("t1 = ${t1.await().access_token} t2 = ${t2.await().access_token}")
         }
     }
 }

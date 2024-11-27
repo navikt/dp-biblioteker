@@ -64,7 +64,7 @@ fun getAzureAdToken(
     }
 
 //    val scope = "api://dev-gcp.teamdagpenger.dp-mellomlagring/.default"
-    return tokenAzureAdClient.clientCredentials(scope).accessToken!!
+    return tokenAzureAdClient.clientCredentials(scope).access_token!!
 }
 
 @Disabled
