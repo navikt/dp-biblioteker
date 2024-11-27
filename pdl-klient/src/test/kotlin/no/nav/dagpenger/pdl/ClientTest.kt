@@ -76,7 +76,7 @@ class ClientTest {
             tokenXClient.tokenExchange(
                 token = """""",
                 audience = "",
-            ).accessToken
+            ).access_token
 
         val client =
             createPersonOppslag(
@@ -104,7 +104,7 @@ class ClientTest {
                 listOf("01038401226", "20028418370", "25108621845"),
                 mapOf(
                     HttpHeaders.Authorization to
-                        "Bearer ${azureAdClient.clientCredentials("api://dev-fss.pdl.pdl-api/.default").accessToken}",
+                        "Bearer ${azureAdClient.clientCredentials("api://dev-fss.pdl.pdl-api/.default").access_token}",
                 ),
             ).onEach {
                 println(it)
@@ -124,7 +124,7 @@ class ClientTest {
                 "14108009241",
                 mapOf(
                     HttpHeaders.Authorization to
-                        "Bearer ${azureAdClient.clientCredentials("api://dev-fss.pdl.pdl-api/.default").accessToken}",
+                        "Bearer ${azureAdClient.clientCredentials("api://dev-fss.pdl.pdl-api/.default").access_token}",
                 ),
             ).also { println(it) }
         }
