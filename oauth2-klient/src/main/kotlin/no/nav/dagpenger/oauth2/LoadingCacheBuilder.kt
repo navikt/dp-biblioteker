@@ -27,13 +27,13 @@ data class LoadingCacheBuilder(
                 response: OAuth2AccessTokenResponse,
                 currentTime: Long,
             ): Long {
-                if (response.expiresIn == null) return 0
+                if (response.expires_in == null) return 0
 
                 val seconds =
-                    if (response.expiresIn!! > skewInSeconds) {
-                        response.expiresIn!! - skewInSeconds
+                    if (response.expires_in!! > skewInSeconds) {
+                        response.expires_in!! - skewInSeconds
                     } else {
-                        response.expiresIn!!.toLong()
+                        response.expires_in!!.toLong()
                     }
                 return TimeUnit.SECONDS.toNanos(seconds)
             }
