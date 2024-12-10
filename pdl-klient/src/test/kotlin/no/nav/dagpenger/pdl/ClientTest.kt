@@ -92,6 +92,29 @@ class ClientTest {
     }
 
     @Test
+    fun `Bruk token x for å hente ut identifikatorer`() {
+        val accessToken =
+            tokenXClient.tokenExchange(
+                token = """""",
+                audience = "",
+            ).access_token
+
+        val client =
+            createPersonOppslag(
+                url = "https://pdl-api.dev.intern.nav.no/graphql",
+                httpClient = httpClient,
+            )
+        runBlocking {
+            client.hentIdenter(
+                ident = "01038401226",
+                grupper = emptyList(),
+                historikk = false,
+                headersMap = mapOf(HttpHeaders.Authorization to "Bearer $accessToken"),
+            )
+        }
+    }
+
+    @Test
     fun `Bruk azure ad client credentials for å hente ut personer`() {
         val client =
             createPersonOppslagBolk(
@@ -122,6 +145,26 @@ class ClientTest {
         runBlocking {
             personOppslag.hentPerson(
                 "14108009241",
+                mapOf(
+                    HttpHeaders.Authorization to
+                        "Bearer ${azureAdClient.clientCredentials("api://dev-fss.pdl.pdl-api/.default").access_token}",
+                ),
+            ).also { println(it) }
+        }
+    }
+
+    @Test
+    fun `Bruk azure ad client credentials for å hente ut identifikatorer`() {
+        val personOppslag =
+            createPersonOppslag(
+                url = "https://pdl-api.dev.intern.nav.no/graphql",
+                httpClient = httpClient,
+            )
+        runBlocking {
+            personOppslag.hentIdenter(
+                "14108009241",
+                emptyList(),
+                true,
                 mapOf(
                     HttpHeaders.Authorization to
                         "Bearer ${azureAdClient.clientCredentials("api://dev-fss.pdl.pdl-api/.default").access_token}",
