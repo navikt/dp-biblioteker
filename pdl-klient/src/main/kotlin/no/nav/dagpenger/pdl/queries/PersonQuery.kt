@@ -1,5 +1,7 @@
 package no.nav.dagpenger.pdl.queries
 
+import no.nav.dagpenger.pdl.dto.IdentGruppe
+import no.nav.dagpenger.pdl.entity.IdentlisteProjection
 import no.nav.dagpenger.pdl.entity.MatrikkeladresseProjection
 import no.nav.dagpenger.pdl.entity.PersonProjection
 import no.nav.dagpenger.pdl.entity.QueryProjection
@@ -18,6 +20,16 @@ fun QueryProjection.hentPersonBolk(fnrs: List<String>) {
 fun QueryProjection.hentPerson(fnr: String) {
     hentPerson(fnr) {
         personDetailsFragment()
+    }
+}
+
+fun QueryProjection.hentIdenter(
+    ident: String,
+    grupper: List<IdentGruppe>? = null,
+    historikk: Boolean? = null,
+) {
+    hentIdenter(ident, grupper, historikk) {
+        identerDetailsFragment()
     }
 }
 
@@ -181,5 +193,13 @@ fun PersonProjection.personDetailsFragment() {
         }
         gyldigFraOgMed()
         gyldigTilOgMed()
+    }
+}
+
+fun IdentlisteProjection.identerDetailsFragment() {
+    identer {
+        ident()
+        gruppe()
+        historisk()
     }
 }
