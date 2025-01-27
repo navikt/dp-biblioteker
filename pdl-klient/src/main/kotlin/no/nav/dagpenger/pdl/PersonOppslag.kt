@@ -5,6 +5,8 @@ import kotlinx.coroutines.runBlocking
 import no.nav.dagpenger.pdl.adapter.KtorHttpClientAdapter
 import no.nav.dagpenger.pdl.adapter.proxyAwareHttpClient
 import no.nav.dagpenger.pdl.dto.ForelderBarnRelasjonRolle
+import no.nav.dagpenger.pdl.dto.IdentGruppe
+import no.nav.dagpenger.pdl.queries.hentIdenter
 import no.nav.dagpenger.pdl.queries.hentPerson
 import no.nav.dagpenger.pdl.queries.hentPersonBolk
 
@@ -18,6 +20,13 @@ interface PersonOppslag {
         fnr: String,
         headersMap: Map<String, String>,
     ): PDLPerson
+
+    fun hentIdenter(
+        ident: String,
+        grupper: List<String>,
+        historikk: Boolean,
+        headersMap: Map<String, String>,
+    ): PDLIdentliste
 }
 
 interface PersonOppslagBolk {
@@ -132,6 +141,24 @@ fun createPersonOppslag(
             headersMap: Map<String, String>,
         ): PDLPerson {
             return runBlocking { hentPerson(fnr, headersMap) }
+        }
+
+        override fun hentIdenter(
+            ident: String,
+            grupper: List<String>,
+            historikk: Boolean,
+            headersMap: Map<String, String>,
+        ): PDLIdentliste {
+            val pdlContext = pdlContextOf(KtorHttpClientAdapter(url, headersMap, httpClient))
+
+            val pdlGrupper = grupper.map { gruppe -> IdentGruppe.valueOf(gruppe) }
+
+            return runBlocking {
+                pdlContext.query { hentIdenter(ident, pdlGrupper, historikk) }
+                    .hentIdenter
+                    ?.let(::PDLIdentliste)
+                    ?: throw PDLIdentliste.PDLException("Ukjent feil")
+            }
         }
     }
 }
