@@ -10,6 +10,8 @@ import no.nav.dagpenger.pdl.entity.Oppholdsadresse
 import no.nav.dagpenger.pdl.entity.Person
 import no.nav.dagpenger.pdl.entity.UtenlandskAdresse
 import no.nav.dagpenger.pdl.entity.Vegadresse
+import no.nav.dagpenger.pdl.sikkerhetstiltak.Kontaktperson
+import no.nav.dagpenger.pdl.sikkerhetstiltak.SikkerhetstiltakDto
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
@@ -196,6 +198,24 @@ class PDLPerson(private val person: Person) {
         person.adressebeskyttelse.firstOrNull()?.let {
             AdressebeskyttelseGradering.valueOf(it.gradering.name)
         } ?: AdressebeskyttelseGradering.UGRADERT
+
+    val sikkerhetstiltak: List<SikkerhetstiltakDto> =
+        person.sikkerhetstiltak.map {
+                sikkerhetstiltak ->
+            SikkerhetstiltakDto(
+                tiltakstype = sikkerhetstiltak.tiltakstype,
+                tiltaksbeskrivelse = sikkerhetstiltak.beskrivelse,
+                gyldigFraOgMed = sikkerhetstiltak.gyldigFraOgMed,
+                gyldigTilOgMed = sikkerhetstiltak.gyldigTilOgMed,
+                kontaktperson =
+                    sikkerhetstiltak.kontaktperson?.let {
+                        Kontaktperson(
+                            personident = it.personident,
+                            enhet = it.enhet,
+                        )
+                    },
+            )
+        }
 
     val navn: Navn = person.navn.firstOrNull() ?: throw PDLException("Ingen navn funnet")
     val fornavn: String = navn.fornavn

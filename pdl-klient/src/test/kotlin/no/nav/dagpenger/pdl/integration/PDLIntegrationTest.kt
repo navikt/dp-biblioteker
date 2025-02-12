@@ -75,8 +75,11 @@ class PDLIntegrationTest {
             val token = getAzureAdToken("dp-soknad", "api://dev-fss.pdl.pdl-api/.default")
             createPersonOppslagBolk("https://pdl-api.dev.intern.nav.no/graphql")
                 .hentPersoner(
-                    listOf("01038401226"),
-                    mapOf(HttpHeaders.Authorization to "Bearer $token"),
+                    listOf("29904797241"),
+                    mapOf(
+                        HttpHeaders.Authorization to "Bearer $token",
+                        "behandlingsnummer" to "behandlingsnummer du må finne",
+                    ),
                 ).size shouldBe 1
         }
     }

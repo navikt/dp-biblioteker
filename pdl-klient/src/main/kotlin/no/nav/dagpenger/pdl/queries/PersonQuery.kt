@@ -171,4 +171,15 @@ fun PersonProjection.personDetailsFragment() {
             utenlandskAdresseDetailsFragment()
         }
     }
+
+    sikkerhetstiltak {
+        tiltakstype()
+        beskrivelse()
+        kontaktperson {
+            personident()
+            enhet()
+        }
+        gyldigFraOgMed()
+        gyldigTilOgMed()
+    }
 }
