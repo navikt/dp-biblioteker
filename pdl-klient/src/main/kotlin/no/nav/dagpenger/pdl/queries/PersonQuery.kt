@@ -79,7 +79,7 @@ fun PersonProjection.personDetailsFragment() {
     doedsfall {
         doedsdato()
     }
-    foedsel {
+    foedselsdato {
         foedselsdato()
     }
     navn {

@@ -190,7 +190,7 @@ class PDLPerson(private val person: Person) {
             ?: throw PDLException("Ingen fodselsnummer funnet")
 
     val fodselsdato: LocalDate =
-        person.foedsel.firstOrNull()?.foedselsdato ?: throw PDLException("Ingen fodselsdato funnet")
+        person.foedselsdato.firstOrNull()?.foedselsdato ?: throw PDLException("Ingen fodselsdato funnet")
 
     val alder: Long = ChronoUnit.YEARS.between(fodselsdato, LocalDate.now())
 

@@ -14,8 +14,10 @@ import no.nav.dagpenger.pdl.entity.DoedfoedtBarn
 import no.nav.dagpenger.pdl.entity.Doedsfall
 import no.nav.dagpenger.pdl.entity.Endring
 import no.nav.dagpenger.pdl.entity.FalskIdentitet
+import no.nav.dagpenger.pdl.entity.Foedested
 import no.nav.dagpenger.pdl.entity.Foedsel
-import no.nav.dagpenger.pdl.entity.FoedselProjection
+import no.nav.dagpenger.pdl.entity.Foedselsdato
+import no.nav.dagpenger.pdl.entity.FoedselsdatoProjection
 import no.nav.dagpenger.pdl.entity.Folkeregisteridentifikator
 import no.nav.dagpenger.pdl.entity.FolkeregisteridentifikatorProjection
 import no.nav.dagpenger.pdl.entity.Folkeregistermetadata
@@ -23,7 +25,6 @@ import no.nav.dagpenger.pdl.entity.FolkeregistermetadataProjection
 import no.nav.dagpenger.pdl.entity.Folkeregisterpersonstatus
 import no.nav.dagpenger.pdl.entity.ForelderBarnRelasjon
 import no.nav.dagpenger.pdl.entity.Foreldreansvar
-import no.nav.dagpenger.pdl.entity.Fullmakt
 import no.nav.dagpenger.pdl.entity.Identitetsgrunnlag
 import no.nav.dagpenger.pdl.entity.InnflyttingTilNorge
 import no.nav.dagpenger.pdl.entity.Kjoenn
@@ -38,6 +39,7 @@ import no.nav.dagpenger.pdl.entity.Metadata
 import no.nav.dagpenger.pdl.entity.MetadataProjection
 import no.nav.dagpenger.pdl.entity.Navn
 import no.nav.dagpenger.pdl.entity.NavnProjection
+import no.nav.dagpenger.pdl.entity.Navspersonidentifikator
 import no.nav.dagpenger.pdl.entity.Opphold
 import no.nav.dagpenger.pdl.entity.Oppholdsadresse
 import no.nav.dagpenger.pdl.entity.OppholdsadresseProjection
@@ -48,6 +50,7 @@ import no.nav.dagpenger.pdl.entity.PostadresseIFrittFormat
 import no.nav.dagpenger.pdl.entity.PostadresseIFrittFormatProjection
 import no.nav.dagpenger.pdl.entity.Postboksadresse
 import no.nav.dagpenger.pdl.entity.PostboksadresseProjection
+import no.nav.dagpenger.pdl.entity.RettsligHandleevne
 import no.nav.dagpenger.pdl.entity.Sikkerhetstiltak
 import no.nav.dagpenger.pdl.entity.Sivilstand
 import no.nav.dagpenger.pdl.entity.Statsborgerskap
@@ -99,13 +102,15 @@ internal data class TestPersonBuilder(
                 override val doedfoedtBarn: List<DoedfoedtBarn> = emptyList()
                 override val doedsfall: List<Doedsfall> = emptyList()
                 override val falskIdentitet: FalskIdentitet? = null
-                override val foedsel: List<Foedsel> = listOf(foedsel(fodselsdato))
+                override val foedsel: List<Foedsel> = emptyList()
+                override val foedselsdato: List<Foedselsdato> = listOf(foedseldato(fodselsdato))
+                override val foedested: List<Foedested> = emptyList()
+                override val navspersonidentifikator: List<Navspersonidentifikator> = emptyList()
                 override val folkeregisteridentifikator: List<Folkeregisteridentifikator> =
                     listOf(folkeregisteridentifikator(id = fnr))
                 override val folkeregisterpersonstatus: List<Folkeregisterpersonstatus> = emptyList()
                 override val forelderBarnRelasjon: List<ForelderBarnRelasjon> = emptyList()
                 override val foreldreansvar: List<Foreldreansvar> = emptyList()
-                override val fullmakt: List<Fullmakt> = emptyList()
                 override val identitetsgrunnlag: List<Identitetsgrunnlag> = emptyList()
                 override val innflyttingTilNorge: List<InnflyttingTilNorge> = emptyList()
                 override val kjoenn: List<Kjoenn> = listOf(kjonn(kjonn))
@@ -122,6 +127,8 @@ internal data class TestPersonBuilder(
                 override val utenlandskIdentifikasjonsnummer: List<UtenlandskIdentifikasjonsnummer> = emptyList()
                 override val utflyttingFraNorge: List<UtflyttingFraNorge> = emptyList()
                 override val vergemaalEllerFremtidsfullmakt: List<VergemaalEllerFremtidsfullmakt> = emptyList()
+                override val rettsligHandleevne: List<RettsligHandleevne>
+                    get() = TODO("Not yet implemented")
 
                 override fun PersonProjection.__withCurrentProjection() {
                     TODO("Not yet implemented")
@@ -217,17 +224,14 @@ internal data class TestPersonBuilder(
                 override fun UtenlandskAdresseIFrittFormatProjection.__withCurrentProjection() {}
             }
 
-        fun foedsel(dato: LocalDate): Foedsel =
-            object : Foedsel {
-                override val foedekommune: String? = null
-                override val foedeland: String? = null
-                override val foedested: String? = null
+        fun foedseldato(foedselsdato: LocalDate): Foedselsdato =
+            object : Foedselsdato {
+                override val foedselsdato: LocalDate = foedselsdato
                 override val foedselsaar: Int? = null
-                override val foedselsdato: LocalDate? = dato
                 override val folkeregistermetadata: Folkeregistermetadata? = null
                 override val metadata: Metadata = metadata()
 
-                override fun FoedselProjection.__withCurrentProjection() {}
+                override fun FoedselsdatoProjection.__withCurrentProjection() {}
             }
 
         fun statsborgerskap(landKode: String): Statsborgerskap =
