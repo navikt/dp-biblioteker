@@ -9,6 +9,7 @@ include("pdl-klient-kobby")
 include("pdl-klient")
 include("image-utils")
 include("oauth2-klient")
+include("texas-klient")
 
 
 dependencyResolutionManagement {
