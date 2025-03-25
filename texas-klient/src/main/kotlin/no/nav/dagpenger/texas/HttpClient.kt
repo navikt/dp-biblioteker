@@ -2,6 +2,7 @@ package no.nav.dagpenger.texas
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.module.SimpleModule
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.call.body
@@ -18,7 +19,7 @@ import io.ktor.serialization.jackson.jackson
 
 fun defaultHttpClient(
     httpClientEngine: HttpClientEngine = CIO.create {},
-    configure: List<HttpClientConfig<*>.() -> Unit> = listOf(defaultRetryConfig()),
+    configure: List<HttpClientConfig<*>.() -> Unit> = listOf(defaultPlugins()),
 ) = HttpClient(httpClientEngine) {
     expectSuccess = true
 
@@ -26,15 +27,19 @@ fun defaultHttpClient(
         jackson {
             configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             setSerializationInclusion(JsonInclude.Include.NON_NULL)
+            registerModules(
+                SimpleModule().also {
+                    it.addDeserializer(IntrospectResponse::class.java, IntrospectResponseDeserializer)
+                },
+            )
         }
     }
 
     HttpResponseValidator {
-        handleResponseException { cause, request ->
+        handleResponseException { cause, _ ->
             when (cause) {
                 is ClientRequestException -> {
-                    val statusCode = cause.response.status
-                    when (statusCode) {
+                    when (val statusCode = cause.response.status) {
                         HttpStatusCode.BadRequest -> {
                             val errorResponse = cause.response.body<ErrorResponse>()
                             throw BadRequestException(statusCode, errorResponse)
@@ -43,8 +48,7 @@ fun defaultHttpClient(
                 }
 
                 is ServerResponseException -> {
-                    val statusCode = cause.response.status
-                    when (statusCode) {
+                    when (val statusCode = cause.response.status) {
                         HttpStatusCode.InternalServerError -> {
                             val errorResponse = cause.response.body<ErrorResponse>()
                             throw ServerError(statusCode, errorResponse)
@@ -57,7 +61,7 @@ fun defaultHttpClient(
     configure.forEach { it() }
 }
 
-fun defaultRetryConfig(): HttpClientConfig<*>.() -> Unit =
+fun defaultPlugins(): HttpClientConfig<*>.() -> Unit =
     {
         install(HttpRequestRetry) {
             retryOnException(maxRetries = 3, retryOnTimeout = true)

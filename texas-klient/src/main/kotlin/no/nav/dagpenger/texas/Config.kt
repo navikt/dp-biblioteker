@@ -9,6 +9,10 @@ import com.natpryce.konfig.stringType
 
 object Config {
     val configuration: Configuration = ConfigurationProperties.systemProperties() overriding EnvironmentVariables()
-    val tokenEndpoint = configuration[Key("nais.token.endpoint", stringType)]
-    val tokenExchangeEndpoint = configuration[Key("nais.token.exhange.endpoint", stringType)]
+    val tokenEndpoint = configuration.tokenEndpoint()
+    val tokenExchangeEndpoint = configuration.tokenExchangeEndpoint()
+
+    fun Configuration.tokenEndpoint() = this[Key("nais.token.endpoint", stringType)]
+
+    fun Configuration.tokenExchangeEndpoint() = this[Key("nais.token.endpoint", stringType)]
 }

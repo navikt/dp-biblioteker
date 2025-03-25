@@ -1,5 +1,6 @@
 package no.nav.dagpenger.texas
 
+import com.fasterxml.jackson.annotation.JsonValue
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.header
@@ -7,15 +8,33 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.HttpStatusCode
 
+data class IntrospectRequest(
+    val identity_provider: IdentityProvider,
+    val token: String,
+)
+
+sealed class IntrospectResponse(val active: Boolean) {
+    data class Valid(val claims: Map<String, Any>) : IntrospectResponse(active = true)
+
+    data class Invalid(val error: String) : IntrospectResponse(active = false)
+}
+
+enum class IdentityProvider(
+    @JsonValue
+    val value: String,
+) {
+    ENTRA_ID("azuread"),
+}
+
 data class TokenRequest(
-    val identity_provider: String,
+    val identity_provider: IdentityProvider,
     val target: String,
     val resource: String? = null,
     val skip_cache: Boolean = false,
 )
 
 data class TokenExchangeRequest(
-    val identity_provider: String,
+    val identity_provider: IdentityProvider,
     val target: String,
     val user_token: String,
     val skip_cache: Boolean = false,
@@ -43,55 +62,15 @@ class BadRequestException(httpStatusCode: HttpStatusCode, errorResponse: ErrorRe
 class ServerError(httpStatusCode: HttpStatusCode, errorResponse: ErrorResponse) :
     RequestError(httpStatusCode, errorResponse)
 
-class EntraKlient(
-    tokenEndpoint: String,
-    tokenExchangeEndpoint: String,
-    httpClient: HttpClient = defaultHttpClient(),
-) {
-    companion object {
-        const val IDENTITY_PROVIDER = "azuread"
-    }
-
-    private val texasKlient: TexasKlient =
-        TexasKlient(
-            tokenEndpoint = tokenEndpoint,
-            tokenExchangeEndpoint = tokenExchangeEndpoint,
-            httpClient = httpClient,
-        )
-
-    suspend fun accessToken(
-        target: String,
-        resource: String? = null,
-        skipCache: Boolean = true,
-    ): TokenResponse =
-        texasKlient.accessToken(
-            target = target,
-            identityProvider = IDENTITY_PROVIDER,
-            resource = resource,
-            skipCache = skipCache,
-        )
-
-    suspend fun exchangeToken(
-        target: String,
-        token: String,
-        skipCache: Boolean = false,
-    ): TokenResponse =
-        texasKlient.exchangeToken(
-            target = target,
-            token = token,
-            identityProvider = IDENTITY_PROVIDER,
-            skipCache = skipCache,
-        )
-}
-
 class TexasKlient(
     private val tokenEndpoint: String,
     private val tokenExchangeEndpoint: String,
+    private val introspectEndpoint: String,
     private val httpClient: HttpClient = defaultHttpClient(),
 ) {
     suspend fun accessToken(
         target: String,
-        identityProvider: String,
+        identityProvider: IdentityProvider,
         resource: String? = null,
         skipCache: Boolean,
     ): TokenResponse {
@@ -107,19 +86,40 @@ class TexasKlient(
     suspend fun exchangeToken(
         target: String,
         token: String,
-        identityProvider: String,
+        identityProvider: IdentityProvider,
         skipCache: Boolean,
     ): TokenResponse {
-        return httpClient.post(tokenExchangeEndpoint) {
-            header("Content-Type", "application/json")
-            setBody(
-                TokenExchangeRequest(
-                    identity_provider = identityProvider,
-                    target = target,
-                    user_token = token,
-                    skip_cache = skipCache,
-                ),
-            )
-        }.body<TokenResponse>()
+        return kotlin.runCatching {
+            httpClient.post(tokenExchangeEndpoint) {
+                header("Content-Type", "application/json")
+                setBody(
+                    TokenExchangeRequest(
+                        identity_provider = identityProvider,
+                        target = target,
+                        user_token = token,
+                        skip_cache = skipCache,
+                    ),
+                )
+            }.body<TokenResponse>()
+        }.onFailure {
+        }.getOrThrow()
+    }
+
+    suspend fun introspect(
+        identityProvider: IdentityProvider,
+        token: String,
+    ): IntrospectResponse {
+        return kotlin.runCatching {
+            httpClient.post(introspectEndpoint) {
+                header("Content-Type", "application/json")
+                setBody(
+                    IntrospectRequest(
+                        identity_provider = identityProvider,
+                        token = token,
+                    ),
+                )
+            }.body<IntrospectResponse>()
+        }.onFailure {
+        }.getOrThrow()
     }
 }
