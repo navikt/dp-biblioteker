@@ -68,8 +68,8 @@ fun defaultPlugins(): HttpClientConfig<*>.() -> Unit =
             exponentialDelay()
         }
         install(HttpTimeout) {
-            requestTimeoutMillis = 1000
-            connectTimeoutMillis = 1000
-            socketTimeoutMillis = 1000
+            requestTimeoutMillis = 5000
+            connectTimeoutMillis = 5000
+            socketTimeoutMillis = 5000
         }
     }
