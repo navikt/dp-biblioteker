@@ -4,7 +4,7 @@ import java.net.URI
 
 plugins {
     kotlin("jvm")
-    id("com.diffplug.spotless")
+    id("org.jlleitschuh.gradle.ktlint")
     id("java-library")
     id("maven-publish")
 }
@@ -18,9 +18,6 @@ dependencies {
 }
 
 kotlin {
-    /*jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
-    }*/
     jvmToolchain(21)
 }
 
@@ -60,16 +57,5 @@ publishing {
                 password = githubPassword
             }
         }
-    }
-}
-
-configure<com.diffplug.gradle.spotless.SpotlessExtension> {
-    kotlin {
-        ktlint()
-        targetExclude("**/generated/**") // ignore generated stuff
-    }
-
-    kotlinGradle {
-        ktlint()
     }
 }

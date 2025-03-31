@@ -1,6 +1,6 @@
 plugins {
     `kotlin-dsl`
-    id("com.diffplug.spotless") version "6.25.0"
+    id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
 }
 
 repositories {
@@ -9,12 +9,6 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.23")
-    implementation("com.diffplug.spotless:spotless-plugin-gradle:6.22.0")
-}
-
-spotless {
-    kotlinGradle {
-        ktlint()
-    }
+    implementation(kotlin("gradle-plugin"))
+    implementation("org.jlleitschuh.gradle:ktlint-gradle:12.1.2")
 }
