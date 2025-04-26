@@ -15,8 +15,18 @@ java {
     mainJavaSourceSet.srcDirs(graphqlDir)
 }
 
+ktlint {
+    filter {
+        exclude { element -> element.file.path.contains("generated") }
+    }
+}
+
 tasks.withType<org.gradle.jvm.tasks.Jar> {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    dependsOn("kobbyKotlin")
+}
+
+tasks.withType<org.jlleitschuh.gradle.ktlint.tasks.KtLintCheckTask> {
     dependsOn("kobbyKotlin")
 }
 
