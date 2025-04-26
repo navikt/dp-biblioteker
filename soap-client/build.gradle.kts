@@ -1,10 +1,12 @@
 plugins {
     `common-kotlin`
 }
-val tjenestespesifikasjonerVersion = "1.2019.09.25-00.21-49b69f0625e0"
 
-fun tjenestespesifikasjon(name: String) = "no.nav.tjenestespesifikasjoner:$name:$tjenestespesifikasjonerVersion"
-val cxfVersion = "3.6.4"
+val tjenestespesifikasjonerVersion = "2643.2f3e8e9"
+
+fun tjenestespesifikasjon(name: String) = "com.github.navikt.tjenestespesifikasjoner:$name:$tjenestespesifikasjonerVersion"
+
+val cxfVersion = "3.6.6"
 
 dependencies {
     implementation("de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.3.0")
