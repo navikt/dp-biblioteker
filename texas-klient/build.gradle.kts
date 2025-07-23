@@ -11,6 +11,7 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${libs.versions.junit.get()}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${libs.versions.junit.get()}")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     testImplementation(libs.mockk)
     testImplementation(libs.bundles.kotest.assertions)

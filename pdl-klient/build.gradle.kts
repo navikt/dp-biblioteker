@@ -11,10 +11,11 @@ dependencies {
     implementation(libs.ktor.serialization.jackson)
     implementation(libs.jackson.datatype.jsr310)
     testImplementation("org.junit.jupiter:junit-jupiter-api:${libs.versions.junit.get()}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${libs.versions.junit.get()}")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation(libs.mockk)
     testImplementation("io.kubernetes:client-java:18.0.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${libs.versions.junit.get()}")
-    testRuntimeOnly("ch.qos.logback:logback-classic:1.4.5")
+    testRuntimeOnly("ch.qos.logback:logback-classic:1.5.13")
     testImplementation(libs.kotest.assertions.core)
 }
 

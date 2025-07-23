@@ -25,5 +25,7 @@ dependencies {
     testImplementation(tjenestespesifikasjon("ytelseskontrakt-v3-tjenestespesifikasjon"))
     testImplementation(libs.mockk)
     testImplementation(libs.kotest.assertions.core)
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${libs.versions.junit.get()}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${libs.versions.junit.get()}")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
