@@ -11,7 +11,7 @@ dependencies {
 
 java {
     val mainJavaSourceSet: SourceDirectorySet = sourceSets.getByName("main").java
-    val graphqlDir = "$buildDir/generated/sources/kobby/main/kotlin"
+    val graphqlDir = "${layout.buildDirectory.get()}/generated/sources/kobby/main/kotlin"
     mainJavaSourceSet.srcDirs(graphqlDir)
 }
 
@@ -51,6 +51,16 @@ kobby {
             name = "pdl"
         }
 
+        dto {
+            jackson {
+                // Enable Jackson annotations in generated DTOs
+                enabled = true
+            }
+            serialization {
+                // Disable Kotlin serialization annotations in generated DTOs
+                enabled = false
+            }
+        }
         entity {
             // Generate context access function in entity interface
             // https://github.com/ermadmi78/kobby/issues/20

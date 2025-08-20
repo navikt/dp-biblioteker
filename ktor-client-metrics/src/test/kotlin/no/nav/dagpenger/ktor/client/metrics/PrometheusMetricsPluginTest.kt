@@ -81,7 +81,6 @@ class PrometheusMetricsPluginTest {
         }
     }
 
-    private fun CounterSnapshot.getStatusValue(status: String): Double? {
-        return this.dataPoints.singleOrNull { it.labels["status"] == status }?.value
-    }
+    private fun CounterSnapshot.getStatusValue(status: String): Double? =
+        this.dataPoints.singleOrNull { it.labels["status"] == status }?.value
 }

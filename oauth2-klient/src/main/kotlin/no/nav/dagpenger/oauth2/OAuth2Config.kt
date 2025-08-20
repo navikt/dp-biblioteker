@@ -33,14 +33,13 @@ sealed class OAuth2Config {
     protected fun fromJson(jsonKey: String): RSAKey = JwkFactory.fromJson(jsonKey)
 
     companion object {
-        fun getTokenUrl(wellKnownUrl: String): String {
-            return runBlocking {
+        fun getTokenUrl(wellKnownUrl: String): String =
+            runBlocking {
                 defaultHttpClient().get(urlString = wellKnownUrl).body<WellKnown>()
             }.tokenEndpointUrl
-        }
 
         private data class WellKnown(
-            @JsonProperty("token_endpoint")
+            @param:JsonProperty("token_endpoint")
             val tokenEndpointUrl: String,
         )
     }
@@ -57,24 +56,20 @@ sealed class OAuth2Config {
         constructor(config: Configuration) : super(config)
         constructor(config: Map<String, String>) : super(config)
 
-        override fun clientSecret(): AuthType.ClientSecret {
-            return AuthType.ClientSecret(
+        override fun clientSecret(): AuthType.ClientSecret =
+            AuthType.ClientSecret(
                 clientId = configuration[Key(CLIENT_ID_KEY, stringType)],
                 clientSecret = configuration[Key(CLIENT_SECRET_KEY, stringType)],
             )
-        }
 
-        override fun privateKey(): AuthType.PrivateKey {
-            return AuthType.PrivateKey(
+        override fun privateKey(): AuthType.PrivateKey =
+            AuthType.PrivateKey(
                 clientId = configuration[Key(CLIENT_ID_KEY, stringType)],
                 tokenEndpointUrl = tokenEndpointUrl,
                 privateKey = fromJson(configuration[Key(PRIVATE_JWK_KEY, stringType)]),
             )
-        }
 
-        override fun wellKnowUrl(): String {
-            return configuration[Key(WELLKNOWN_URL_KEY, stringType)]
-        }
+        override fun wellKnowUrl(): String = configuration[Key(WELLKNOWN_URL_KEY, stringType)]
 
         override val tokenEndpointUrl: String
             get() =
@@ -97,20 +92,15 @@ sealed class OAuth2Config {
         override val tokenEndpointUrl: String
             get() = getTokenUrl(wellKnowUrl())
 
-        override fun clientSecret(): AuthType.ClientSecret {
-            throw NotImplementedError("Not supported")
-        }
+        override fun clientSecret(): AuthType.ClientSecret = throw NotImplementedError("Not supported")
 
-        override fun privateKey(): AuthType.PrivateKey {
-            return AuthType.PrivateKey(
+        override fun privateKey(): AuthType.PrivateKey =
+            AuthType.PrivateKey(
                 clientId = configuration[Key(CLIENT_ID_KEY, stringType)],
                 tokenEndpointUrl = tokenEndpointUrl,
                 privateKey = fromJson(configuration[Key(PRIVATE_JWK_KEY, stringType)]),
             )
-        }
 
-        override fun wellKnowUrl(): String {
-            return configuration[Key(WELLKNOWN_URL_KEY, stringType)]
-        }
+        override fun wellKnowUrl(): String = configuration[Key(WELLKNOWN_URL_KEY, stringType)]
     }
 }

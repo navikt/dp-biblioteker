@@ -34,16 +34,16 @@ class KtorHttpClientAdapter(
     override suspend fun executeQuery(
         query: String,
         variables: Map<String, Any?>,
-    ): QueryDto {
-        return httpClient.post {
-            setBody(PdlRequest(query, variables))
-            contentType(ContentType.Application.Json)
-            url(urlString)
-            for (element in headersMap) {
-                this.headers[element.key] = element.value
-            }
-        }.let { responseParser(it.body()) }
-    }
+    ): QueryDto =
+        httpClient
+            .post {
+                setBody(PdlRequest(query, variables))
+                contentType(ContentType.Application.Json)
+                url(urlString)
+                for (element in headersMap) {
+                    this.headers[element.key] = element.value
+                }
+            }.let { responseParser(it.body()) }
 
     private fun responseParser(result: PdlQueryResult): QueryDto {
         if (!result.errors.isNullOrEmpty()) {
@@ -63,8 +63,8 @@ fun proxyAwareHttpClient(
         CIO.create {
             requestTimeout = 0
         },
-): HttpClient {
-    return HttpClient(engine) {
+): HttpClient =
+    HttpClient(engine) {
         install(ContentNegotiation) {
             jackson {
                 configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
@@ -87,4 +87,3 @@ fun proxyAwareHttpClient(
             }
         }
     }
-}

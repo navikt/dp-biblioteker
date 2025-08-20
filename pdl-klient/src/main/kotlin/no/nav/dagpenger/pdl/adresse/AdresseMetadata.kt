@@ -43,8 +43,8 @@ class AdresseMetadata(
     val erGyldig: Boolean = LocalDate.now() in gyldighetsPeriode
 
     companion object {
-        fun from(bostedsadresse: Bostedsadresse): AdresseMetadata {
-            return AdresseMetadata(
+        fun from(bostedsadresse: Bostedsadresse): AdresseMetadata =
+            AdresseMetadata(
                 AdresseType.BOSTEDSADRESSE,
                 KontaktadresseType.Innland.name,
                 bostedsadresse.gyldigFraOgMed?.toLocalDate(),
@@ -53,10 +53,9 @@ class AdresseMetadata(
                 MasterType.valueOf(bostedsadresse.metadata.master.uppercase()),
                 bostedsadresse.coAdressenavn,
             )
-        }
 
-        fun from(kontaktadresse: Kontaktadresse): AdresseMetadata {
-            return AdresseMetadata(
+        fun from(kontaktadresse: Kontaktadresse): AdresseMetadata =
+            AdresseMetadata(
                 AdresseType.KONTAKTADRESSE,
                 kontaktadresse.type.name,
                 kontaktadresse.gyldigFraOgMed?.toLocalDate(),
@@ -65,10 +64,9 @@ class AdresseMetadata(
                 MasterType.valueOf(kontaktadresse.metadata.master.uppercase()),
                 coAdresseNavn = kontaktadresse.coAdressenavn,
             )
-        }
 
-        fun from(oppholdsadresse: Oppholdsadresse): AdresseMetadata {
-            return AdresseMetadata(
+        fun from(oppholdsadresse: Oppholdsadresse): AdresseMetadata =
+            AdresseMetadata(
                 AdresseType.OPPHOLDSADRESSE,
                 null,
                 oppholdsadresse.gyldigFraOgMed?.toLocalDate(),
@@ -77,11 +75,10 @@ class AdresseMetadata(
                 MasterType.valueOf(oppholdsadresse.metadata.master.uppercase()),
                 coAdresseNavn = oppholdsadresse.coAdressenavn,
             )
-        }
     }
 
-    override fun toString(): String {
-        return buildString {
+    override fun toString(): String =
+        buildString {
             append("AdresseMetadata(adresseType=")
             append(adresseType)
             append(", type=")
@@ -100,7 +97,6 @@ class AdresseMetadata(
             append(coAdresseNavn)
             append(")")
         }
-    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -112,7 +108,7 @@ class AdresseMetadata(
         if (type != other.type) return false
         if (master != other.master) return false
         if (gyldighetsPeriode != other.gyldighetsPeriode) return false
-        if (registreringsDato != other.registreringsDato) return false
+        if (!registreringsDato.isEqual(other.registreringsDato)) return false
         if (erNorskBostedsAdresse != other.erNorskBostedsAdresse) return false
         if (erGyldig != other.erGyldig) return false
         if (coAdresseNavn != other.coAdresseNavn) return false
