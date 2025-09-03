@@ -29,7 +29,7 @@ jobs:
         env:
           ORG_GRADLE_PROJECT_githubUser: x-access-token
           ORG_GRADLE_PROJECT_githubPassword: ${{ secrets.GITHUB_TOKEN }}
-      - uses: ncipollo/release-action@1c89adf39833729d8f85a31ccbc451b078733c80 # ratchet:ncipollo/release-action@v1
+      - uses: ncipollo/release-action@b7eabc95ff50cbeeedec83973935c8f306dfcd0b # ratchet:ncipollo/release-action@v1
         name: Create release
         with:
           tag: ${{ env.RELEASE_TAG }}
