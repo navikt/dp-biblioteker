@@ -5,9 +5,34 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+      time: "10:05"
+      timezone: "Europe/Oslo"
+    cooldown:
+      default-days: 7
+  # Maintain dependencies for gradle
   - package-ecosystem: "gradle"
-    ignore:
-      - dependency-name: "org.apache.pdfbox:pdfbox"
     directory: "/"
     schedule:
       interval: "daily"
+      time: "10:05"
+      timezone: "Europe/Oslo"
+    cooldown:
+      default-days: 7
+  # Maintain dependencies for docker
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "10:05"
+      timezone: "Europe/Oslo"
+    cooldown:
+      default-days: 7
+  # Maintain dependencies for npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "10:05"
+      timezone: "Europe/Oslo"
+    cooldown:
+      default-days: 7
