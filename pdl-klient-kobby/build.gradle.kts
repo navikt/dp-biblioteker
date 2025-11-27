@@ -6,7 +6,7 @@ plugins {
 }
 
 dependencies {
-    compileOnly("com.fasterxml.jackson.core:jackson-annotations:${libs.versions.jackson.get()}")
+    compileOnly("com.fasterxml.jackson.core:jackson-annotations:2.20")
 }
 
 java {
