@@ -12,6 +12,7 @@ plugins {
 repositories {
     mavenCentral()
     maven("https://jitpack.io")
+    maven("https://build.shibboleth.net/maven/releases/")
 }
 
 dependencies {
