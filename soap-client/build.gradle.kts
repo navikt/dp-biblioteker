@@ -2,7 +2,7 @@ plugins {
     `common-kotlin`
 }
 
-val tjenestespesifikasjonerVersion = "2643.2f3e8e9"
+val tjenestespesifikasjonerVersion = "2648.7dd4e44"
 
 fun tjenestespesifikasjon(name: String) = "com.github.navikt.tjenestespesifikasjoner:$name:$tjenestespesifikasjonerVersion"
 
@@ -12,7 +12,7 @@ dependencies {
     implementation("de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.3.0")
 
     implementation("jakarta.xml.ws:jakarta.xml.ws-api:4.0.2")
-    implementation("com.sun.xml.ws:jaxws-tools:2.3.7")
+    implementation("com.sun.xml.ws:jaxws-tools:4.0.2")
 
     implementation("org.apache.cxf:cxf-rt-features-logging:$cxfVersion")
     implementation("org.apache.cxf:cxf-rt-frontend-jaxws:$cxfVersion")

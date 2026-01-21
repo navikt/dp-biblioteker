@@ -1,10 +1,10 @@
 package no.nav.dagpenger.soap.client
 
 import de.huxhorn.sulky.ulid.ULID
+import jakarta.jws.WebService
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean
 import org.apache.cxf.ws.addressing.WSAddressingFeature
 import org.apache.cxf.ws.security.trust.STSClient
-import javax.jws.WebService
 import javax.xml.namespace.QName
 
 private val ulid = ULID()
