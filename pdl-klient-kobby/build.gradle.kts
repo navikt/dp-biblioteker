@@ -2,7 +2,7 @@ import io.github.ermadmi78.kobby.kobby
 
 plugins {
     `common-kotlin`
-    id("io.github.ermadmi78.kobby") version "5.3.0"
+    id("io.github.ermadmi78.kobby") version "5.3.1"
 }
 
 dependencies {
