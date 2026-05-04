@@ -1,6 +1,6 @@
 package no.nav.dagpenger.client
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import tools.jackson.module.kotlin.jacksonMapperBuilder
 import com.natpryce.konfig.ConfigurationMap
 import io.kotest.matchers.shouldBe
 import io.ktor.client.engine.mock.MockEngine
@@ -35,7 +35,7 @@ class OAuth2ClientTest {
             emptyMap(),
         )
 
-    private val tokenJsonString: String = jacksonObjectMapper().writeValueAsString(accessTokenResponse)
+    private val tokenJsonString: String = jacksonMapperBuilder().build().writeValueAsString(accessTokenResponse)
 
     @Test
     fun `AzureAD ClientCredentials client should call correct service with formparameters from configuration`() {
