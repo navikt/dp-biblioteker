@@ -5,7 +5,7 @@ plugins {
 dependencies {
 
     api(libs.konfig)
-    api("com.github.navikt.token-support:token-client-core:6.0.2")
+    api("no.nav.security:token-client-core:6.0.6")
     implementation(libs.ktor.client.logging.jvm)
     implementation(libs.ktor.client.cio)
     implementation(libs.ktor.client.content.negotiation)
