@@ -1,6 +1,5 @@
 package no.nav.dagpenger.client
 
-import tools.jackson.module.kotlin.jacksonMapperBuilder
 import com.natpryce.konfig.ConfigurationMap
 import io.kotest.matchers.shouldBe
 import io.ktor.client.engine.mock.MockEngine
@@ -16,6 +15,7 @@ import no.nav.dagpenger.oauth2.defaultHttpClient
 import no.nav.security.token.support.client.core.oauth2.OAuth2AccessTokenResponse
 import org.intellij.lang.annotations.Language
 import org.junit.jupiter.api.Test
+import tools.jackson.module.kotlin.jacksonMapperBuilder
 
 class OAuth2ClientTest {
     private val azureAdEnv =
