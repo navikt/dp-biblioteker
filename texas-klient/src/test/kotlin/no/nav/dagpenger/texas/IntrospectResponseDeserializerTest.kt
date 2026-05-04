@@ -1,19 +1,18 @@
 package no.nav.dagpenger.texas
 
-import com.fasterxml.jackson.databind.module.SimpleModule
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
+import tools.jackson.databind.module.SimpleModule
+import tools.jackson.module.kotlin.jacksonMapperBuilder
 
 class IntrospectResponseDeserializerTest {
     private val mapper =
-        jacksonObjectMapper().also {
-            val simpleModule =
+        jacksonMapperBuilder()
+            .addModule(
                 SimpleModule().also {
                     it.addDeserializer(IntrospectResponse::class.java, IntrospectResponseDeserializer)
-                }
-            it.registerModule(simpleModule)
-        }
+                },
+            ).build()
 
     @Test
     fun `deserialize valid response`() {

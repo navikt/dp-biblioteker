@@ -14,7 +14,7 @@ import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
-import io.ktor.serialization.jackson.jackson
+import io.ktor.serialization.jackson3.jackson
 import io.prometheus.client.Summary
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking

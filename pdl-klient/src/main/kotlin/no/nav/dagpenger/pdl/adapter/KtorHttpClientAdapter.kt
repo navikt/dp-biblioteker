@@ -1,8 +1,6 @@
 package no.nav.dagpenger.pdl.adapter
 
 import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.HttpClientEngine
@@ -18,12 +16,14 @@ import io.ktor.client.request.url
 import io.ktor.http.ContentType
 import io.ktor.http.Url
 import io.ktor.http.contentType
-import io.ktor.serialization.jackson.jackson
+import io.ktor.serialization.jackson3.jackson
 import no.nav.dagpenger.pdl.PDLPerson
 import no.nav.dagpenger.pdl.PdlAdapter
 import no.nav.dagpenger.pdl.dto.QueryDto
 import no.nav.dagpenger.pdl.dto.graphql.PdlQueryResult
 import no.nav.dagpenger.pdl.dto.graphql.PdlRequest
+import tools.jackson.databind.cfg.DateTimeFeature
+import tools.jackson.databind.introspect.DefaultAccessorNamingStrategy
 import kotlin.time.Duration.Companion.seconds
 
 class KtorHttpClientAdapter(
@@ -67,9 +67,15 @@ fun proxyAwareHttpClient(
     HttpClient(engine) {
         install(ContentNegotiation) {
             jackson {
-                configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                setSerializationInclusion(JsonInclude.Include.NON_NULL)
-                registerModules(JavaTimeModule())
+                accessorNaming(
+                    DefaultAccessorNamingStrategy
+                        .Provider()
+                        .withFirstCharAcceptance(true, true),
+                )
+                disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
+                changeDefaultPropertyInclusion {
+                    JsonInclude.Value.construct(JsonInclude.Include.NON_NULL, JsonInclude.Include.USE_DEFAULTS)
+                }
             }
         }
         install(HttpTimeout) {

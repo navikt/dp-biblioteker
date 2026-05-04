@@ -1,8 +1,6 @@
 package no.nav.dagpenger.texas
 
 import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.module.SimpleModule
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.call.body
@@ -15,7 +13,8 @@ import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.http.HttpStatusCode
-import io.ktor.serialization.jackson.jackson
+import io.ktor.serialization.jackson3.jackson
+import tools.jackson.databind.module.SimpleModule
 
 fun defaultHttpClient(
     httpClientEngine: HttpClientEngine = CIO.create {},
@@ -25,9 +24,10 @@ fun defaultHttpClient(
 
     install(ContentNegotiation) {
         jackson {
-            configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            setSerializationInclusion(JsonInclude.Include.NON_NULL)
-            registerModules(
+            changeDefaultPropertyInclusion {
+                JsonInclude.Value.construct(JsonInclude.Include.NON_NULL, JsonInclude.Include.USE_DEFAULTS)
+            }
+            addModule(
                 SimpleModule().also {
                     it.addDeserializer(IntrospectResponse::class.java, IntrospectResponseDeserializer)
                 },
