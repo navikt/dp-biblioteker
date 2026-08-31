@@ -11,7 +11,7 @@ val cxfVersion = "4.1.4"
 dependencies {
     implementation("de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.3.0")
 
-    implementation("jakarta.xml.ws:jakarta.xml.ws-api:4.0.2")
+    implementation("jakarta.xml.ws:jakarta.xml.ws-api:4.0.3")
     implementation("com.sun.xml.ws:jaxws-tools:4.0.2")
 
     implementation("org.apache.cxf:cxf-rt-features-logging:$cxfVersion")
