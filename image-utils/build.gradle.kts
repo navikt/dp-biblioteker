@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
     implementation("org.apache.pdfbox:preflight:2.0.26")
-    implementation("org.apache.pdfbox:pdfbox:2.0.26")
+    implementation("org.apache.pdfbox:pdfbox:2.0.37")
     implementation("org.apache.tika:tika-core:3.2.3")
     implementation("org.imgscalr:imgscalr-lib:4.2")
     runtimeOnly("javax.activation:activation:1.1.1")
