@@ -13,7 +13,7 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${libs.versions.junit.get()}")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation(libs.mockk)
-    testImplementation("io.kubernetes:client-java:18.0.0")
+    testImplementation("io.kubernetes:client-java:18.0.1")
     testRuntimeOnly("ch.qos.logback:logback-classic:1.5.13")
     testImplementation(libs.kotest.assertions.core)
 }
