@@ -6,7 +6,7 @@ val tjenestespesifikasjonerVersion = "2648.7dd4e44"
 
 fun tjenestespesifikasjon(name: String) = "com.github.navikt.tjenestespesifikasjoner:$name:$tjenestespesifikasjonerVersion"
 
-val cxfVersion = "4.1.4"
+val cxfVersion = "4.2.3"
 
 dependencies {
     implementation("de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.3.0")
