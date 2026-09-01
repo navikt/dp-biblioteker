@@ -14,7 +14,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation(libs.mockk)
     testImplementation("io.kubernetes:client-java:18.0.1")
-    testRuntimeOnly("ch.qos.logback:logback-classic:1.5.13")
+    testRuntimeOnly("ch.qos.logback:logback-classic:1.6.3")
     testImplementation(libs.kotest.assertions.core)
 }
 
