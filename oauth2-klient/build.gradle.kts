@@ -18,5 +18,5 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${libs.versions.junit.get()}")
 
     // FOr E2E
-    testImplementation("io.kubernetes:client-java:16.0.0")
+    testImplementation("io.kubernetes:client-java:16.0.3")
 }
