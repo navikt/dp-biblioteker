@@ -13,7 +13,7 @@ dependencies {
 
     testImplementation(libs.ktor.client.mock)
     testImplementation(libs.kotest.assertions.core)
-    testImplementation("io.kotest:kotest-assertions-ktor:4.4.3")
+    testImplementation("io.kotest:kotest-assertions-ktor:6.2.4")
     testImplementation("org.junit.jupiter:junit-jupiter-api:${libs.versions.junit.get()}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${libs.versions.junit.get()}")
 
