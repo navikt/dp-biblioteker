@@ -2,7 +2,7 @@ plugins {
     `common-kotlin`
 }
 dependencies {
-    val ktorVersion = "1.6.8"
+    val ktorVersion = "3.5.2"
     implementation("io.ktor:ktor-server:$ktorVersion")
     implementation("io.ktor:ktor-auth:$ktorVersion")
     implementation("commons-codec:commons-codec:1.22.1")
