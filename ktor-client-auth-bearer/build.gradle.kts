@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    val ktorVersion = "1.6.8"
+    val ktorVersion = "3.5.2"
     implementation("io.ktor:ktor-client-auth-jvm:$ktorVersion")
     testImplementation("io.ktor:ktor-client:$ktorVersion")
     testImplementation("io.ktor:ktor-client-mock-jvm:$ktorVersion")
