@@ -32,21 +32,25 @@ class ClientTest {
         // IF this fails do kubectl get pod to aquire credentials
         val client: ApiClient = ClientBuilder.kubeconfig(KubeConfig.loadKubeConfig(FileReader(kubeConfigPath))).build()
         Configuration.setDefaultApiClient(client)
-        return CoreV1Api().listNamespacedSecret(
-            "teamdagpenger",
-            null,
-            null,
-            null,
-            null,
-            "app=$app,type=$type",
-            null,
-            null,
-            null,
-            null,
-            null,
-        ).items.also { secrets ->
-            secrets.sortByDescending<V1Secret?, OffsetDateTime> { it?.metadata?.creationTimestamp }
-        }.first<V1Secret?>()?.data!!.mapValues { e -> String(e.value) }
+        return CoreV1Api()
+            .listNamespacedSecret(
+                "teamdagpenger",
+                null,
+                null,
+                null,
+                null,
+                "app=$app,type=$type",
+                null,
+                null,
+                null,
+                null,
+                null,
+            ).items
+            .also { secrets ->
+                secrets.sortByDescending<V1Secret?, OffsetDateTime> { it?.metadata?.creationTimestamp }
+            }.first<V1Secret?>()
+            ?.data!!
+            .mapValues { e -> String(e.value) }
     }
 
     @Test
@@ -64,12 +68,14 @@ class ClientTest {
             )
         runBlocking {
             delay(5000.milliseconds) // Set client assertion to something less than this to recreate
-            oAuth2Client.tokenExchange(
-                token = "",
-                audience = "dev-gcp:teamdagpenger:dp-innsyn",
-            ).access_token.let {
-                it shouldNotBe null
-            }
+            oAuth2Client
+                .tokenExchange(
+                    token = "",
+                    audience = "dev-gcp:teamdagpenger:dp-innsyn",
+                ).access_token
+                .let {
+                    it shouldNotBe null
+                }
         }
     }
 

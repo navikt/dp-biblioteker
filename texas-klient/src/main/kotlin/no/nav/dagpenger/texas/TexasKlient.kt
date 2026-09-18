@@ -13,10 +13,16 @@ data class IntrospectRequest(
     val token: String,
 )
 
-sealed class IntrospectResponse(val active: Boolean) {
-    data class Valid(val claims: Map<String, Any>) : IntrospectResponse(active = true)
+sealed class IntrospectResponse(
+    val active: Boolean,
+) {
+    data class Valid(
+        val claims: Map<String, Any>,
+    ) : IntrospectResponse(active = true)
 
-    data class Invalid(val error: String) : IntrospectResponse(active = false)
+    data class Invalid(
+        val error: String,
+    ) : IntrospectResponse(active = false)
 }
 
 enum class IdentityProvider(
@@ -56,11 +62,15 @@ sealed class RequestError(
     val errorResponse: ErrorResponse,
 ) : RuntimeException()
 
-class BadRequestException(httpStatusCode: HttpStatusCode, errorResponse: ErrorResponse) :
-    RequestError(httpStatusCode, errorResponse)
+class BadRequestException(
+    httpStatusCode: HttpStatusCode,
+    errorResponse: ErrorResponse,
+) : RequestError(httpStatusCode, errorResponse)
 
-class ServerError(httpStatusCode: HttpStatusCode, errorResponse: ErrorResponse) :
-    RequestError(httpStatusCode, errorResponse)
+class ServerError(
+    httpStatusCode: HttpStatusCode,
+    errorResponse: ErrorResponse,
+) : RequestError(httpStatusCode, errorResponse)
 
 class TexasKlient(
     private val tokenEndpoint: String,
@@ -73,53 +83,56 @@ class TexasKlient(
         identityProvider: IdentityProvider,
         resource: String? = null,
         skipCache: Boolean,
-    ): TokenResponse {
-        return kotlin.runCatching {
-            httpClient.post(tokenEndpoint) {
-                header("Content-Type", "application/json")
-                setBody(TokenRequest(identityProvider, target, resource, skipCache))
-            }.body<TokenResponse>()
-        }.onFailure {
-        }.getOrThrow()
-    }
+    ): TokenResponse =
+        kotlin
+            .runCatching {
+                httpClient
+                    .post(tokenEndpoint) {
+                        header("Content-Type", "application/json")
+                        setBody(TokenRequest(identityProvider, target, resource, skipCache))
+                    }.body<TokenResponse>()
+            }.onFailure {
+            }.getOrThrow()
 
     suspend fun exchangeToken(
         target: String,
         token: String,
         identityProvider: IdentityProvider,
         skipCache: Boolean,
-    ): TokenResponse {
-        return kotlin.runCatching {
-            httpClient.post(tokenExchangeEndpoint) {
-                header("Content-Type", "application/json")
-                setBody(
-                    TokenExchangeRequest(
-                        identity_provider = identityProvider,
-                        target = target,
-                        user_token = token,
-                        skip_cache = skipCache,
-                    ),
-                )
-            }.body<TokenResponse>()
-        }.onFailure {
-        }.getOrThrow()
-    }
+    ): TokenResponse =
+        kotlin
+            .runCatching {
+                httpClient
+                    .post(tokenExchangeEndpoint) {
+                        header("Content-Type", "application/json")
+                        setBody(
+                            TokenExchangeRequest(
+                                identity_provider = identityProvider,
+                                target = target,
+                                user_token = token,
+                                skip_cache = skipCache,
+                            ),
+                        )
+                    }.body<TokenResponse>()
+            }.onFailure {
+            }.getOrThrow()
 
     suspend fun introspect(
         identityProvider: IdentityProvider,
         token: String,
-    ): IntrospectResponse {
-        return kotlin.runCatching {
-            httpClient.post(introspectEndpoint) {
-                header("Content-Type", "application/json")
-                setBody(
-                    IntrospectRequest(
-                        identity_provider = identityProvider,
-                        token = token,
-                    ),
-                )
-            }.body<IntrospectResponse>()
-        }.onFailure {
-        }.getOrThrow()
-    }
+    ): IntrospectResponse =
+        kotlin
+            .runCatching {
+                httpClient
+                    .post(introspectEndpoint) {
+                        header("Content-Type", "application/json")
+                        setBody(
+                            IntrospectRequest(
+                                identity_provider = identityProvider,
+                                token = token,
+                            ),
+                        )
+                    }.body<IntrospectResponse>()
+            }.onFailure {
+            }.getOrThrow()
 }

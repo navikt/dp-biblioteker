@@ -79,10 +79,11 @@ class ClientTest {
     @Test
     fun `Bruk token x for å hente ut person`() {
         val accessToken =
-            tokenXClient.tokenExchange(
-                token = """""",
-                audience = "",
-            ).access_token
+            tokenXClient
+                .tokenExchange(
+                    token = """""",
+                    audience = "",
+                ).access_token
 
         val client =
             createPersonOppslag(
@@ -100,10 +101,11 @@ class ClientTest {
     @Test
     fun `Bruk token x for å hente ut identifikatorer`() {
         val accessToken =
-            tokenXClient.tokenExchange(
-                token = """""",
-                audience = "",
-            ).access_token
+            tokenXClient
+                .tokenExchange(
+                    token = """""",
+                    audience = "",
+                ).access_token
 
         val client =
             createPersonOppslag(
@@ -128,16 +130,17 @@ class ClientTest {
                 httpClient = httpClient,
             )
         runBlocking {
-            client.hentPersoner(
-                // fake
-                listOf("01038401226", "20028418370", "25108621845"),
-                mapOf(
-                    HttpHeaders.Authorization to
-                        "Bearer ${azureAdClient.clientCredentials("api://dev-fss.pdl.pdl-api/.default").access_token}",
-                ),
-            ).onEach {
-                println(it)
-            }
+            client
+                .hentPersoner(
+                    // fake
+                    listOf("01038401226", "20028418370", "25108621845"),
+                    mapOf(
+                        HttpHeaders.Authorization to
+                            "Bearer ${azureAdClient.clientCredentials("api://dev-fss.pdl.pdl-api/.default").access_token}",
+                    ),
+                ).onEach {
+                    println(it)
+                }
         }
     }
 
@@ -149,13 +152,14 @@ class ClientTest {
                 httpClient = httpClient,
             )
         runBlocking {
-            personOppslag.hentPerson(
-                "14108009241",
-                mapOf(
-                    HttpHeaders.Authorization to
-                        "Bearer ${azureAdClient.clientCredentials("api://dev-fss.pdl.pdl-api/.default").access_token}",
-                ),
-            ).also { println(it) }
+            personOppslag
+                .hentPerson(
+                    "14108009241",
+                    mapOf(
+                        HttpHeaders.Authorization to
+                            "Bearer ${azureAdClient.clientCredentials("api://dev-fss.pdl.pdl-api/.default").access_token}",
+                    ),
+                ).also { println(it) }
         }
     }
 
@@ -167,15 +171,16 @@ class ClientTest {
                 httpClient = httpClient,
             )
         runBlocking {
-            personOppslag.hentIdenter(
-                "14108009241",
-                emptyList(),
-                true,
-                mapOf(
-                    HttpHeaders.Authorization to
-                        "Bearer ${azureAdClient.clientCredentials("api://dev-fss.pdl.pdl-api/.default").access_token}",
-                ),
-            ).also { println(it) }
+            personOppslag
+                .hentIdenter(
+                    "14108009241",
+                    emptyList(),
+                    true,
+                    mapOf(
+                        HttpHeaders.Authorization to
+                            "Bearer ${azureAdClient.clientCredentials("api://dev-fss.pdl.pdl-api/.default").access_token}",
+                    ),
+                ).also { println(it) }
         }
     }
 }

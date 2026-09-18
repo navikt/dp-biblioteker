@@ -15,7 +15,9 @@ import no.nav.dagpenger.pdl.sikkerhetstiltak.SikkerhetstiltakDto
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
-class PDLPerson(private val person: Person) {
+class PDLPerson(
+    private val person: Person,
+) {
     enum class Kjonn {
         MANN,
         KVINNE,
@@ -29,7 +31,9 @@ class PDLPerson(private val person: Person) {
         UGRADERT,
     }
 
-    class PDLException(msg: String?) : RuntimeException(msg)
+    class PDLException(
+        msg: String?,
+    ) : RuntimeException(msg)
 
     fun acceptPersonaliaVisitor(visitor: PersonaliaVisitor) {
         visitor.visit(
@@ -200,8 +204,7 @@ class PDLPerson(private val person: Person) {
         } ?: AdressebeskyttelseGradering.UGRADERT
 
     val sikkerhetstiltak: List<SikkerhetstiltakDto> =
-        person.sikkerhetstiltak.map {
-                sikkerhetstiltak ->
+        person.sikkerhetstiltak.map { sikkerhetstiltak ->
             SikkerhetstiltakDto(
                 tiltakstype = sikkerhetstiltak.tiltakstype,
                 tiltaksbeskrivelse = sikkerhetstiltak.beskrivelse,
@@ -226,6 +229,9 @@ class PDLPerson(private val person: Person) {
             ?: person.statsborgerskap.firstOrNull()?.land
 
     val kjonn: Kjonn =
-        person.kjoenn.firstOrNull()?.kjoenn?.let { Kjonn.valueOf(it.toString()) }
+        person.kjoenn
+            .firstOrNull()
+            ?.kjoenn
+            ?.let { Kjonn.valueOf(it.toString()) }
             ?: Kjonn.UKJENT
 }

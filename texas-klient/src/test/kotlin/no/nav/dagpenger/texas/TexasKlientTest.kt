@@ -96,7 +96,8 @@ class TexasKlientTest {
                     )
                 requireNotNull(tokenExchangeRequest).let {
                     //language=json
-                    String(it.body.toByteArray()) shouldEqualJson """{"identity_provider":"azuread","target":"target","user_token":"user_token", "skip_cache":true}"""
+                    String(it.body.toByteArray()) shouldEqualJson
+                        """{"identity_provider":"azuread","target":"target","user_token":"user_token", "skip_cache":true}"""
                     it.headers[HttpHeaders.Accept] shouldBe ContentType.Application.Json.toString()
                     it.method shouldBe HttpMethod.Post
                 }

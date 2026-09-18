@@ -20,12 +20,10 @@ object PostAdresseOrder {
                 .comparingInt { metadata: AdresseMetadata ->
                     ADRESSETYPE_RANKING[metadata.adresseType]
                         ?: throw IllegalStateException("Unexpected value: " + metadata.adresseType)
-                }
-                .thenComparingInt { metadata: AdresseMetadata ->
+                }.thenComparingInt { metadata: AdresseMetadata ->
                     MASTERTYPE_RANKING[metadata.master]
                         ?: throw IllegalStateException("Unexpected value: " + metadata.master)
-                }
-                .thenComparing(AdresseMetadata::registreringsDato, Comparator.reverseOrder())::compare,
+                }.thenComparing(AdresseMetadata::registreringsDato, Comparator.reverseOrder())::compare,
         )
 
     val comparator: java.util.Comparator<PDLAdresse> =

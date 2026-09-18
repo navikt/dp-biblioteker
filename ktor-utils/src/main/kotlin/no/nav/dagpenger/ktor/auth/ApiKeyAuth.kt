@@ -14,26 +14,36 @@ import io.ktor.http.auth.HttpAuthHeader
 import io.ktor.request.ApplicationRequest
 import io.ktor.response.respond
 
-enum class ApiKeyLocation(val location: String) {
+enum class ApiKeyLocation(
+    val location: String,
+) {
     QUERY("query"),
     HEADER("header"),
 }
 
-data class ApiKeyCredential(val value: String) : Credential
+data class ApiKeyCredential(
+    val value: String,
+) : Credential
 
-data class ApiPrincipal(val apiKeyCredential: ApiKeyCredential?) : Principal
+data class ApiPrincipal(
+    val apiKeyCredential: ApiKeyCredential?,
+) : Principal
 
 /**
  * Represents a Api Key authentication provider
  * @param name is the name of the provider, or `null` for a default provider
  */
 
-class ApiKeyAuthenticationProvider internal constructor(config: Configuration) : AuthenticationProvider(config) {
+class ApiKeyAuthenticationProvider internal constructor(
+    config: Configuration,
+) : AuthenticationProvider(config) {
     internal var apiKeyName: String = config.apiKeyName
     internal var apiKeyLocation: ApiKeyLocation = config.apiKeyLocation
     internal val authenticationFunction = config.authenticationFunction
 
-    class Configuration(name: String?) : AuthenticationProvider.Configuration(name) {
+    class Configuration(
+        name: String?,
+    ) : AuthenticationProvider.Configuration(name) {
         internal var authenticationFunction: suspend ApplicationCall.(ApiKeyCredential) -> Principal? = { null }
 
         var apiKeyName: String = ""
@@ -94,8 +104,8 @@ fun Authentication.Configuration.apiKeyAuth(
 fun ApplicationRequest.apiKeyAuthenticationCredentials(
     apiKeyName: String,
     apiKeyLocation: ApiKeyLocation,
-): ApiKeyCredential? {
-    return when (
+): ApiKeyCredential? =
+    when (
         val value: String? =
             when (apiKeyLocation) {
                 ApiKeyLocation.QUERY -> this.queryParameters[apiKeyName]
@@ -105,4 +115,3 @@ fun ApplicationRequest.apiKeyAuthenticationCredentials(
         null -> null
         else -> ApiKeyCredential(value)
     }
-}
