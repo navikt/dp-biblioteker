@@ -1,8 +1,8 @@
 package no.nav.dagpenger.pdl.adresse
 
 abstract class AdresseMapper<T> {
-    fun formatertAdresse(pdlAdresse: PDLAdresse): T {
-        return when (pdlAdresse) {
+    fun formatertAdresse(pdlAdresse: PDLAdresse): T =
+        when (pdlAdresse) {
             is PDLAdresse.VegAdresse -> formatertAdresse(pdlAdresse)
             is PDLAdresse.MatrikkelAdresse -> formatertAdresse(pdlAdresse)
             is PDLAdresse.PostAdresseIFrittFormat -> formatertAdresse(pdlAdresse)
@@ -11,7 +11,6 @@ abstract class AdresseMapper<T> {
             is PDLAdresse.UtenlandskAdresse -> formatertAdresse(pdlAdresse)
             is PDLAdresse.TomAdresse -> formatertAdresse(pdlAdresse)
         }
-    }
 
     protected abstract fun formatertAdresse(pdlAdresse: PDLAdresse.TomAdresse): T
 

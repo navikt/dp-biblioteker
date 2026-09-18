@@ -41,14 +41,22 @@ object PdfWatermarker {
     private const val FONT_SIZE = 6
 
     private fun removePermissions(pdfDocument: PDDocument) {
-        val cosDictionary = pdfDocument.document.trailer?.getDictionaryObject(COSName.ROOT)?.let { it as COSDictionary }
+        val cosDictionary =
+            pdfDocument.document.trailer
+                ?.getDictionaryObject(COSName.ROOT)
+                ?.let { it as COSDictionary }
         cosDictionary
             ?.keySet()
             ?.singleOrNull { it.name == "Perm" }
             ?.let { cosDictionary.removeItem(it) }
     }
 
-    private data class Placement(val x: Float, val y: Float, val width: Float, val height: Float)
+    private data class Placement(
+        val x: Float,
+        val y: Float,
+        val width: Float,
+        val height: Float,
+    )
 
     private fun calculateWaterMarkPlacement(
         page: PDPage,
@@ -158,9 +166,7 @@ object PdfWatermarker {
         text: String,
         font: PDFont,
         fontSize: Int,
-    ): Float {
-        return font.getStringWidth(text) / 1000 * fontSize
-    }
+    ): Float = font.getStringWidth(text) / 1000 * fontSize
 
     fun applyOn(
         bytes: ByteArray,
@@ -186,8 +192,9 @@ object PdfWatermarker {
         stampRectangleOnPdf(pdfDocument, linje1, linje2)
         stampTextOnPdf(pdfDocument, linje1, linje2)
 
-        return ByteArrayOutputStream().also { os ->
-            pdfDocument.save(os)
-        }.toByteArray()
+        return ByteArrayOutputStream()
+            .also { os ->
+                pdfDocument.save(os)
+            }.toByteArray()
     }
 }

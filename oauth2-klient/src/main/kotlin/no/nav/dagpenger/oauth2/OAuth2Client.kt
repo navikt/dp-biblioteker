@@ -23,17 +23,17 @@ class OAuth2Client(
 
     suspend fun clientCredentials(scope: String) = accessToken(GrantRequest.ClientCredentials(scope, authType))
 
-    suspend fun accessToken(grantRequest: GrantRequest): OAuth2AccessTokenResponse {
-        return httpClient.submitForm(
-            url = tokenEndpointUrl,
-            formParameters =
-                Parameters.build {
-                    grantRequest.formParams.forEach {
-                        this.append(it.key, it.value)
-                    }
-                },
-        ).body()
-    }
+    suspend fun accessToken(grantRequest: GrantRequest): OAuth2AccessTokenResponse =
+        httpClient
+            .submitForm(
+                url = tokenEndpointUrl,
+                formParameters =
+                    Parameters.build {
+                        grantRequest.formParams.forEach {
+                            this.append(it.key, it.value)
+                        }
+                    },
+            ).body()
 }
 
 class CachedOauth2Client(
@@ -60,7 +60,5 @@ class CachedOauth2Client(
 
     fun clientCredentials(scope: String) = accessToken(GrantRequest.ClientCredentials(scope, authType))
 
-    private fun accessToken(grantRequest: GrantRequest): OAuth2AccessTokenResponse {
-        return cache.get(grantRequest).get()
-    }
+    private fun accessToken(grantRequest: GrantRequest): OAuth2AccessTokenResponse = cache.get(grantRequest).get()
 }

@@ -29,7 +29,8 @@ import java.time.LocalDateTime
  */
 
 private val requestLatency =
-    Summary.build()
+    Summary
+        .build()
         .quantile(0.5, 0.05) // Add 50th percentile (= median) with 5% tolerated error
         .quantile(0.9, 0.01) // Add 90th percentile with 1% tolerated error
         .quantile(0.99, 0.001) // Add 99th percentile with 0.1% tolerated error
@@ -79,22 +80,25 @@ class StsOidcClient constructor(
         }
     }
 
-    private suspend fun newOidcToken(): OidcToken {
-        return withContext(Dispatchers.IO) {
-            kotlin.runCatching {
-                client.get(stsTokenUrl) {
-                    parameter("grant_type", "client_credentials")
-                    parameter("scope", "openid")
-                }.body<OidcToken>()
-            }.getOrElse {
-                throw StsOidcClientException(it.localizedMessage, it)
-            }
+    private suspend fun newOidcToken(): OidcToken =
+        withContext(Dispatchers.IO) {
+            kotlin
+                .runCatching {
+                    client
+                        .get(stsTokenUrl) {
+                            parameter("grant_type", "client_credentials")
+                            parameter("scope", "openid")
+                        }.body<OidcToken>()
+                }.getOrElse {
+                    throw StsOidcClientException(it.localizedMessage, it)
+                }
         }
-    }
 }
 
-class StsOidcClientException(override val message: String, override val cause: Throwable) :
-    RuntimeException(message, cause)
+class StsOidcClientException(
+    override val message: String,
+    override val cause: Throwable,
+) : RuntimeException(message, cause)
 
 data class OidcToken(
     val access_token: String,

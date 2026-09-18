@@ -20,7 +20,10 @@ interface PersonaliaVisitor {
     }
 }
 
-interface BostedsAdresseVisitor : MatrikkelAdresseVisitor, VegAdresseVisitor, UtenlandskAdresseVisitor {
+interface BostedsAdresseVisitor :
+    MatrikkelAdresseVisitor,
+    VegAdresseVisitor,
+    UtenlandskAdresseVisitor {
     fun visitUkjentBosted(
         adresseMetadata: AdresseMetadata,
         bostedskommune: String?,
@@ -28,9 +31,14 @@ interface BostedsAdresseVisitor : MatrikkelAdresseVisitor, VegAdresseVisitor, Ut
     }
 }
 
-interface OppholdsAdresseVisitor : MatrikkelAdresseVisitor, VegAdresseVisitor, UtenlandskAdresseVisitor
+interface OppholdsAdresseVisitor :
+    MatrikkelAdresseVisitor,
+    VegAdresseVisitor,
+    UtenlandskAdresseVisitor
 
-interface KontaktAdresseVisitor : VegAdresseVisitor, UtenlandskAdresseVisitor {
+interface KontaktAdresseVisitor :
+    VegAdresseVisitor,
+    UtenlandskAdresseVisitor {
     fun visitPostAdresseIFrittFormat(adresse: PDLAdresse.PostAdresseIFrittFormat) {}
 
     fun visitPostboksadresse(adresse: PDLAdresse.PostboksAdresse) {}

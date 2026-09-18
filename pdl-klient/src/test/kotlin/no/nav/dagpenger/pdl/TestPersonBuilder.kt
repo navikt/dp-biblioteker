@@ -288,8 +288,8 @@ internal data class TestPersonBuilder(
                 override fun FolkeregisteridentifikatorProjection.__withCurrentProjection() {}
             }
 
-        fun folkeregistermetadata(): Folkeregistermetadata {
-            return object : Folkeregistermetadata {
+        fun folkeregistermetadata(): Folkeregistermetadata =
+            object : Folkeregistermetadata {
                 override val aarsak: String? = null
                 override val ajourholdstidspunkt: LocalDateTime? = null
                 override val gyldighetstidspunkt: LocalDateTime? = null
@@ -299,7 +299,6 @@ internal data class TestPersonBuilder(
 
                 override fun FolkeregistermetadataProjection.__withCurrentProjection() {}
             }
-        }
 
         fun oppholdsAdresse(
             master: String = "PDL",
@@ -308,8 +307,8 @@ internal data class TestPersonBuilder(
             vegadresse: Vegadresse? = null,
             matrikkeladresse: Matrikkeladresse? = null,
             utenlandskAdresse: UtenlandskAdresse? = null,
-        ): Oppholdsadresse {
-            return object : Oppholdsadresse {
+        ): Oppholdsadresse =
+            object : Oppholdsadresse {
                 override val coAdressenavn: String? = null
                 override val folkeregistermetadata: Folkeregistermetadata? = null
                 override val gyldigFraOgMed: LocalDateTime? = gyldigFom?.atStartOfDay()
@@ -322,7 +321,6 @@ internal data class TestPersonBuilder(
 
                 override fun OppholdsadresseProjection.__withCurrentProjection() {}
             }
-        }
 
         fun kontaktAdresse(
             master: String = "PDL",
@@ -333,8 +331,8 @@ internal data class TestPersonBuilder(
             postadresseIFrittFormat: PostadresseIFrittFormat? = null,
             postboksadresse: Postboksadresse? = null,
             vegadresse: Vegadresse? = null,
-        ): Kontaktadresse {
-            return object : Kontaktadresse {
+        ): Kontaktadresse =
+            object : Kontaktadresse {
                 override val coAdressenavn: String? = null
                 override val folkeregistermetadata: Folkeregistermetadata? = null
                 override val gyldigFraOgMed: LocalDateTime? = gyldigFom?.atStartOfDay()
@@ -350,7 +348,6 @@ internal data class TestPersonBuilder(
 
                 override fun KontaktadresseProjection.__withCurrentProjection() {}
             }
-        }
 
         fun metadata(master: String = "PDL"): Metadata =
             object : Metadata {
@@ -370,8 +367,8 @@ internal data class TestPersonBuilder(
             vegadresse: Vegadresse? = null,
             matrikkeladresse: Matrikkeladresse? = null,
             utenlandskAdresse: UtenlandskAdresse? = null,
-        ): Bostedsadresse {
-            return object : Bostedsadresse {
+        ): Bostedsadresse =
+            object : Bostedsadresse {
                 override val angittFlyttedato: LocalDate? = angittFlyttedato
                 override val coAdressenavn: String? = null
                 override val folkeregistermetadata: Folkeregistermetadata? = null
@@ -387,7 +384,6 @@ internal data class TestPersonBuilder(
                     TODO("Not yet implemented")
                 }
             }
-        }
 
         fun vegadresse(
             adressenavn: String? = null,

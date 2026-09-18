@@ -5,19 +5,17 @@ import java.nio.charset.StandardCharsets
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
-class ApiKeyVerifier(private val secret: String) {
+class ApiKeyVerifier(
+    private val secret: String,
+) {
     private val algorithm = "HmacSHA256"
 
     fun verify(
         apiKey: String,
         expectedApiKey: String,
-    ): Boolean {
-        return apiKey == generate(expectedApiKey)
-    }
+    ): Boolean = apiKey == generate(expectedApiKey)
 
-    fun generate(apiKey: String): String {
-        return String(Hex.encodeHex(generateDigest(apiKey.toByteArray(StandardCharsets.UTF_8))))
-    }
+    fun generate(apiKey: String): String = String(Hex.encodeHex(generateDigest(apiKey.toByteArray(StandardCharsets.UTF_8))))
 
     private fun generateDigest(apiKey: ByteArray): ByteArray {
         val secret = SecretKeySpec(secret.toByteArray(StandardCharsets.UTF_8), algorithm)

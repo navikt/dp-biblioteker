@@ -14,25 +14,25 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.time.LocalDateTime
 
-sealed class PDFDocument constructor(val document: PDDocument) : Closeable {
+sealed class PDFDocument constructor(
+    val document: PDDocument,
+) : Closeable {
     companion object {
-        fun load(bytes: ByteArray): PDFDocument {
-            return try {
+        fun load(bytes: ByteArray): PDFDocument =
+            try {
                 ValidPDFDocument(PDDocument.load(bytes))
             } catch (e: Exception) {
                 InvalidPDFDocument(e)
             }
-        }
 
-        fun load(inputStream: InputStream): PDFDocument {
-            return try {
+        fun load(inputStream: InputStream): PDFDocument =
+            try {
                 inputStream.buffered().use { buffered ->
                     ValidPDFDocument(PDDocument.load(buffered))
                 }
             } catch (e: Exception) {
                 InvalidPDFDocument(e)
             }
-        }
 
         fun merge(pages: List<ByteArray>): PDFDocument {
             require(pages.isPdf()) { "All bytearrays in this non empty list must represent PDF files" }
@@ -64,7 +64,10 @@ sealed class PDFDocument constructor(val document: PDDocument) : Closeable {
         this.document.save(outputStream)
     }
 
-    val signed: Boolean = this.document.signatureDictionaries.isEmpty().not()
+    val signed: Boolean =
+        this.document.signatureDictionaries
+            .isEmpty()
+            .not()
     val encrypted: Boolean = this.document.isEncrypted
 
     fun convertToImage(pageIndex: Int): BufferedImage {
@@ -90,11 +93,16 @@ sealed class PDFDocument constructor(val document: PDDocument) : Closeable {
     }
 }
 
-class InvalidPDFDocument(private val exception: Exception) : PDFDocument(PDDocument()) {
+class InvalidPDFDocument(
+    private val exception: Exception,
+) : PDFDocument(PDDocument()) {
     fun message() = exception.message
 }
 
-class ValidPDFDocument(document: PDDocument) : PDFDocument(document), Closeable {
+class ValidPDFDocument(
+    document: PDDocument,
+) : PDFDocument(document),
+    Closeable {
     override fun close() {
         document.close()
     }

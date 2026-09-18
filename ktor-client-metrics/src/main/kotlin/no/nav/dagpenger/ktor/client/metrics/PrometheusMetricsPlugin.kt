@@ -66,7 +66,9 @@ class PrometheusMetricsPlugin private constructor(
         }
     }
 
-    private data class CallMeasure(val timer: Timer)
+    private data class CallMeasure(
+        val timer: Timer,
+    )
 
     private val metricKey = AttributeKey<CallMeasure>("metrics")
 
@@ -76,8 +78,10 @@ class PrometheusMetricsPlugin private constructor(
 
     private fun after(call: HttpClientCall) {
         httpStatus
-            .labelValues(call.response.status.value.toString())
-            .inc()
+            .labelValues(
+                call.response.status.value
+                    .toString(),
+            ).inc()
 
         call.attributes.getOrNull(metricKey)?.apply {
             timer.observeDuration()

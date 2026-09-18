@@ -54,13 +54,12 @@ object ImageConverter {
         return ImageScaler.scale(input, dimension, SCALE_TO_FIT_INSIDE_BOX).toPNG().let { toPDF(it) }
     }
 
-    private fun BufferedImage.toPNG(): ByteArray {
-        return ByteArrayOutputStream().use { os ->
+    private fun BufferedImage.toPNG(): ByteArray =
+        ByteArrayOutputStream().use { os ->
             ImageIO.write(this, "png", os)
             this.flush()
             os.toByteArray()
         }
-    }
 
     fun toPNG(
         input: ByteArray,

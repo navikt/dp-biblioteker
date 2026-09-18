@@ -1,6 +1,8 @@
 package no.nav.dagpenger.pdl.adresse
 
-sealed class PDLAdresse(open val adresseMetadata: AdresseMetadata) {
+sealed class PDLAdresse(
+    open val adresseMetadata: AdresseMetadata,
+) {
     object TomAdresse : PDLAdresse(
         AdresseMetadata(
             adresseType = AdresseMetadata.AdresseType.BOSTEDSADRESSE,

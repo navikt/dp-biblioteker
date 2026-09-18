@@ -47,8 +47,8 @@ class PostAdresseOrderTest {
         gyldigTom: LocalDate? = null,
         angittFlyttedato: LocalDate? = null,
         master: MasterType = PDL,
-    ): PDLAdresse {
-        return PDLAdresse.PostboksAdresse(
+    ): PDLAdresse =
+        PDLAdresse.PostboksAdresse(
             AdresseMetadata(
                 adresseType,
                 type,
@@ -61,7 +61,6 @@ class PostAdresseOrderTest {
             null,
             null,
         )
-    }
 
     private fun assertMetadataEquals(
         expected: List<PDLAdresse>,

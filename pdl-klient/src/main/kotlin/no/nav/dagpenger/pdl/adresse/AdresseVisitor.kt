@@ -7,8 +7,9 @@ import no.nav.dagpenger.pdl.PDLPerson
 import no.nav.dagpenger.pdl.PersonaliaVisitor
 import java.time.LocalDate
 
-class AdresseVisitor(pdlPerson: PDLPerson) :
-    BostedsAdresseVisitor,
+class AdresseVisitor(
+    pdlPerson: PDLPerson,
+) : BostedsAdresseVisitor,
     KontaktAdresseVisitor,
     OppholdsAdresseVisitor,
     PersonaliaVisitor {
@@ -34,9 +35,7 @@ class AdresseVisitor(pdlPerson: PDLPerson) :
     val bostedsadresse: PDLAdresse? =
         adresser.singleOrNull { it.adresseMetadata.adresseType == AdresseMetadata.AdresseType.BOSTEDSADRESSE }
 
-    private fun harIkkeHemmeligAdresse(): Boolean {
-        return PDLPerson.AdressebeskyttelseGradering.UGRADERT == adressebeskyttelseGradering
-    }
+    private fun harIkkeHemmeligAdresse(): Boolean = PDLPerson.AdressebeskyttelseGradering.UGRADERT == adressebeskyttelseGradering
 
     override fun visit(
         fodselnummer: String,
